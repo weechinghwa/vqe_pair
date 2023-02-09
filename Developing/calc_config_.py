@@ -12,6 +12,14 @@ optimizer_tol = 0.00001
 # grad_tol = 0.001
 
 ## Input data for onebody and twobody observable matrix elements
+import os
+from pathlib import Path
+main_dir_path = Path(os.getcwd())
+assess = str(main_dir_path); assess = (assess.split("\\")); assess.reverse()
+while assess[0] != "VQE_pair":
+    main_dir_path = main_dir_path.parent
+    assess = str(main_dir_path); assess = (assess.split("\\")); assess.reverse()
+os.chdir(main_dir_path)
 
 obs_twobody_df = pd.read_csv(r'Data/obs_twobody-30.csv')
 obs_onebody_df = pd.read_csv(r'Data/obs_onebody-delta.csv')

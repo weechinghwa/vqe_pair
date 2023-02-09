@@ -5,17 +5,15 @@
 
 # ### Configuration
 # Whatever variable not in this script, is imported. They are tagged as init_config
-from calc_config_VQE_1 import *
-
+from calc_config_ import *
+import datetime
 
 # Record the start time for computation; And computation configuration.
-import datetime
 start_time = datetime.datetime.now()
 with open(output_filename, "a") as f:
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Calc started @",start_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print("Configuration of this Calculation:-",file=f)
     print("************************** Configuration info START **************************",file=f)
-
     print("Algorithm            : ", quan_algo,file=f)
     print("Excitation           : ", excitations,file=f)
     print("Iter mode            : ", iter_mode,file=f)
@@ -59,7 +57,7 @@ for index, row in obs_twobody_df.iterrows():
     tmp_ham[the_twostring] = row['V']
 
 Hamil_pair = FermionicOp(tmp_ham, 
-                          num_spin_orbitals=12, 
+                          num_spin_orbitals=num_spin_orbitals, 
                           copy=False)
 
 
@@ -71,12 +69,7 @@ with open(output_filename, "a") as f:
     
 if iter_mode == True:
     with open(iter_mode_output_filename, "a") as f:
-        print("Optimizer maxiter    : ", optimizer_maxiter,file=f)
-        print("Excitation           : ", excitations,file=f)
-        print("Optimizer tolerance  : ",optimizer_tol,file=f)
         print("For more info, refer to result file with name := "+output_filename,file=f)
-        print("The fermionic op     : ", file=f)
-        print(Hamil_pair,file=f)
         print("************************** Computation Results as Follows **************************",file=f)
 
 
@@ -137,12 +130,7 @@ adapt_vqe = AdaptVQE(vqe,
                      threshold = 0.001,
                      max_iterations = 200)
 
-# quan_algo = quan_algo
-
-
 # To record list of excitations
-
-
 with open(output_filename, "a") as f:
     print("Optimizer used:    ",optimizer,file = f)
     print("**************************   THe input list of excitations START   **************************",file = f)
@@ -151,37 +139,26 @@ with open(output_filename, "a") as f:
 
 
 # ### The result
-
-
 ## quan_algo config
 if quan_algo == "VQE":
     vqe_result = vqe.compute_minimum_eigenvalue(Ham) ## compute_minimum_eigenvalue
 elif quan_algo == "adaptVQE":
     vqe_result = adapt_vqe.compute_minimum_eigenvalue(Ham)
 else:
-    print("PLEASE PROVIDE AN ALGORITHM NAME")
-
+    print("PLEASE PROVIDE AN ALGORITHM NAME, it can be " + str(VQE)+ " or " + str(adaptVQE))
 
 now = datetime.datetime.now()
 with open(output_filename, "a") as f:
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", str(1), "@",now,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print(vqe_result,file=f)
-if iter_mode == True:
-    with open(iter_mode_output_filename, "a") as f:
-        print(vqe_result,file=f)
-        print("iteration number: ", str(1),"; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
         
 ## Future to add, convergence message by the classical optimizer
 
 
-# iter_mode == True: run the following block
 
-
-## NOte
+## Note
 # vqe_current refers to current vqe or vqe_iter(n)
 # vqe refers to vqe_iter(n-1)
-
-
 if iter_mode == True:
     vqe_energy = vqe_result.eigenvalue
     optimal_point = vqe_result.optimal_point
@@ -203,7 +180,7 @@ if iter_mode == True:
         
         # Record current time
         now = datetime.datetime.now()
-        
+
         # Record vqe_current_result
         with open(output_filename, "a") as f:
             print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ","iteration: ", counter, "@",now,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
@@ -211,18 +188,28 @@ if iter_mode == True:
         # Record only iteration number and energy of current iteration 
         with open(iter_mode_output_filename, "a") as f:
             print("iter : ", counter, "@", now, "; Energy Eigenvalue: ",vqe_current_energy,file=f)
+            print("iter : ", counter, vqe_current_result,file=f)
     
     # After while loop, reset the result to final iteration of vqe evaluation
     vqe_result = vqe_current_result
 else:
     pass
 
+# Append information into the iter file
+if iter_mode == True:
+    with open(iter_mode_output_filename, "a") as f:
+        print("Optimizer maxiter    : ", optimizer_maxiter,file=f)
+        print("Excitation           : ", excitations,file=f)
+        print("Optimizer tolerance  : ",optimizer_tol,file=f)
+        print("The fermionic op     : ", file=f)
+        print(Hamil_pair,file=f)
+        ### last iter information into the last block
+        print("iter : ",  counter, "@", now, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
 
 # Draw the circuit
 with open(circuitfilename, "a") as f:
     print("**************************  Optimal Circuit  **************************",file=f)
     print(vqe_result.optimal_circuit.decompose().decompose().draw(),file=f)
-
 
 
 with open(output_filename, "a") as f:
@@ -262,6 +249,8 @@ with open(output_filename, "a") as f:
     print("**************************************** N ****************************************", file=f)
     print("**************************************** D ****************************************", file=f)
 
+# Record final essential result to a single csv file
+## The following are the codes that ease the process of compiling the computed result
 with open("computed_result@Hpc.txt", "a") as f:
     print(output_filename,",",
         start_time,",",
@@ -279,20 +268,6 @@ with open("computed_result@Hpc.txt", "a") as f:
         vqe_result.eigenvalue,",",
         str(counter),",",
         " ", file = f)
-print(output_filename,",",
-        start_time,",",
-        end_time,",",
-        time_elapsed_mins,",",
-        " ",",",
-        " ",",",
-        quan_algo,",",
-        iter_mode,",",
-        excitations,",",
-        optimizer_maxiter,",",
-        optimizer_tol,",",
-        " ",",",
-        " ",",",
-        vqe_result.eigenvalue,",",
-        str(counter))
 
-# Record final essential result to a single csv file
+
+
