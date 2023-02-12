@@ -1,5 +1,3 @@
-import pandas as pd
-
 # Computation config
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 excitations = "dq"    ## (string)(s d t q or etc)
@@ -11,22 +9,11 @@ optimizer_tol = 0.00001
 # grad_maxiter = 200
 # grad_tol = 0.001
 
-## Input data for onebody and twobody observable matrix elements
-import os
-from pathlib import Path
-main_dir_path = Path(os.getcwd())
-assess = str(main_dir_path); assess = (assess.split("\\")); assess.reverse()
-while assess[0] != "VQE_pair":
-    main_dir_path = main_dir_path.parent
-    assess = str(main_dir_path); assess = (assess.split("\\")); assess.reverse()
-os.chdir(main_dir_path)
+input_file_txt = 'result_Be8_HTDA_V0_800_FuLL.txt'
 
-obs_twobody_df = pd.read_csv(r'Data/obs_twobody-30.csv')
-obs_onebody_df = pd.read_csv(r'Data/obs_onebody-delta.csv')
 
 ## Optimizer information
 ## MAybe include configuration of cobyla in the future (classical optimizer)
-
 
 ## Physical system config
 num_particles = (2,2)
@@ -44,13 +31,6 @@ import os
 path_to_dir = os.getcwd()+calc_destination
 os.chdir(path_to_dir)
 
-i = 0
-while os.path.exists(pcname+corename+"{:03d}.txt".format(i)):
-    i += 1
-
-output_filename = pcname+corename+"{:03d}.txt".format(i)
-iter_mode_output_filename = pcname+corename+"{:03d}".format(i)  + "_" + "per_" + str(optimizer_maxiter)+"iter.txt"
-circuitfilename = pcname+corename+"{:03d}".format(i)  + "_" + "opt_circuit.txt"
 
 
 
