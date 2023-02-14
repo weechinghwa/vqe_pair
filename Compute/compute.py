@@ -1,29 +1,51 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Calculation of Be8 pairing energy
+## All package and functions used are defined in utils
+from utils import *
+from calc_config import *
 
-# ### Configuration
-# Whatever variable not in this script, is imported. They are tagged as init_config
-from calc_config_ import *
-import datetime
+# Pre-run the file reader, to import all necessary variables
+import nbformat
+from nbconvert.preprocessors import ExecutePreprocessor
+filename = 'txt_read.ipynb'
+with open(filename) as myfile:
+    nb_in = nbformat.read(myfile, nbformat.NO_CONVERT)
+ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
+nb_out = ep.preprocess(nb_in)
+
+## Setting up path and define names, pathfilename carry all the names for input and output
+abs_main, nucleus, pathfilename = pathfilename_gen(pcname,input_txt)
+os.chdir(abs_main)
 
 # Record the start time for computation; And computation configuration.
-start_time = datetime.datetime.now()
-with open(output_filename, "a") as f:
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Calc started @",start_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
-    print("Configuration of this Calculation:-",file=f)
-    print("************************** Configuration info START **************************",file=f)
-    print("Algorithm            : ", quan_algo,file=f)
-    print("Excitation           : ", excitations,file=f)
-    print("Iter mode            : ", iter_mode,file=f)
-    print("Optimizer maxiter    : ", optimizer_maxiter,file=f)
-    print("Optimizer tolerance  : ", optimizer_tol,file=f)
+start_time = datetime.now()
+
+## Record config information on the abstract result and full result file.
+with open(pathfilename["abstract_result"], "w") as f:
+    f.write("Computation for nucleus : " + str(nucleus))
+    f.write("Computer name           : " + str(pcname))
+    f.write("Input textfile name     : " + str(input_txt))
+    f.write("Start time              : " + str(start_time))
+    f.write("Algorithm used          : " + str(quan_algo))
+    f.write("Iter mode               : " + str(iter_mode))
+    f.write("Optimizer maxiter       : " + str(optimizer_maxiter))
+    f.write("Optimizer tolerance     : " + str(optimizer_tol))
+
+with open(pathfilename["full_result"], "w") as f:
+
+
+
     
 if quan_algo == "adaptVQE":
-    with open(output_filename, "a") as f:
-        print("Gradient maxiter     : ", grad_maxiter,file=f)
-        print("Gradient tolerance   : ", grad_tol,file=f)
+    with open(pathfilename["abstract_result"],"w") as f1, open(pathfilename["full_result"], "w") as f2:
+        f1.write("Gradient maxiter        : "+ str(grad_maxiter))
+        f1.write("Gradient tolerance      : "+ str(grad_tol))
+        f2.write("Gradient maxiter        : "+ str(grad_maxiter))
+        f2.write("Gradient tolerance      : "+ str(grad_tol))
+
+f.write("Excitations input       : " + str(excitations))
+
 
 pd.set_option('display.max_rows', obs_onebody_df.shape[0]+1)
 
@@ -147,7 +169,7 @@ elif quan_algo == "adaptVQE":
 else:
     print("PLEASE PROVIDE AN ALGORITHM NAME, it can be " + str(VQE)+ " or " + str(adaptVQE))
 
-now = datetime.datetime.now()
+now = datetime.now()
 with open(output_filename, "a") as f:
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", str(1), "@",now,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print(vqe_result,file=f)
@@ -179,7 +201,7 @@ if iter_mode == True:
         optimal_point = vqe_current_result.optimal_point
         
         # Record current time
-        now = datetime.datetime.now()
+        now = datetime.now()
 
         # Record vqe_current_result
         with open(output_filename, "a") as f:
@@ -237,7 +259,7 @@ with open(output_filename, "a") as f:
         print(i, file=f)
     print("************************** Cluster term list END *********************************", file=f)
 
-end_time = datetime.datetime.now()
+end_time = datetime.now()
 time_elapsed = end_time - start_time
 time_elapsed_s = time_elapsed.total_seconds()
 time_elapsed_mins = divmod(time_elapsed_s, 60)[0]

@@ -1,4 +1,8 @@
-# Computation config
+## Source File input
+input_txt = 'result_Be8-copy.txt'
+
+## Computation config
+pcname = "Hpc" #or "Hpc" or Ypc"
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 excitations = "dq"    ## (string)(s d t q or etc)
 
@@ -9,49 +13,13 @@ optimizer_tol = 0.00001
 # grad_maxiter = 200
 # grad_tol = 0.001
 
-input_file_txt = 'result_Be8_HTDA_V0_800_FuLL.txt'
 
-pcname = "Hpc_" #or "Hpc" or Ypc"
+
+
 
 
 ## Optimizer information
 ## MAybe include configuration of cobyla in the future (classical optimizer)
-
-## Physical system config
-num_particles = (2,2)
-num_spatial_orbitals = 6
-num_spin_orbitals = 12
-
-########################## File names
-# nucleus_name = "Be8" # must be a string type 
-calc_destination = "/Result" #forward or backward slash also fine
-corename = "Be8_"
-
-
-
-import os
-path_to_dir = os.getcwd()+calc_destination
-os.chdir(path_to_dir)
-
-i = 0
-while os.path.exists(pcname+corename+"{:03d}.txt".format(i)):
-    i += 1
-
-output_filename = pcname+corename+"{:03d}.txt".format(i)
-iter_mode_output_filename = pcname+corename+"{:03d}".format(i)  + "_" + "per_" + str(optimizer_maxiter)+"iter.txt"
-circuitfilename = pcname+corename+"{:03d}".format(i)  + "_" + "opt_circuit.txt"
-
-
-
-
-
-
-
-
-
-
-
-
 
 # # # Config only above # # #
 #################################################################################################################
