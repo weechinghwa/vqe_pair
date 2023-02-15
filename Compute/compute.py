@@ -78,7 +78,7 @@ start_time = datetime.now()
 
 ## Record config information on the abstract result and full result file.
 with open(pathfilename["full_result"], "a") as f:
-    print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####")
+    print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
     print("Input textfile name     : ", input_txt, file=f)
@@ -89,7 +89,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("Optimizer tolerance     : ", optimizer_tol, file=f)
     print("Excitations input       : ", vqe_excitations(num_spatial_orbitals, num_particles), file=f)
 with open(pathfilename["abstract_result"], "a") as f:
-    print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####")
+    print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
     print("Input textfile name     : ", input_txt, file=f)
@@ -126,6 +126,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
     print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
     print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
+    print("Configuration information recorded")
 
 ## The Hamiltonian
 ### Use the defined obs_onebody_df and obs_twobody_df to construct the Hamiltonian
@@ -155,7 +156,7 @@ Hamiltonian = FermionicOp(tmp_ham,
 with open(pathfilename["full_result"], "a") as f:
     print("The fermionic op        : ", Hamiltonian, file=f)
     print("##### ##### ##### ##### ##### Configuration info END ##### ##### ##### ##### #####", file=f)
-    
+    print("/n", file=f)
 
 #### Setting up of the VQE algorithm
 # Define a converter aka mapping method
@@ -212,18 +213,21 @@ adapt_vqe = AdaptVQE(vqe,
 
 # To record list of optimizer used
 with open(pathfilename["full_result"], "a") as f:
-    print("Optimizer used:    ", optimizer, file=f)
+    print("Optimizer used       : ", optimizer, file=f)
+
 
 if iter_mode == True:
     with open(pathfilename["abstract_result"], "a") as f:
         print("Shortened result for ", str(nucleus_name), file=f)
         print("For more info, refer to output file with name := ", pathfilename["full_result"], file=f)
         print("##### ##### ##### ##### ##### Shortened results as Follows ##### ##### ##### ##### #####", file=f)
+        print("Computation started")
 elif iter_mode == False:
     with open(pathfilename["abstract_result"], "a") as f:
         print("Shortened result for ", nucleus_name, file=f)
         print("For more info, refer to output file with name := ", pathfilename["full_result"], file=f)
         print("##### ##### ##### ##### ##### Shortened result( there should only be one line of result) as Follows ##### ##### ##### ##### #####", file=f)
+        print("Computation started")
 
 # ### The result
 ## quan_algo config
@@ -232,15 +236,16 @@ if quan_algo == "VQE":
 elif quan_algo == "adaptVQE":
     vqe_result = adapt_vqe.compute_minimum_eigenvalue(Hamiltonian)
 else:
-    print("PLEASE PROVIDE AN ALGORITHM NAME, it can be " + str(VQE)+ " or " + str(adaptVQE))
+    print("PLEASE PROVIDE AN ALGORITHM NAME, it can be " + "VQE" + " or " + "adaptVQE" )
 
-now = datetime.now()
+current_time = datetime.now()
+counter = None
 with open(pathfilename["full_result"], "a") as f:
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", str(1), "@",now,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
-    print(vqe_result)
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", str(1), "@",current_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
+    print(vqe_result, file=f)
 with open(pathfilename["abstract_result"], "a") as f:
-    print("iter : ", counter, "@", now, "; Energy Eigenvalue: ",vqe_current_energy,file=f)
-
+    print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+    print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue)
 ## Future to add, convergence message by the classical optimizer
 
 ## Note
@@ -266,15 +271,15 @@ if iter_mode == True:
         optimal_point = vqe_current_result.optimal_point
         
         # Record current time
-        now = datetime.now()
+        current_time = datetime.now()
 
         # Record vqe_current_result
         with open(pathfilename["full_result"], "a") as f:
-            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ","iteration: ", counter, "@",now,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
+            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ","iteration: ", counter, "@",current_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
             print(vqe_current_result,file=f)
         # Record only iteration number and energy of current iteration 
         with open(pathfilename["abstract_result"], "a") as f:
-            print("iter : ", counter, "@", now, "; Energy Eigenvalue: ",vqe_current_energy,file=f)
+            print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_current_energy,file=f)
     
     # After while loop, reset the result to final iteration of vqe evaluation
     vqe_result = vqe_current_result
@@ -285,12 +290,12 @@ else:
 if iter_mode == True:
     with open(pathfilename["abstract_result"], "a") as f:
         print("Optimizer maxiter    : ", optimizer_maxiter,file=f)
-        print("Excitation           : ", excitations,file=f)
+        print("Excitation           : ", vqe_excitations,file=f)
         print("Optimizer tolerance  : ",optimizer_tol,file=f)
         print("The fermionic op     : ", file=f)
         print(Hamiltonian,file=f)
         ### last iter information into the last block
-        print("iter : ",  counter, "@", now, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+        print("iter : ",  counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
 
 
 
@@ -329,7 +334,7 @@ time_elapsed_s = time_elapsed.total_seconds()
 time_elapsed_mins = divmod(time_elapsed_s, 60)[0]
 
 with open(pathfilename["full_result"], "a") as f:
-    print("iter : ",  counter, "@", now, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+    print("iter : ",  counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Computation Ended @",end_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Total time elapsed(mins): ",+time_elapsed_mins,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print("**************************************** E ****************************************", file=f)
