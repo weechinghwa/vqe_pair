@@ -162,6 +162,16 @@ def pathfilename_gen(pcname_:"string", input_txt_:"string")->"string , string , 
     pathfilename["output_2B-source_csv"] =  subresult_dir + "-2B-source.csv"
     pathfilename["output_1B-H_input_csv"] = subresult_dir + "-1B-H_input.csv"
     pathfilename["output_2B-H_input_csv"] = subresult_dir + "-2B-H_input.csv"
-    pathfilename["abstract_result"] = subresult_dir + "vqe_abst.txt"
-    pathfilename["full_result"] = subresult_dir + "vqe_full.txt"
+    pathfilename["abstract_result"] = subresult_dir + "-vqe_abst.txt"
+    pathfilename["full_result"] = subresult_dir + "-vqe_full.txt"
     return abs_main, nucleus_name, pathfilename
+
+
+
+## ORIginal excitations function
+# def custom_excitation_list(num_spatial_orbitals: int,
+#                            num_particles: tuple[int, int]):
+# #### EDIT HERE
+#     my_excitation_list = [((0, 1), (2, 3)), ((0, 1), (4, 5)), ((6, 7), (8, 9)), ((6, 7), (10, 11))]
+#     return my_excitation_list
+# excitations = custom_excitation_list
