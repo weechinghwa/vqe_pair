@@ -241,11 +241,15 @@ else:
 current_time = datetime.now()
 counter = 1
 with open(pathfilename["full_result"], "a") as f:
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", str(1), "@",current_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", 1 , "@",current_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print(vqe_result, file=f)
 with open(pathfilename["abstract_result"], "a") as f:
-    print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
-    print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue)
+    if iter_mode == True: 
+        print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+        print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue)
+    elif iter_mode == False:
+        print("No iter, shortened Result computed ", "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+        print("No iter, shortened Result computed ", "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue)
 ## Future to add, convergence message by the classical optimizer
 
 ## Note
@@ -255,7 +259,6 @@ if iter_mode == True:
     vqe_energy = vqe_result.eigenvalue
     optimal_point = vqe_result.optimal_point
     vqe_current_energy = 0
-    counter = 1
 
     while abs(vqe_energy - vqe_current_energy) > optimizer_tol: #condition for iter(n+1) #if current condition is not satisfied, the loop stop
         # Set Iter(n-1) info;
@@ -286,19 +289,6 @@ if iter_mode == True:
 else:
     pass
 
-# Append information into the iter file
-if iter_mode == True:
-    with open(pathfilename["abstract_result"], "a") as f:
-        print("Optimizer maxiter    : ", optimizer_maxiter,file=f)
-        print("Excitation           : ", vqe_excitations,file=f)
-        print("Optimizer tolerance  : ",optimizer_tol,file=f)
-        print("The fermionic op     : ", file=f)
-        print(Hamiltonian,file=f)
-        ### last iter information into the last block
-        print("iter : ",  counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
-
-
-
 
 with open(pathfilename["full_result"], "a") as f:
     print("########################################################################################", file=f)
@@ -312,6 +302,8 @@ with open(pathfilename["full_result"], "a") as f:
 with open(pathfilename["full_result"], "a") as f:
     print("**************************  Optimal Circuit  **************************",file=f)
     print(vqe_result.optimal_circuit.decompose().decompose().draw(),file=f)
+    print("**************************  Pauli op         **************************", file=f)
+    print(Hamiltonian.to,file=f)
 
 # ## To find out what excitations had been used
 adaptvqe_ansatz = {}
