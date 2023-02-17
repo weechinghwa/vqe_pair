@@ -239,7 +239,7 @@ else:
     print("PLEASE PROVIDE AN ALGORITHM NAME, it can be " + "VQE" + " or " + "adaptVQE" )
 
 current_time = datetime.now()
-counter = None
+counter = 1
 with open(pathfilename["full_result"], "a") as f:
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", str(1), "@",current_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print(vqe_result, file=f)
@@ -280,7 +280,7 @@ if iter_mode == True:
         # Record only iteration number and energy of current iteration 
         with open(pathfilename["abstract_result"], "a") as f:
             print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_current_energy,file=f)
-    
+            print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_current_energy)
     # After while loop, reset the result to final iteration of vqe evaluation
     vqe_result = vqe_current_result
 else:
