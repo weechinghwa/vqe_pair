@@ -87,6 +87,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("Iter mode               : ", iter_mode, file=f)
     print("Optimizer maxiter       : ", optimizer_maxiter, file=f)
     print("Optimizer tolerance     : ", optimizer_tol, file=f)
+    print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
     print("Excitations input       : ", vqe_excitations(num_spatial_orbitals, num_particles), file=f)
 with open(pathfilename["abstract_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
@@ -98,7 +99,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Iter mode               : ", iter_mode, file=f)
     print("Optimizer maxiter       : ", optimizer_maxiter, file=f)
     print("Optimizer tolerance     : ", optimizer_tol, file=f)
-    print("Excitations input       : ", vqe_excitations(num_spatial_orbitals,num_particles), file=f)
+    print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
 if quan_algo == "adaptVQE":
     with open(pathfilename["abstract_result"],"a") as f1, open(pathfilename["full_result"], "a") as f2:
         print("Gradient maxiter        : ", grad_maxiter, file=f1)
@@ -298,12 +299,6 @@ with open(pathfilename["full_result"], "a") as f:
     print("**************************   VQE final iteration END     *********************************", file=f)
     print(file=f)
     print("########################################################################################", file=f)
-# Draw the circuit
-with open(pathfilename["full_result"], "a") as f:
-    print("**************************  Optimal Circuit  **************************",file=f)
-    print(vqe_result.optimal_circuit.decompose().decompose().draw(),file=f)
-    print("**************************  Pauli op         **************************", file=f)
-    print(Hamiltonian.to,file=f)
 
 # ## To find out what excitations had been used
 adaptvqe_ansatz = {}
@@ -340,6 +335,20 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("**************************************** N ****************************************", file=f)
     print("**************************************** D ****************************************", file=f)
 
+# Draw the circuit
+with open(pathfilename["full_result"], "a") as f:
+    print(" ",file=f)
+    print(" ",file=f)
+    print(" ",file=f)
+    print(" ",file=f)
+    print(" ",file=f)
+    print(" ",file=f)
+    print("**************************  Optimal Circuit  **************************",file=f)
+    print(vqe_result.optimal_circuit.decompose().decompose().draw(),file=f)
+    print("**************************  Pauli op         **************************", file=f)
+    print(Hamiltonian,file=f)
+
+
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
 with open("Result/computed_result@Hpc.txt", "a") as f:
@@ -359,6 +368,3 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         vqe_result.eigenvalue,",",
         str(counter),",",
         " ", file = f)
-
-
-
