@@ -86,14 +86,16 @@ def antipara_spin_pair_gen(obs_onebody_df:"pandas.DataFrames", num_orbitals:"tup
     neut_index_list = list(range(0,num_orbitals[0])); prot_index_list = list(range(num_orbitals[0],sum(num_orbitals)))
     # Upgrade this to a class to show the number of Tz=1 and Tz=0
     ## Tz=1
-    for (neut,prot) in zip(neut_index_list,prot_index_list):
-        for (neut2,prot2) in zip(neut_index_list,prot_index_list):
-            S_prot = spin_dict[prot] + spin_dict[prot2]
+    for neut in neut_index_list:
+        for neut2 in neut_index_list:
             S_neut = spin_dict[neut] + spin_dict[neut2]
-            if S_prot == 0:
-                pair_list.append((prot,prot2))
             if S_neut == 0:
                 pair_list.append((neut,neut2))
+    for prot in prot_index_list:
+        for prot2 in prot_index_list:
+            S_prot = spin_dict[prot] + spin_dict[prot2]
+            if S_prot == 0:
+                pair_list.append((prot,prot2))
     ## Tz=0 only
     for neut in neut_index_list:
         for prot in prot_index_list:
@@ -101,6 +103,7 @@ def antipara_spin_pair_gen(obs_onebody_df:"pandas.DataFrames", num_orbitals:"tup
             if S == 0 :
                 pair_list.append((neut,prot))   ## the opposite (prot,neut) is ignored (not in the real file)
     pair_list.sort() ## rearranged to make it easy to read
+    pair_list
     return pair_list
 
 def HFground_pair_list(num_particles:"tuple",num_orbitals:"tuple")->"list":

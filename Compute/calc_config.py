@@ -1,5 +1,5 @@
 ## Source File input
-input_txt = 'result_Be9.txt'
+input_txt = 'result_Be10.txt'
 
 ## Computation config
 pcname = "Hpc" #or "Hlp" or Ypc"
