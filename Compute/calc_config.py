@@ -1,5 +1,5 @@
 ## Source File input
-input_txt = 'result_Be8_HTDA_V0_800_FuLL.txt'
+input_txt = 'result_Be9.txt'
 
 ## Computation config
 pcname = "Hpc" #or "Hlp" or Ypc"
