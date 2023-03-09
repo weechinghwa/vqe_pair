@@ -343,8 +343,8 @@ with open(pathfilename["full_result"], "a") as f:
     print(" ",file=f)
     print(" ",file=f)
     print(" ",file=f)
-    print("**************************  Optimal Circuit  **************************",file=f)
-    print(vqe_result.optimal_circuit.decompose().decompose().draw(),file=f)
+    # print("**************************  Optimal Circuit  **************************",file=f)
+    # print(vqe_result.optimal_circuit.decompose().decompose().draw(),file=f)
     print("**************************  Pauli op         **************************", file=f)
     print(Hamiltonian,file=f)
 
