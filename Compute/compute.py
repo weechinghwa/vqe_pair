@@ -166,7 +166,7 @@ qubit_converter = QubitConverter(JordanWignerMapper())
 
 # from qiskit_nature.second_q.circuit.library.initial_states import HartreeFock
 from qiskit_nature.second_q.circuit.library.ansatzes import UCC
-from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP
+# from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
 from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
 from qiskit import Aer
 
@@ -195,11 +195,11 @@ var_form = UCC(
     initial_state=initial_state
 )
 
-# Define classical optimizer
-optimizer=COBYLA(
-    maxiter=optimizer_maxiter,
-    disp=True, 
-    tol = optimizer_tol)
+# # Define classical optimizer
+# optimizer=COBYLA(
+#     maxiter=optimizer_maxiter,
+#     disp=True, 
+#     tol = optimizer_tol)
 
 # Define Solver
 vqe = VQE(
