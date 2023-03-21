@@ -85,6 +85,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
+    print("Optimizer used          : ", optimizer, file=f)
     print("Optimizer maxiter       : ", optimizer_maxiter, file=f)
     print("Optimizer tolerance     : ", optimizer_tol, file=f)
     print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
@@ -97,6 +98,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
+    print("Optimizer used          : ", optimizer, file=f)
     print("Optimizer maxiter       : ", optimizer_maxiter, file=f)
     print("Optimizer tolerance     : ", optimizer_tol, file=f)
     print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
@@ -157,7 +159,7 @@ Hamiltonian = FermionicOp(tmp_ham,
 with open(pathfilename["full_result"], "a") as f:
     print("The fermionic op        : ", Hamiltonian, file=f)
     print("##### ##### ##### ##### ##### Configuration info END ##### ##### ##### ##### #####", file=f)
-    print("/n", file=f)
+    print("", file=f)
 
 #### Setting up of the VQE algorithm
 # Define a converter aka mapping method
