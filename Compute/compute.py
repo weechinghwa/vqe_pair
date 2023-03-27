@@ -85,9 +85,9 @@ with open(pathfilename["full_result"], "a") as f:
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
-    print("Optimizer used          : ", optimizer, file=f)
-    print("Optimizer maxiter       : ", optimizer_maxiter, file=f)
-    print("Optimizer tolerance     : ", optimizer_tol, file=f)
+    print("Optimizer's config:- ", file=f)
+    for i in optimizer.__dict__:
+        print(i, optimizer.__dict__[i], file=f)
     print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
     print("Excitations input       : ", vqe_excitations(num_spatial_orbitals, num_particles), file=f)
 with open(pathfilename["abstract_result"], "a") as f:
@@ -98,9 +98,9 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
-    print("Optimizer used          : ", optimizer, file=f)
-    print("Optimizer maxiter       : ", optimizer_maxiter, file=f)
-    print("Optimizer tolerance     : ", optimizer_tol, file=f)
+    print("Optimizer's config:- ", file=f)
+    for i in optimizer.__dict__:
+        print(i, optimizer.__dict__[i], file=f)
     print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
 if quan_algo == "adaptVQE":
     with open(pathfilename["abstract_result"],"a") as f1, open(pathfilename["full_result"], "a") as f2:
@@ -212,12 +212,6 @@ vqe = VQE(
 adapt_vqe = AdaptVQE(vqe,
                      threshold = 0.001,
                      max_iterations = 200)
-
-
-# To record list of optimizer used
-with open(pathfilename["full_result"], "a") as f:
-    print("Optimizer used       : ", optimizer, file=f)
-
 
 if iter_mode == True:
     with open(pathfilename["abstract_result"], "a") as f:
