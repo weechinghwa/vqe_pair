@@ -1,6 +1,6 @@
 ## Source File input
 input_txt = 'result_Be8.txt'
-
+include_onebody = True
 ## Computation config
 pcname = "Hpc" #or "Hlp" or Ypc"
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)

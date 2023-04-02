@@ -138,10 +138,11 @@ import pandas as pd
 tmp_ham = {}
 
 ### One body Term: Single particle energy levels
-for index, row in obs_onebody_df.iterrows():
-    init_ = int(row['q_i']); fina_ = int(row['q_f'])
-    the_onestring = "+_" +str(fina_) + " " + "-_" +str(init_)
-    tmp_ham[the_onestring] = row['delta']
+if include_onebody == True:
+    for index, row in obs_onebody_df.iterrows():
+        init_ = int(row['q_i']); fina_ = int(row['q_f'])
+        the_onestring = "+_" +str(fina_) + " " + "-_" +str(init_)
+        tmp_ham[the_onestring] = row['delta']
 
 ### Two body Terms: Pairing interaction
 for index, row in obs_twobody_df.iterrows():
