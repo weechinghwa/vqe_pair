@@ -1,6 +1,6 @@
 ## Source File input
 input_txt = 'result_Be8.txt'
-include_onebody = True
+
 ## Computation config
 pcname = "Hpc" #or "Hlp" or Ypc"
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
@@ -11,6 +11,8 @@ iter_mode = False ## (Boolean)
 optimizer_maxiter = 300
 optimizer_tol = 0.00001
 
+include_onebody = True
+include_twobody = True
 two_factor = 0.5
 
 ## Optimizer setting

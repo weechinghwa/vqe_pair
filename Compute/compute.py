@@ -147,11 +147,12 @@ if include_onebody == True:
         tmp_ham[the_onestring] = row['delta']
 
 ### Two body Terms: Pairing interaction
-for index, row in obs_twobody_df.iterrows():
-    init_1 = int(row['q_i1']); init_2 = int(row['q_i2']);
-    fina_1 = int(row['q_f1']); fina_2 = int(row['q_f2']);
-    the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
-    tmp_ham[the_twostring] = two_factor*row['V_ffii']
+if include_twobody == True:
+    for index, row in obs_twobody_df.iterrows():
+        init_1 = int(row['q_i1']); init_2 = int(row['q_i2']);
+        fina_1 = int(row['q_f1']); fina_2 = int(row['q_f2']);
+        the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
+        tmp_ham[the_twostring] = two_factor*row['V_ffii']
 
 ## The Hamiltonian Fermionic operator are given by
 Hamiltonian = FermionicOp(tmp_ham, 
