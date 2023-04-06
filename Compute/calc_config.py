@@ -8,8 +8,10 @@ quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
 iter_mode = False ## (Boolean)
 
-optimizer_maxiter = 200
-# optimizer_tol = 0.00001
+optimizer_maxiter = 300
+optimizer_tol = 0.00001
+
+two_factor = 0.5
 
 ## Optimizer setting
 # Define classical optimizer

@@ -85,9 +85,9 @@ with open(pathfilename["full_result"], "a") as f:
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
-    print("Optimizer's config:- ", file=f)
+    print("Optimizer's config      : |", optimizer, file=f)
     for i in optimizer.__dict__:
-        print(i, optimizer.__dict__[i], file=f)
+        print("                          |",i, optimizer.__dict__[i], file=f)
     print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
     print("Excitations input       : ", vqe_excitations(num_spatial_orbitals, num_particles), file=f)
 with open(pathfilename["abstract_result"], "a") as f:
@@ -98,9 +98,9 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
-    print("Optimizer's config:- ", file=f)
+    print("Optimizer's config      : |", optimizer, file=f)
     for i in optimizer.__dict__:
-        print(i, optimizer.__dict__[i], file=f)
+        print("                          |",i, optimizer.__dict__[i], file=f)
     print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
 if quan_algo == "adaptVQE":
     with open(pathfilename["abstract_result"],"a") as f1, open(pathfilename["full_result"], "a") as f2:
@@ -119,6 +119,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("Onebody matrix elements      :-",file=f)
     pd.set_option('display.max_rows', obs_onebody_df.shape[0]+1)
     print(obs_onebody_df, file = f)
+    print("Factor in twobody terms : ", two_factor, file=f)
     print("Twobody matrix elements      :-",file=f)
     pd.set_option('display.max_rows', obs_twobody_df.shape[0]+1),
     print(obs_twobody_df, file=f)
@@ -128,6 +129,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("num_spatial_orbitals    : ", num_spatial_orbitals, file=f)
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
     print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
+    print("Factor in twobody terms : ", two_factor, file=f)
     print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
     print("Configuration information recorded")
 
@@ -149,7 +151,7 @@ for index, row in obs_twobody_df.iterrows():
     init_1 = int(row['q_i1']); init_2 = int(row['q_i2']);
     fina_1 = int(row['q_f1']); fina_2 = int(row['q_f2']);
     the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
-    tmp_ham[the_twostring] = row['V_ffii']
+    tmp_ham[the_twostring] = two_factor*row['V_ffii']
 
 ## The Hamiltonian Fermionic operator are given by
 Hamiltonian = FermionicOp(tmp_ham, 
