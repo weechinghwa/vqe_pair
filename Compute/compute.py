@@ -23,8 +23,8 @@ exec(source, namespace.__dict__)
 num_orbitals = namespace.num_orbitals
 num_particles = namespace.num_particles
 num_spin_orbitals = namespace.num_spin_orbitals
-obs_onebody_df = namespace.obs_onebody_df
-obs_twobody_df = namespace.obs_twobody_df
+obs_onebody_df = namespace.obs_onebody_df_vqe
+obs_twobody_df = namespace.obs_twobody_df_vqe
 abs_main = namespace.abs_main
 pathfilename = namespace.pathfilename
 nucleus_name = namespace.nucleus_name
