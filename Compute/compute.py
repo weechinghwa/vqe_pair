@@ -144,7 +144,7 @@ if include_onebody == True:
     for index, row in obs_onebody_df.iterrows():
         init_ = int(row['q_i']); fina_ = int(row['q_f'])
         the_onestring = "+_" +str(fina_) + " " + "-_" +str(init_)
-        tmp_ham[the_onestring] = row['delta']
+        tmp_ham[the_onestring] = row['epsilon']
 
 ### Two body Terms: Pairing interaction
 if include_twobody == True:
