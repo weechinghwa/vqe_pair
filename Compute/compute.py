@@ -68,6 +68,10 @@ with open(pathfilename["full_result"], "a") as f:
     print("num_orbitals            : ", num_spatial_orbitals, file=f)
     print("num_spatial_orbitals    : ", num_spatial_orbitals, file=f)
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
+    print("Observable data_id      : ", input_dir, file = f)    
+    print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
+    print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
+    print("Factor in twobody terms : ", two_factor, file=f)
     print("Onebody matrix elements      :-",file=f)
     pd.set_option('display.max_rows', obs_onebody_df.shape[0]+1)
     print(obs_onebody_df, file = f)
@@ -80,9 +84,10 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("num_particles           : ", num_particles, file=f)
     print("num_spatial_orbitals    : ", num_spatial_orbitals, file=f)
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
+    print("Observable data_id      : ", input_dir, file = f)
     print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
-    print("Factor in twobody terms : ", two_factor, file=f)
     print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
+    print("Factor in twobody terms : ", two_factor, file=f)
     print("Configuration information recorded")
 
 ## The Hamiltonian
@@ -136,6 +141,7 @@ elif iter_mode == False:
         print("For more info, refer to output file with name := ", pathfilename["full_result"], file=f)
         print("##### ##### ##### ##### ##### Shortened result( there should only be one line of result) as Follows ##### ##### ##### ##### #####", file=f)
         print("Computation started")
+        print("VQE running ... ... ...")
 
 
 ## The result ##
