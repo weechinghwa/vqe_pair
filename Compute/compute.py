@@ -4,74 +4,26 @@
 ## All package and functions used are defined in utils
 from utils import *
 from calc_config import *
+from vqe import *
 
-## Run the ipynb to process the result text file to retrieve/extract information for the calculation
-import nbformat
-from nbconvert import PythonExporter
-from types import SimpleNamespace
 
-# Convert the notebook to a Python script
-notebook_filename = 'txt_read.ipynb'
-exporter = PythonExporter()
-source, metadata = exporter.from_filename(notebook_filename)
 
-# Execute the Python script in a namespace
-namespace = SimpleNamespace()
-exec(source, namespace.__dict__)
+## The following are imported from the above calc_config and utils
+import pandas as pd
+obs_onebody_df = pd.read_csv(obs_onebody_csv)
+obs_twobody_df = pd.read_csv(obs_twobody_csv)
 
-## In the txt_read.ipynb, the following variables are defined.
-num_orbitals = namespace.num_orbitals
-num_particles = namespace.num_particles
-num_spin_orbitals = namespace.num_spin_orbitals
-obs_onebody_df = namespace.obs_onebody_df_vqe
-obs_twobody_df = namespace.obs_twobody_df_vqe
-abs_main = namespace.abs_main
-pathfilename = namespace.pathfilename
-nucleus_name = namespace.nucleus_name
-num_spatial_orbitals = int(num_spin_orbitals/2)
+# vqe_excitations = custom_excitation_list or 'd' ; check calc_config
+# nucleus_name ; check pathfilename_gen
 
-### Define excitation list (to be used in the VQE)
-# Define excitations list
-def custom_excitation_list(num_spatial_orbitals: int,num_particles):
-    # the function is of resemblance of the excitations selected in the Hamiltonian, but not really"
-    non_repeat_list = list(combinations(range(0,sum(num_orbitals)),2))
-    
-    neut_orbitals_list = list(range(0,num_orbitals[0]))
-    prot_orbitals_list = list(range(num_orbitals[0], sum(num_orbitals)))
-    neut_state_list = list(range(0,num_particles[0]))
-    prot_state_list = list(range(num_orbitals[0], num_orbitals[0] + num_particles[1]))
 
-    init_state_indeces = neut_state_list + prot_state_list
-    init_pair_list = HFground_pair_list(num_particles, num_orbitals)
-
-    allowed_init = list(set(non_repeat_list) & set(init_pair_list))
-    allowed_fina = non_repeat_list
-    # allowed_fina = []
-    # for fina in non_repeat_list:
-    #     if not fina[0] or fina[1] in neut_state_list + prot_state_list:
-    #         allowed_fina.append(fina)
-
-    my_excitation_list = []
-
-    for init in allowed_init:
-        for fina in allowed_fina:
-            if (fina[0] in init_state_indeces) or (fina[1] in init_state_indeces):
-                pass
-            elif ((init[0] in neut_orbitals_list) == (fina[0] in neut_orbitals_list) and
-                (init[1] in neut_orbitals_list) == (fina[1] in neut_orbitals_list) and
-                (init[0] in prot_orbitals_list) == (fina[0] in prot_orbitals_list) and
-                (init[1] in prot_orbitals_list) == (fina[1] in prot_orbitals_list) 
-               ):
-                excitations = [init,fina];
-                my_excitation_list.append(tuple(excitations) if (excitations not in my_excitation_list) else tuple())
-    my_excitation_list.sort()
-    return my_excitation_list
-vqe_excitations = custom_excitation_list
 
 ## Setting up path and define names, pathfilename carry all the names for input and output
 ## This line was ran in the ipynb so, dont need to run once more 
-# # # abs_main, nucleus, pathfilename = pathfilename_gen(pcname,input_txt)
+abs_main, nucleus_name, pathfilename = pathfilename_gen(pcname,input_dir)
 os.chdir(abs_main)
+
+
 
 # Record the start time for computation; And computation configuration.
 start_time = datetime.now()
@@ -81,7 +33,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
-    print("Input textfile name     : ", input_txt, file=f)
+    print("Input directory name     : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
@@ -94,7 +46,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
-    print("Input textfile name     : ", input_txt, file=f)
+    print("Input directory name     : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
@@ -136,7 +88,6 @@ with open(pathfilename["abstract_result"], "a") as f:
 ## The Hamiltonian
 ### Use the defined obs_onebody_df and obs_twobody_df to construct the Hamiltonian
 from qiskit_nature.second_q.operators import FermionicOp
-import pandas as pd
 tmp_ham = {}
 
 ### One body Term: Single particle energy levels
@@ -165,58 +116,14 @@ with open(pathfilename["full_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info END ##### ##### ##### ##### #####", file=f)
     print("", file=f)
 
-#### Setting up of the VQE algorithm
-# Define a converter aka mapping method
-from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
-qubit_converter = QubitConverter(JordanWignerMapper())
-
-# from qiskit_nature.second_q.circuit.library.initial_states import HartreeFock
-from qiskit_nature.second_q.circuit.library.ansatzes import UCC
-# from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
-from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
-from qiskit import Aer
-
-# Hamiltonian
+    
+## Prepping Hamiltonian to be computed. Mapping. ## 
 Hamiltonian = qubit_converter.map(Hamiltonian)
 
-## Define Estimator
-from qiskit.primitives import Estimator
-estimator = Estimator()
 
-## Reference state / Initial state
-from np_hartreefock import * ## Import custom init state
-initial_state = HartreeFock(
-    num_orbitals = num_orbitals,
-    num_particles = num_particles,
-    qubit_converter = qubit_converter)
+# Begin Computation #
 
-## Ansatz
-reps=1
-var_form = UCC(
-    num_particles=num_particles,
-    num_spatial_orbitals=num_spatial_orbitals,
-    excitations=vqe_excitations,
-    qubit_converter=qubit_converter,
-    reps=reps,
-    initial_state=initial_state
-)
-
-# # Define classical optimizer
-# optimizer=COBYLA(
-#     maxiter=optimizer_maxiter,
-#     disp=True, 
-#     tol = optimizer_tol)
-
-# Define Solver
-vqe = VQE(
-    estimator = estimator,
-    ansatz = var_form,
-    optimizer = optimizer)
-
-adapt_vqe = AdaptVQE(vqe,
-                     threshold = 0.001,
-                     max_iterations = 200)
-
+# VQE is important in the first few lines
 if iter_mode == True:
     with open(pathfilename["abstract_result"], "a") as f:
         print("Shortened result for ", str(nucleus_name), file=f)
@@ -230,7 +137,8 @@ elif iter_mode == False:
         print("##### ##### ##### ##### ##### Shortened result( there should only be one line of result) as Follows ##### ##### ##### ##### #####", file=f)
         print("Computation started")
 
-# ### The result
+
+## The result ##
 ## quan_algo config
 if quan_algo == "VQE":
     vqe_result = vqe.compute_minimum_eigenvalue(Hamiltonian) ## compute_minimum_eigenvalue
@@ -307,7 +215,6 @@ for cluster in vqe_result.optimal_circuit.operators:
         if cluster.equals(cluster_term):
             adaptvqe_ansatz[var_form.excitation_list[i]] = cluster_term
 
-
 with open(pathfilename["full_result"], "a") as f:
     print("Cluster terms used in the ansatz in the final iteraction(of adaptVQE):- ", file=f)
     print("************************** Cluster term list START *********************************", file=f)
@@ -360,7 +267,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         " ",",",
         quan_algo,",",
         iter_mode,",",
-        len(vqe_excitations(num_spatial_orbitals, num_particles)),",",
+        len(var_form.excitation_list),",",
         optimizer_maxiter,",",
         optimizer_tol,",",
         " ",",",
