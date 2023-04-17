@@ -7,4 +7,7 @@ iHF and jHF are time conjugates respectively (to find out what they means), for 
 Onebody terms are quasiparticle energiven by E_iqp = sqrt( (e_i - e_f)^2 + (\delta)^2 ), where delta is the pairing gap, it is zero in this case. 
 
 this file contain flawed data with repeated pairing terms. (does not matter when imported as FermionicOp, only 12 terms will be left out.) 
-The Fermionic operator of twobody terms is not Hermitian.
+
+########################################################## THE above are of the same as the 203 data
+
+The data here has Hermitian twobody terms.
