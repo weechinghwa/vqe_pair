@@ -1,5 +1,5 @@
 ## Source File input ##
-input_dir = "230412_Be8"
+input_dir = "203_Be8"
 
 ### The following doesnt require setting up, unless file naming is different
 obs_onebody_csv = "../Data/"+input_dir+"/"+input_dir+"-1B_H_input.csv"
