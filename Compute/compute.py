@@ -40,8 +40,8 @@ with open(pathfilename["full_result"], "a") as f:
     print("Optimizer's config      : |", optimizer, file=f)
     for i in optimizer.__dict__:
         print("                          |",i, optimizer.__dict__[i], file=f)
-    print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
-    print("Excitations input       : ", vqe_excitations(num_spatial_orbitals, num_particles), file=f)
+    print("Size of excitations     : ", len(var_form.excitation_list), file=f)
+    print("Excitations input       : ", var_form.excitation_list, file=f)
 with open(pathfilename["abstract_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
@@ -53,7 +53,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Optimizer's config      : |", optimizer, file=f)
     for i in optimizer.__dict__:
         print("                          |",i, optimizer.__dict__[i], file=f)
-    print("Size of excitations     : ", len(vqe_excitations(num_spatial_orbitals, num_particles)), file=f)
+    print("Size of excitations     : ", len(var_form.excitation_list), file=f)
 if quan_algo == "adaptVQE":
     with open(pathfilename["abstract_result"],"a") as f1, open(pathfilename["full_result"], "a") as f2:
         print("Gradient maxiter        : ", grad_maxiter, file=f1)
