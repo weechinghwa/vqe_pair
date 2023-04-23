@@ -50,7 +50,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
-    print("include_onebody?        : ", include_onebody file=f)
+    print("include_onebody?        : ", include_onebody, file=f)
     print("include_twobody?        : ", include_twobody, file=f)
     print("Size of excitations     : ", len(var_form.excitation_list), file=f)
 if quan_algo == "adaptVQE":
@@ -276,8 +276,8 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         time_elapsed_mins,",",
         " ",",",
         input_dir,",",
-        "H:"+len(Hamiltonian)+";1B:"+len(obs_onebody_df)+";2B:"+len(obs_twobody_df)+",",
-        quan_algo+";"+optimizer,",",
+        "H:"+str(len(Hamiltonian))+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
+        quan_algo+";",optimizer,",",
         iter_mode,",",
         len(var_form.excitation_list),",",
         optimizer_maxiter,",",
