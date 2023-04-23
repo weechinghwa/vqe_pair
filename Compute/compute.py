@@ -218,10 +218,13 @@ with open(pathfilename["full_result"], "a") as f:
 
 # ## To find out what excitations had been used
 adaptvqe_ansatz = {}
-for cluster in vqe_result.optimal_circuit.operators:
-     for i , cluster_term in enumerate(var_form.operators):
-        if cluster.equals(cluster_term):
-            adaptvqe_ansatz[var_form.excitation_list[i]] = cluster_term
+for counter_1 , cluster in enumerate(vqe_result.optimal_circuit.operators):
+     for counter_2 , cluster_term in enumerate(var_form.operators):
+        if cluster == cluster_term:
+            adaptvqe_ansatz[(counter_1,counter_2)] = var_form.excitation_list[counter_2]
+
+        # if cluster.equals(cluster_term):
+        #     adaptvqe_ansatz[var_form.excitation_list[i]] = cluster_term
 
 with open(pathfilename["full_result"], "a") as f:
     print("Cluster terms used in the ansatz in the final iteraction(of adaptVQE):- ", file=f)
@@ -273,8 +276,8 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         time_elapsed_mins,",",
         " ",",",
         input_dir,",",
-        "H:"len(Hamiltonian),";1B:",len(obs_onebody_df),";2B:",len(obs_twobody_df),",",
-        quan_algo,",",
+        "H:"+len(Hamiltonian)+";1B:"+len(obs_onebody_df)+";2B:"+len(obs_twobody_df)+",",
+        quan_algo+";"+optimizer,",",
         iter_mode,",",
         len(var_form.excitation_list),",",
         optimizer_maxiter,",",

@@ -29,8 +29,6 @@ with open (parameter_py, 'rt') as myfile:    #filename
         parameter_txt.append(line)
 parameter = parameter_txt[1].split(",,,")
 import ast
-s = '(6,6)'
-t = ast.literal_eval(s)
 num_orbitals = ast.literal_eval(parameter[0])
 num_spin_orbitals = int(parameter[1])
 num_particles = ast.literal_eval(parameter[2])
