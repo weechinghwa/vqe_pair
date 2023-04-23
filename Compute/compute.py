@@ -125,8 +125,9 @@ with open(pathfilename["full_result"], "a") as f:
 
     
 ## Prepping Hamiltonian to be computed. Mapping. ## 
+Hamiltonian_fermop_len = len(Hamiltonian)
 Hamiltonian = qubit_converter.map(Hamiltonian)
-
+Hamiltonian_paulop_len = len(Hamiltonian)
 
 # Begin Computation #
 
@@ -276,7 +277,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         time_elapsed_mins,",",
         " ",",",
         input_dir,",",
-        "H:"+str(len(Hamiltonian))+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
+        "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
         quan_algo+";",optimizer,",",
         iter_mode,",",
         len(var_form.excitation_list),",",
