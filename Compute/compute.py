@@ -231,7 +231,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("Cluster terms used in the ansatz in the final iteraction(of adaptVQE):- ", file=f)
     print("************************** Cluster term list START *********************************", file=f)
     for i in adaptvqe_ansatz:
-        print(i, file=f)
+        print(i, adaptvqe_ansatz[i], file=f)
     print("************************** Cluster term list END *********************************", file=f)
 
 end_time = datetime.now()
@@ -278,7 +278,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         " ",",",
         input_dir,",",
         "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
-        quan_algo+";",optimizer,",",
+        quan_algo+";",type(optimizer),",",
         iter_mode,",",
         len(var_form.excitation_list),",",
         optimizer_maxiter,",",
