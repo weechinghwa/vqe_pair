@@ -1,10 +1,10 @@
 ## Source File input ##
-input_dir = "203_Be8"
+input_dir = "Whatever" #200_Be9
 
 ### The following doesnt require setting up, unless file naming is different
 obs_onebody_csv = "../Data/"+input_dir+"/"+input_dir+"-1B_H_input.csv"
 obs_twobody_csv = "../Data/"+input_dir+"/"+input_dir+"-2B_H_input.csv"
-parameter_py = "../Data/"+input_dir+"/"+"parameter.txt"
+parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
 
 
 
