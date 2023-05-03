@@ -34,8 +34,10 @@ var_form = UCC(
 
 ## Optimizer setting
 from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
-optimizer = SPSA(
-    maxiter=optimizer_maxiter)
+optimizer = ISRES(
+    max_evals = optimizer_maxiter)
+# optimizer = SPSA(
+#     maxiter=optimizer_maxiter)
 # optimizer=COBYLA(
 #     maxiter=optimizer_maxiter,
 #     disp=True, 
