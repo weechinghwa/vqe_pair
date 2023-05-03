@@ -1,5 +1,12 @@
 from calc_config import *
 
+## Define callback function: to collect convergence information
+counts = []; values = []
+def store_intermediate_result(eval_count, parameters, mean, std):
+    counts.append(eval_count)
+    values.append(mean)
+
+
 ## VQE Algorithm Setup ## 
 # Define a converter aka mapping method
 from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
@@ -47,7 +54,8 @@ optimizer = ISRES(
 vqe = VQE(
     estimator = estimator,
     ansatz = var_form,
-    optimizer = optimizer)
+    optimizer = optimizer,
+    callback=store_intermediate_result)
 
 adapt_vqe = AdaptVQE(
     vqe,

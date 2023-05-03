@@ -267,6 +267,17 @@ with open(pathfilename["full_result"], "a") as f:
     print("**************************  Pauli op         **************************", file=f)
     print(Hamiltonian,file=f)
 
+    
+## Convergence infroamtion
+import pylab
+
+pylab.rcParams["figure.figsize"] = (12, 4)
+pylab.plot(counts, values)
+pylab.xlabel("Iterations/Eval_count")
+pylab.ylabel("Energy")
+pylab.title("Convergence for"+str(input_dir))
+pylab.savefig(pathfilename["conver_png"])
+
 
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
@@ -288,3 +299,4 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         vqe_result.eigenvalue,",",
         str(counter),",",
         " ", file = f)
+    print(type(estimator),file=f)

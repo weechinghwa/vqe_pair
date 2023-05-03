@@ -167,6 +167,7 @@ def pathfilename_gen(pcname_:"string", input_dir_:"string")->"string , string , 
     pathfilename["output_2B-H_input_csv"] = subresult_dir + "-2B-H_input.csv"
     pathfilename["abstract_result"] = subresult_dir + "-vqe_abst.txt"
     pathfilename["full_result"] = subresult_dir + "-vqe_full.txt"
+    pathfilename["conver_png"] = subresult_dir + "-converge.png"
     return abs_main, nucleus_name, pathfilename
 
 
