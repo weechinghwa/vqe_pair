@@ -21,3 +21,7 @@ The data here has Hermitian twobody terms.
 ########################################################## The following are what updated from 204 and 203
 Onebody terms: Single particle energy levels
 Twobody terms: Hermitian
+
+## Information for 209
+########################################################## The following are what updated from 207
+Twobody terms: 72 terms, ij ji situation and ij ij ji ji and ji ij
