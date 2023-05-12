@@ -275,7 +275,7 @@ pylab.rcParams["figure.figsize"] = (12, 4)
 pylab.plot(counts, values)
 pylab.xlabel("Iterations/Eval_count")
 pylab.ylabel("Energy")
-pylab.title("Convergence for"+str(pathfilename["output_id"]))
+pylab.title("Convergence for "+str(pathfilename["output_id"]))
 pylab.savefig(pathfilename["conver_png"])
 
 
