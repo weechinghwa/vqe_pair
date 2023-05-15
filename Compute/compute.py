@@ -167,7 +167,7 @@ with open(pathfilename["abstract_result"], "a") as f:
         print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue)
     elif iter_mode == False:
         print("No iter, shortened Result computed ", "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
-        print("No iter, shortened Result computed ", "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue)
+        print("No iter, shortened Result computed ", "@", current_time, "Time Elapse : ", time_elapsed_mins,"mins", "; Energy Eigenvalue: ",vqe_result.eigenvalue)
 ## Future to add, convergence message by the classical optimizer
 
 ## Note
