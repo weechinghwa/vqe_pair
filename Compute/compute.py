@@ -303,4 +303,3 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         vqe_result.eigenvalue,",",
         str(counter),",",
         " ", file = f)
-    print(,file=f)
