@@ -288,7 +288,9 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         time_elapsed_mins,",",
         " ",",",
         input_dir,",",
+        two_factor,",",
         "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
+        type(estimator),",",
         quan_algo+";",type(optimizer),",",
         iter_mode,",",
         len(var_form.excitation_list),",",
@@ -299,4 +301,4 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         vqe_result.eigenvalue,",",
         str(counter),",",
         " ", file = f)
-    print(type(estimator),file=f)
+    print(,file=f)
