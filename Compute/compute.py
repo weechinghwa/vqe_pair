@@ -116,6 +116,7 @@ if include_twobody == True:
 Hamiltonian = FermionicOp(tmp_ham, 
                           num_spin_orbitals=num_spin_orbitals, 
                           copy=False)
+hermitian_info = Hamiltonian.is_hermitian()
 
 # Record the operators being evaluated/computed
 with open(pathfilename["full_result"], "a") as f:
@@ -289,6 +290,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         " ",",",
         input_dir,",",
         two_factor,",",
+        hermitian_info,",",
         "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
         type(estimator),",",
         quan_algo+";",type(optimizer),",",
