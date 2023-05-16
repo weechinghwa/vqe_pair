@@ -168,7 +168,6 @@ with open(pathfilename["abstract_result"], "a") as f:
         print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue)
     elif iter_mode == False:
         print("No iter, shortened Result computed ", "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
-        print("No iter, shortened Result computed ", "@", current_time, "Time Elapse : ", time_elapsed_mins,"mins", "; Energy Eigenvalue: ",vqe_result.eigenvalue)
 ## Future to add, convergence message by the classical optimizer
 
 ## Note
@@ -279,6 +278,7 @@ pylab.ylabel("Energy")
 pylab.title("Convergence for "+str(pathfilename["output_id"]))
 pylab.savefig(pathfilename["conver_png"])
 
+print("Calculation Done!! ", "@", current_time, "Time elapsed : ",time_elapsed_mins, "mins ; Energy Eigenvalue: ",vqe_result.eigenvalue)
 
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
