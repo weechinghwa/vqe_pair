@@ -18,7 +18,9 @@ Be10_SII_0418  -> 	Be10_420
 | -		| -						|
 | 0		| Source file located in source file		|
 | 1		| 1B:SPE; 2B:Taken as it is; and ij ji only	|
-
+| 2		| 1B:Quasiparticle E; 2B:Taken as it is		|
+| 3		| 1B:\Delta{if}; 2B:Taken as it is		|
+| 4		| 1B:SPE; 2B:Hermitian				|	
 
 Log of the source:
 230522 - Data previous than batch 4 is kept in source/Keep
