@@ -1,4 +1,12 @@
+## Argparser
+import argparse
+argParser = argparse.ArgumentParser()
+argParser.add_argument("-i", "--input_dir", help="The input file's directory name")
+args = argParser.parse_args()
+print((args.input_dir))
+
 ## Source File input ##
+input_dir = args.input_dir
 input_dir = "Whatever" #200_Be9
 
 ### The following doesnt require setting up, unless file naming is different
