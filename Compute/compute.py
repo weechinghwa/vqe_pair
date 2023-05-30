@@ -254,6 +254,71 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("**************************************** N ****************************************", file=f)
     print("**************************************** D ****************************************", file=f)
 
+
+# Generating the breakdown of the energy
+optimal_point = vqe_result.optimal_point
+uccd = vqe_result.optimal_circuit
+
+tmp_ham_one = {}
+tmp_ham_two = {}
+
+### import the input operators
+### One body Term: Single particle energy levels
+if include_onebody == True:
+    for index, row in obs_onebody_df.iterrows():
+        init_ = int(row['q_i']); fina_ = int(row['q_f'])
+        the_onestring = "+_" +str(fina_) + " " + "-_" +str(init_)
+        tmp_ham[the_onestring] = row['epsilon']
+        tmp_ham_one[the_onestring] = row['epsilon']
+
+# Two body Terms: Pairing interaction
+for index, row in obs_twobody_df.iterrows():
+    init_1 = int(row['q_i1']); init_2 = int(row['q_i2']);
+    fina_1 = int(row['q_f1']); fina_2 = int(row['q_f2']);
+    the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
+    tmp_ham[the_twostring] = two_factor*row['V_ffii']
+    tmp_ham_two[the_twostring] = two_factor*row['V_ffii']
+## The Hamiltonian Fermionic operator are given by
+Hamiltonian = FermionicOp(tmp_ham, 
+                          num_spin_orbitals=num_spin_orbitals, 
+                          copy=False)
+Hamil_one = FermionicOp(tmp_ham_one, num_spin_orbitals=num_spin_orbitals, copy=False)
+Hamil_two = FermionicOp(tmp_ham_two, num_spin_orbitals=num_spin_orbitals, copy=False)
+
+Hamiltonian = qubit_converter.map(Hamiltonian)
+Hamil_one = qubit_converter.map(Hamil_one)
+Hamil_two = qubit_converter.map(Hamil_two)
+
+H_HF = estimator.run(initial_state, Hamiltonian).result().values[0]
+one_HF = estimator.run(initial_state, Hamil_one).result().values[0]
+two_HF = estimator.run(initial_state, Hamil_two).result().values[0]
+H_UCCDopt = estimator.run(uccd, Hamiltonian, optimal_point).result().values[0]
+one_UCCDopt = estimator.run(uccd, Hamil_one, optimal_point).result().values[0]
+two_UCCDopt = estimator.run(uccd, Hamil_two, optimal_point).result().values[0]
+with open(pathfilename["abstract_result"], "a") as f:
+    print("H, HF              : ", round(H_HF,6), file=f)
+    print("one, HF            : ", round(one_HF,6), file=f)
+    print("two, HF            : ", round(two_HF,6), file=f)
+    print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
+    print("one, UCCDopt       : ", round(one_UCCDopt,6), file=f)
+    print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
+    print("State occupancy breakdown:-")
+    
+    append_occupy = []
+    for i in tmp_ham_one:
+        one_ham = FermionicOp({i:tmp_ham_one[i]},num_spin_orbitals=num_spin_orbitals, copy = False)
+        one_occupy = FermionicOp({i:1},num_spin_orbitals=num_spin_orbitals, copy = False)
+        one_occupy = qubit_converter.map(one_occupy)
+        one_ham = qubit_converter.map(one_ham)
+        one_occupy_ham = estimator.run(initial_state,  one_occupy).result().values[0]
+        one_occupy = estimator.run(var_form,  one_occupy, optimal_point).result().values[0]
+        one_UCCDopt = estimator.run(var_form, one_ham, optimal_point).result().values[0]
+        append_occupy.append(one_occupy)
+        
+        print('{0:<10}'.format(i),": ",'{0:<8}'.format(str(round(one_UCCDopt,3))),one_occupy_ham,"-->",round(one_occupy,3),file=f)
+    print("after  : ", sum(append_occupy),file=f)
+
+
 # Draw the circuit
 with open(pathfilename["full_result"], "a") as f:
     print(" ",file=f)
@@ -283,7 +348,8 @@ print("Calculation Done!! ", "@", current_time, "Time elapsed : ",time_elapsed_m
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
 with open("Result/computed_result@Hpc.txt", "a") as f:
-    print(pathfilename["full_result"],",",
+    print(
+        pathfilename["full_result"],",",
         start_time,",",
         end_time,",",
         time_elapsed_mins,",",
