@@ -25,3 +25,10 @@ Be10_SII_0418  -> 	Be10_420
 
 Log of the source:
 230522 - Data previous than batch 4 is kept in source/Keep
+
+~Batch6~
+- 3 sets of Be8 data. will be labeled as 60a1 60b1 60c1
+For the two body terms, the three files correspond to different selections of data:
+a. include_all_2b file is explicit. This will give you the matrix elements including those non pair states.
+b. limited_to_pair_states_all_values includes all the negative and positive values.
+c. limited_to_pair_states_negative_values is the one you want to use first. It is only limited to states with negative vpair matrix elements.
