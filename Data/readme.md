@@ -22,6 +22,7 @@ Be10_SII_0418  -> 	Be10_420
 | 3		| 1B:\Delta{if}; 2B:Taken as it is		|
 | 4		| 1B:SPE; 2B:Hermitian				|
 | 5		| 1B:SPE-E_fermi as it is ijji, Sun's		|
+| 6		| 1B:Valence only; 2B:Specify in data folder.	|
 
 Log of the source:
 230522 - Data previous than batch 4 is kept in source/Keep
