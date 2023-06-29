@@ -120,8 +120,8 @@ vqe_excitations = pair_clusters # or replace with "d" if wish to use default vqe
 
 
 ## Not used if adapt_veq is not used (quan_algo != "adaptVQE") ##
-# grad_maxiter = 200
-# grad_tol = 0.001
+grad_maxiter = 200
+grad_tol = 0.001
 ## Optimizer information
 ## MAybe include configuration of cobyla in the future (classical optimizer)
 ## REF https://www.geeksforgeeks.org/how-to-import-variables-from-another-file-in-python/

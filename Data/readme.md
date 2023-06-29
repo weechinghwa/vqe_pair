@@ -1,3 +1,29 @@
+New data code: @230629
+1601_Be8
+
+"1" - Indicating new versioning generation index
+"6" - batch number
+"01" - Hamiltonian versioning
+"Be8" - Nucleus code
+
+|last index	|  Description							|
+| -		| -								|
+| 00		| Source file located in source file(similar to previous code	|
+| 10		| Pairing Hamiltonian(only 2body terms) 		(230629)|
+
+
+
+
+
+
+
+
+#
+#
+#
+#
+#
+Obsolete: --V-- ####################################################################################################
 Change of data code (230522)
 
 501_Be8

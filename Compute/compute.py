@@ -95,23 +95,26 @@ with open(pathfilename["abstract_result"], "a") as f:
 ## The Hamiltonian
 ### Use the defined obs_onebody_df and obs_twobody_df to construct the Hamiltonian
 from qiskit_nature.second_q.operators import FermionicOp
-tmp_ham = {}
+tmp_ham_one = {}
+tmp_ham_two = {}
 
 ### One body Term: Single particle energy levels
 if include_onebody == True:
     for index, row in obs_onebody_df.iterrows():
         init_ = int(row['q_i']); fina_ = int(row['q_f'])
         the_onestring = "+_" +str(fina_) + " " + "-_" +str(init_)
-        tmp_ham[the_onestring] = row['epsilon']
+        tmp_ham_one[the_onestring] = row['epsilon']
 
 ### Two body Terms: Pairing interaction
 if include_twobody == True:
     for index, row in obs_twobody_df.iterrows():
-        init_1 = int(row['q_i1']); init_2 = int(row['q_i2']);
-        fina_1 = int(row['q_f1']); fina_2 = int(row['q_f2']);
+        init_1 = int(row['l']); init_2 = int(row['k']);   # init1 == l ; init2 == k
+        fina_1 = int(row['i']); fina_2 = int(row['j']);   # fina1 == i ; fina2 == j ; so that these 4 make up the term
+                                                                # V_{ijkl} +_i +_j -_l -_k ； so that the matrix elements in the df (or the data file) remains Vijkl
         the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
-        tmp_ham[the_twostring] = two_factor*row['V_ffii']
+        tmp_ham_two[the_twostring] = two_factor*row['V_ijkl']
 
+tmp_ham = tmp_ham_one + tmp_ham_two
 ## The Hamiltonian Fermionic operator are given by
 Hamiltonian = FermionicOp(tmp_ham, 
                           num_spin_orbitals=num_spin_orbitals, 
@@ -259,25 +262,7 @@ with open(pathfilename["abstract_result"], "a") as f:
 optimal_point = vqe_result.optimal_point
 uccd = vqe_result.optimal_circuit
 
-tmp_ham_one = {}
-tmp_ham_two = {}
-
-### import the input operators
-### One body Term: Single particle energy levels
-if include_onebody == True:
-    for index, row in obs_onebody_df.iterrows():
-        init_ = int(row['q_i']); fina_ = int(row['q_f'])
-        the_onestring = "+_" +str(fina_) + " " + "-_" +str(init_)
-        tmp_ham[the_onestring] = row['epsilon']
-        tmp_ham_one[the_onestring] = row['epsilon']
-
-# Two body Terms: Pairing interaction
-for index, row in obs_twobody_df.iterrows():
-    init_1 = int(row['q_i1']); init_2 = int(row['q_i2']);
-    fina_1 = int(row['q_f1']); fina_2 = int(row['q_f2']);
-    the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
-    tmp_ham[the_twostring] = two_factor*row['V_ffii']
-    tmp_ham_two[the_twostring] = two_factor*row['V_ffii']
+## to generate breakdown
 ## The Hamiltonian Fermionic operator are given by
 Hamiltonian = FermionicOp(tmp_ham, 
                           num_spin_orbitals=num_spin_orbitals, 
