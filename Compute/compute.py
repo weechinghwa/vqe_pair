@@ -347,7 +347,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         type(estimator),",",
         quan_algo+";",type(optimizer),",",
         iter_mode,",",
-        len(var_form.excitation_list),";",vqe_excitations ",",
+        len(var_form.excitation_list),";",vqe_excitations, ",",
         optimizer_maxiter,",",
         optimizer_tol,",",
         " ",",",
