@@ -10,6 +10,7 @@ from vqe import *
 
 ## The following are imported from the above calc_config and utils
 import pandas as pd
+obs_onebody_df = pd.read_csv(obs_onebody_csv)
 obs_twobody_df = pd.read_csv(obs_twobody_csv)
 
 # vqe_excitations = custom_excitation_list or 'd' ; check calc_config
@@ -49,6 +50,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
     print("Iter mode               : ", iter_mode, file=f)
+    print("include_onebody?        : ", include_onebody, file=f)
     print("include_twobody?        : ", include_twobody, file=f)
     print("Size of excitations     : ", len(var_form.excitation_list), file=f)
 if quan_algo == "adaptVQE":
@@ -58,14 +60,20 @@ if quan_algo == "adaptVQE":
         print("Gradient maxiter        : ", grad_maxiter, file=f2)
         print("Gradient tolerance      : ", grad_tol, file=f2)
 
+pd.set_option('display.max_rows', obs_onebody_df.shape[0]+1)
+
 with open(pathfilename["full_result"], "a") as f:
     print("num_particles           : ", num_particles, file=f)
     print("num_orbitals            : ", num_spatial_orbitals, file=f)
     print("num_spatial_orbitals    : ", num_spatial_orbitals, file=f)
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
     print("Observable data_id      : ", input_dir, file = f)    
+    print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
     print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
     print("Factor in twobody terms : ", two_factor, file=f)
+    print("Onebody matrix elements      :-",file=f)
+    pd.set_option('display.max_rows', obs_onebody_df.shape[0]+1)
+    print(obs_onebody_df, file = f)
     print("Factor in twobody terms : ", two_factor, file=f)
     print("Twobody matrix elements      :-",file=f)
     pd.set_option('display.max_rows', obs_twobody_df.shape[0]+1),
@@ -76,6 +84,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("num_spatial_orbitals    : ", num_spatial_orbitals, file=f)
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
     print("Observable data_id      : ", input_dir, file = f)
+    print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
     print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
     print("Factor in twobody terms : ", two_factor, file=f)
     print("Optimizer's config      : |", optimizer, file=f)
@@ -84,22 +93,28 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Configuration information recorded")
 
 ## The Hamiltonian
-### Use the defined obs_twobody_df to construct the Hamiltonian
+### Use the defined obs_onebody_df and obs_twobody_df to construct the Hamiltonian
 from qiskit_nature.second_q.operators import FermionicOp
+tmp_ham_one = {}
 tmp_ham_two = {}
 
-
+### One body Term: Single particle energy levels
+if include_onebody == True:
+    for index, row in obs_onebody_df.iterrows():
+        init_ = int(row['q_i']); fina_ = int(row['q_f'])
+        the_onestring = "+_" +str(fina_) + " " + "-_" +str(init_)
+        tmp_ham_one[the_onestring] = row['epsilon']
 
 ### Two body Terms: Pairing interaction
 if include_twobody == True:
     for index, row in obs_twobody_df.iterrows():
-        init_1 = int(row['k']); init_2 = int(row['l']);   # init1 == l ; init2 == k
+        init_1 = int(row['l']); init_2 = int(row['k']);   # init1 == l ; init2 == k
         fina_1 = int(row['i']); fina_2 = int(row['j']);   # fina1 == i ; fina2 == j ; so that these 4 make up the term
                                                                 # V_{ijkl} +_i +_j -_l -_k ； so that the matrix elements in the df (or the data file) remains Vijkl
         the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
         tmp_ham_two[the_twostring] = two_factor*row['V_ijkl']
 
-tmp_ham = tmp_ham_two
+tmp_ham = tmp_ham_one + tmp_ham_two
 ## The Hamiltonian Fermionic operator are given by
 Hamiltonian = FermionicOp(tmp_ham, 
                           num_spin_orbitals=num_spin_orbitals, 
@@ -252,21 +267,42 @@ uccd = vqe_result.optimal_circuit
 Hamiltonian = FermionicOp(tmp_ham, 
                           num_spin_orbitals=num_spin_orbitals, 
                           copy=False)
+Hamil_one = FermionicOp(tmp_ham_one, num_spin_orbitals=num_spin_orbitals, copy=False)
 Hamil_two = FermionicOp(tmp_ham_two, num_spin_orbitals=num_spin_orbitals, copy=False)
 
 Hamiltonian = qubit_converter.map(Hamiltonian)
+Hamil_one = qubit_converter.map(Hamil_one)
 Hamil_two = qubit_converter.map(Hamil_two)
 
 H_HF = estimator.run(initial_state, Hamiltonian).result().values[0]
+one_HF = estimator.run(initial_state, Hamil_one).result().values[0]
 two_HF = estimator.run(initial_state, Hamil_two).result().values[0]
 H_UCCDopt = estimator.run(uccd, Hamiltonian, optimal_point).result().values[0]
+one_UCCDopt = estimator.run(uccd, Hamil_one, optimal_point).result().values[0]
 two_UCCDopt = estimator.run(uccd, Hamil_two, optimal_point).result().values[0]
 with open(pathfilename["abstract_result"], "a") as f:
     print("H, HF              : ", round(H_HF,6), file=f)
+    print("one, HF            : ", round(one_HF,6), file=f)
     print("two, HF            : ", round(two_HF,6), file=f)
     print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
+    print("one, UCCDopt       : ", round(one_UCCDopt,6), file=f)
     print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
+    print("State occupancy breakdown:-")
     
+    append_occupy = []
+    for i in tmp_ham_one:
+        one_ham = FermionicOp({i:tmp_ham_one[i]},num_spin_orbitals=num_spin_orbitals, copy = False)
+        one_occupy = FermionicOp({i:1},num_spin_orbitals=num_spin_orbitals, copy = False)
+        one_occupy = qubit_converter.map(one_occupy)
+        one_ham = qubit_converter.map(one_ham)
+        one_occupy_ham = estimator.run(initial_state,  one_occupy).result().values[0]
+        one_occupy = estimator.run(var_form,  one_occupy, optimal_point).result().values[0]
+        one_UCCDopt = estimator.run(var_form, one_ham, optimal_point).result().values[0]
+        append_occupy.append(one_occupy)
+        
+        print('{0:<10}'.format(i),": ",'{0:<8}'.format(str(round(one_UCCDopt,3))),one_occupy_ham,"-->",round(one_occupy,3),file=f)
+    print("after  : ", sum(append_occupy),file=f)
+
 
 # Draw the circuit
 with open(pathfilename["full_result"], "a") as f:
@@ -307,7 +343,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         input_dir,",",
         two_factor,",",
         hermitian_info,",",
-        "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(0)+";2B:"+str(len(obs_twobody_df))+",",
+        "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
         type(estimator),",",
         quan_algo+";",type(optimizer),",",
         iter_mode,",",

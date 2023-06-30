@@ -6,11 +6,11 @@ args = argParser.parse_args()
 print((args.input_dir))
 
 ## Source File input ##
-input_dir = args.input_dir
-input_dir = "Whatever" #200_Be9
+# input_dir = args.input_dir
+input_dir = "000_Be0" #200_Be9
 
 ### The following doesnt require setting up, unless file naming is different
-obs_onebody_csv = "../Data/"+input_dir+"/"+input_dir+"-1B_H_input.csv"
+# obs_onebody_csv = "../Data/"+input_dir+"/"+input_dir+"-1B_H_input.csv"
 obs_twobody_csv = "../Data/"+input_dir+"/"+input_dir+"-2B_H_input.csv"
 parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
 
@@ -21,9 +21,9 @@ pcname = "Hpc" #or "Hlp" or Ypc"
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
 iter_mode = False ## (Boolean) # True for iteratively repeating new VQE calulation until optimizer_tol is reached
-optimizer_maxiter = 300
+optimizer_maxiter = 2000
 optimizer_tol = 0.00001
-include_onebody = True
+include_onebody = False
 include_twobody = True
 two_factor = 0.5
 
