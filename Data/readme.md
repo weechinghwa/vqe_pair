@@ -10,7 +10,9 @@ New data code: @230629
 | -		| -								|
 | 00		| Source file located in source file(similar to previous code	|
 | 10		| Pairing Hamiltonian(only 2body terms) 		(230629)|
-
+| 11		| + and - values, with adjusted sign (with spin state assignment)
+|		|								|
+| 12		|
 
 
 

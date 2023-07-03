@@ -35,7 +35,6 @@ with open(pathfilename["full_result"], "a") as f:
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
-    print("Iter mode               : ", iter_mode, file=f)
     print("Optimizer's config      : |", optimizer, file=f)
     for i in optimizer.__dict__:
         print("                          |",i, optimizer.__dict__[i], file=f)
@@ -48,7 +47,6 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
-    print("Iter mode               : ", iter_mode, file=f)
     print("include_twobody?        : ", include_twobody, file=f)
     print("Size of excitations     : ", len(var_form.excitation_list), file=f)
 if quan_algo == "adaptVQE":
@@ -119,21 +117,12 @@ Hamiltonian = qubit_converter.map(Hamiltonian)
 Hamiltonian_paulop_len = len(Hamiltonian)
 
 # Begin Computation #
-
-# VQE is important in the first few lines
-if iter_mode == True:
-    with open(pathfilename["abstract_result"], "a") as f:
-        print("Shortened result for ", str(nucleus_name), file=f)
-        print("For more info, refer to output file with name := ", pathfilename["full_result"], file=f)
-        print("##### ##### ##### ##### ##### Shortened results as Follows ##### ##### ##### ##### #####", file=f)
-        print("Computation started")
-elif iter_mode == False:
-    with open(pathfilename["abstract_result"], "a") as f:
-        print("Shortened result for ", nucleus_name, file=f)
-        print("For more info, refer to output file with name := ", pathfilename["full_result"], file=f)
-        print("##### ##### ##### ##### ##### Shortened result( there should only be one line of result) as Follows ##### ##### ##### ##### #####", file=f)
-        print("Computation started")
-        print("VQE running ... ... ...")
+with open(pathfilename["abstract_result"], "a") as f:
+    print("Shortened result for ", nucleus_name, file=f)
+    print("For more info, refer to output file with name := ", pathfilename["full_result"], file=f)
+    print("##### ##### ##### ##### ##### Shortened result( there should only be one line of result) as Follows ##### ##### ##### ##### #####", file=f)
+    print("Computation started")
+    print("VQE running ... ... ...")
 
 
 ## The result ##
@@ -150,50 +139,6 @@ counter = 1
 with open(pathfilename["full_result"], "a") as f:
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", 1 , "@",current_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print(vqe_result, file=f)
-with open(pathfilename["abstract_result"], "a") as f:
-    if iter_mode == True: 
-        print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
-        print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue)
-    elif iter_mode == False:
-        print("No iter, shortened Result computed ", "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
-## Future to add, convergence message by the classical optimizer
-
-## Note
-# vqe_current refers to current vqe or vqe_iter(n)
-# vqe refers to vqe_iter(n-1)
-if iter_mode == True:
-    vqe_energy = vqe_result.eigenvalue
-    optimal_point = vqe_result.optimal_point
-    vqe_current_energy = 0
-
-    while abs(vqe_energy - vqe_current_energy) > optimizer_tol: #condition for iter(n+1) #if current condition is not satisfied, the loop stop
-        # Set Iter(n-1) info;
-        counter += 1
-        vqe_energy = vqe_current_energy
-        
-        # Generate Iter(n) info; Current VQE, use the previous optimal points as current initial points
-        vqe_current = VQE(estimator = estimator, ansatz = var_form, optimizer = optimizer,initial_point=optimal_point)
-        vqe_current_result = vqe_current.compute_minimum_eigenvalue(Hamiltonian) ## compute current minimum eigenvalue
-        vqe_current_energy = vqe_current_result.eigenvalue
-        
-        # Set initial_point for Iter(n+1); Prepare for next iteration
-        optimal_point = vqe_current_result.optimal_point
-        
-        # Record current time
-        current_time = datetime.now()
-
-        # Record vqe_current_result
-        with open(pathfilename["full_result"], "a") as f:
-            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ ","iteration: ", counter, "@",current_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
-            print(vqe_current_result,file=f)
-        # Record only iteration number and energy of current iteration 
-        with open(pathfilename["abstract_result"], "a") as f:
-            print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_current_energy,file=f)
-            print("iter : ", counter, "@", current_time, "; Energy Eigenvalue: ",vqe_current_energy)
-    # After while loop, reset the result to final iteration of vqe evaluation
-    vqe_result = vqe_current_result
-else:
-    pass
 
 
 with open(pathfilename["full_result"], "a") as f:
@@ -259,13 +204,13 @@ Hamil_two = qubit_converter.map(Hamil_two)
 
 H_HF = estimator.run(initial_state, Hamiltonian).result().values[0]
 two_HF = estimator.run(initial_state, Hamil_two).result().values[0]
-H_UCCDopt = estimator.run(uccd, Hamiltonian, optimal_point).result().values[0]
-two_UCCDopt = estimator.run(uccd, Hamil_two, optimal_point).result().values[0]
+# H_UCCDopt = estimator.run(uccd, Hamiltonian, optimal_point).result().values[0]
+# two_UCCDopt = estimator.run(uccd, Hamil_two, optimal_point).result().values[0]
 with open(pathfilename["abstract_result"], "a") as f:
-    print("H, HF              : ", round(H_HF,6), file=f)
+    # print("H, HF              : ", round(H_HF,6), file=f)
     print("two, HF            : ", round(two_HF,6), file=f)
-    print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
-    print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
+    # print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
+    print("two, UCCDopt       : ", round(vqe_result.eigenvalue), file=f) # round(two_UCCDopt,6)
     
 
 # Draw the circuit
@@ -282,7 +227,7 @@ with open(pathfilename["full_result"], "a") as f:
     print(Hamiltonian,file=f)
 
     
-## Convergence infroamtion
+## Convergence information
 import pylab
 
 pylab.rcParams["figure.figsize"] = (12, 4)
@@ -310,7 +255,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(0)+";2B:"+str(len(obs_twobody_df))+",",
         type(estimator),",",
         quan_algo+";",type(optimizer),",",
-        iter_mode,",",
+        "  ,",
         len(var_form.excitation_list),";",vqe_excitations, ",",
         optimizer_maxiter,",",
         optimizer_tol,",",
