@@ -135,7 +135,6 @@ else:
     print("PLEASE PROVIDE AN ALGORITHM NAME, it can be " + "VQE" + " or " + "adaptVQE" )
 
 current_time = datetime.now()
-counter = 1
 with open(pathfilename["full_result"], "a") as f:
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ","iteraction: ", 1 , "@",current_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print(vqe_result, file=f)
@@ -173,7 +172,7 @@ time_elapsed_s = time_elapsed.total_seconds()
 time_elapsed_mins = divmod(time_elapsed_s, 60)[0]
 
 with open(pathfilename["full_result"], "a") as f:
-    print("iter : ",  counter, "@", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+    print("Computation done @", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Computation Ended @",end_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Total time elapsed(mins): ",+time_elapsed_mins,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print("**************************************** E ****************************************", file=f)
@@ -181,6 +180,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("**************************************** D ****************************************", file=f)
 
 with open(pathfilename["abstract_result"], "a") as f:
+    print("Computation done @", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Computation Ended @",end_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Total time elapsed(mins): ",+time_elapsed_mins,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print("**************************************** E ****************************************", file=f)
@@ -210,7 +210,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     # print("H, HF              : ", round(H_HF,6), file=f)
     print("two, HF            : ", round(two_HF,6), file=f)
     # print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
-    print("two, UCCDopt       : ", round(vqe_result.eigenvalue), file=f) # round(two_UCCDopt,6)
+    print("two, UCCDopt       : ", round(vqe_result.eigenvalue,6), file=f) # round(two_UCCDopt,6)
     
 
 # Draw the circuit
@@ -255,12 +255,12 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(0)+";2B:"+str(len(obs_twobody_df))+",",
         type(estimator),",",
         quan_algo+";",type(optimizer),",",
-        "  ,",
+        "none,",
         len(var_form.excitation_list),";",vqe_excitations, ",",
         optimizer_maxiter,",",
         optimizer_tol,",",
         " ",",",
         " ",",",
         vqe_result.eigenvalue,",",
-        str(counter),",",
+        "none",",",
         " ", file = f)
