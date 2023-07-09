@@ -1,0 +1,2 @@
+num_orbitals,,,num_spin_orbitals,,,num_particles,,,two_factor
+(6,6),,,12,,,(2,2),,,0.25
