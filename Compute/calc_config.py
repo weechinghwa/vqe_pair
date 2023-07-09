@@ -18,13 +18,12 @@ parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
 
 ## Computation config ## 
 pcname = "Hpc" #or "Hlp" or Ypc"
-quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
+quan_algo = "adaptVQE"    ## (string)(VQE or adaptVQE)
 
-optimizer_maxiter = 200
+optimizer_maxiter = 2000
 optimizer_tol = 0.00001
 include_onebody = False
 include_twobody = True
-two_factor = 0.5
 
 
 
@@ -40,6 +39,7 @@ num_orbitals = ast.literal_eval(parameter[0])
 num_spin_orbitals = int(parameter[1])
 num_particles = ast.literal_eval(parameter[2])
 num_spatial_orbitals = int(num_spin_orbitals/2)
+two_factor = float(parameter[3]) ## from 1611_Be8 and onward
 # print(num_orbitals,num_spin_orbitals,num_particles,num_spatial_orbitals) # to test if the data is correct (not important in production)
 
 
@@ -120,7 +120,7 @@ vqe_excitations = pair_clusters # or replace with "d" if wish to use default vqe
 
 ## Not used if adapt_veq is not used (quan_algo != "adaptVQE") ##
 grad_maxiter = 200
-grad_tol = 0.001
+grad_tol = 0.00001
 ## Optimizer information
 ## MAybe include configuration of cobyla in the future (classical optimizer)
 ## REF https://www.geeksforgeeks.org/how-to-import-variables-from-another-file-in-python/

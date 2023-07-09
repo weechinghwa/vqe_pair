@@ -91,9 +91,8 @@ tmp_ham_two = {}
 ### Two body Terms: Pairing interaction
 if include_twobody == True:
     for index, row in obs_twobody_df.iterrows():
-        init_1 = int(row['k']); init_2 = int(row['l']);   # init1 == l ; init2 == k
-        fina_1 = int(row['i']); fina_2 = int(row['j']);   # fina1 == i ; fina2 == j ; so that these 4 make up the term
-                                                                # V_{ijkl} +_i +_j -_l -_k ； so that the matrix elements in the df (or the data file) remains Vijkl
+        fina_1 = int(row['i']); fina_2 = int(row['j']); 
+        init_1 = int(row['k']); init_2 = int(row['l']); 
         the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
         tmp_ham_two[the_twostring] = two_factor*row['V_ijkl']
 

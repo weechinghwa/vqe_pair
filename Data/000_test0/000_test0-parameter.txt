@@ -1,2 +1,2 @@
 num_orbitals,,,num_spin_orbitals,,,num_particles
-(6,4),,,10,,,(2,0)
+(6,4),,,10,,,(2,0),,,0.25
