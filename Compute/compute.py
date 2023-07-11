@@ -10,8 +10,8 @@ from vqe import *
 
 ## The following are imported from the above calc_config and utils
 import pandas as pd
-obs_twobody_df = pd.read_csv(obs_twobody_csv)
-
+obs_twobody_df = pd.read_csv(obs_twobody_csv) if include_twobody == True else []
+obs_onebody_df = pd.read_csv(obs_onebody_csv) if include_onebody == True else []
 # vqe_excitations = custom_excitation_list or 'd' ; check calc_config
 # nucleus_name ; check pathfilename_gen
 
@@ -47,6 +47,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
+    print("include_onebody?        : ", include_onebody, file=f)
     print("include_twobody?        : ", include_twobody, file=f)
     print("Size of excitations     : ", len(var_form.excitation_list), file=f)
 if quan_algo == "adaptVQE":
@@ -74,6 +75,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("num_spatial_orbitals    : ", num_spatial_orbitals, file=f)
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
     print("Observable data_id      : ", input_dir, file = f)
+    print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
     print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
     print("Factor in twobody terms : ", two_factor, file=f)
     print("Optimizer's config      : |", optimizer, file=f)
@@ -84,19 +86,31 @@ with open(pathfilename["abstract_result"], "a") as f:
 ## The Hamiltonian
 ### Use the defined obs_twobody_df to construct the Hamiltonian
 from qiskit_nature.second_q.operators import FermionicOp
-tmp_ham_two = {}
-
-
 
 ### Two body Terms: Pairing interaction
+if include_onebody == True:
+    tmp_ham_one = {}
+    for index, row in obs_onebody_df.iterrows():
+        fina = int(row['i']); init = int(row['j'])
+        the_onestring = "+_" +str(fina) + " " + "-_" +str(init) 
+        tmp_ham_one[the_onestring] = row["epsilon"]
+        tmp_ham = tmp_ham_one
+else: 
+    tmp_ham_one = {}
+    
+### Two body Terms: Pairing interaction
 if include_twobody == True:
+    tmp_ham_two = {}
     for index, row in obs_twobody_df.iterrows():
         fina_1 = int(row['i']); fina_2 = int(row['j']); 
         init_1 = int(row['k']); init_2 = int(row['l']); 
         the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
         tmp_ham_two[the_twostring] = two_factor*row['V_ijkl']
+        tmp_ham = tmp_ham_two
 
-tmp_ham = tmp_ham_two
+if include_onebody == True and include_twobody == True:
+    tmp_ham = z = {**tmp_ham_one, **tmp_ham_two}
+
 ## The Hamiltonian Fermionic operator are given by
 Hamiltonian = FermionicOp(tmp_ham, 
                           num_spin_orbitals=num_spin_orbitals, 
@@ -158,11 +172,13 @@ for counter_1 , cluster in enumerate(vqe_result.optimal_circuit.operators):
         # if cluster.equals(cluster_term):
         #     adaptvqe_ansatz[var_form.excitation_list[i]] = cluster_term
 
+optimal_excitations = []
 with open(pathfilename["full_result"], "a") as f:
     print("Cluster terms used in the ansatz in the final iteraction(of adaptVQE):- ", file=f)
     print("************************** Cluster term list START *********************************", file=f)
     for i in adaptvqe_ansatz:
         print(i, adaptvqe_ansatz[i], file=f)
+        optimal_excitations.append(adaptvqe_ansatz[i])
     print("************************** Cluster term list END *********************************", file=f)
 
 end_time = datetime.now()
@@ -188,28 +204,43 @@ with open(pathfilename["abstract_result"], "a") as f:
 
 
 # Generating the breakdown of the energy
-optimal_point = vqe_result.optimal_point
-uccd = vqe_result.optimal_circuit
+optimal_point = []
+for i in vqe_result.optimal_point:
+    optimal_point.append(round(i,8))
+def uccd_opt(num_spatial_orbitals: int,num_particles:tuple):
+    the_list = optimal_excitations
+    return the_list
+uccd_opt = UCC(num_particles=num_particles,
+                num_spatial_orbitals=num_spatial_orbitals,
+                excitations=uccd_opt,
+                qubit_converter=qubit_converter,
+                reps=reps,
+                initial_state=initial_state)
 
 ## to generate breakdown
 ## The Hamiltonian Fermionic operator are given by
-Hamiltonian = FermionicOp(tmp_ham, 
-                          num_spin_orbitals=num_spin_orbitals, 
-                          copy=False)
+Hamiltonian = FermionicOp(tmp_ham, num_spin_orbitals=num_spin_orbitals, copy=False)
+Hamil_one = FermionicOp(tmp_ham_one, num_spin_orbitals=num_spin_orbitals, copy=False)
 Hamil_two = FermionicOp(tmp_ham_two, num_spin_orbitals=num_spin_orbitals, copy=False)
 
 Hamiltonian = qubit_converter.map(Hamiltonian)
+Hamil_one = qubit_converter.map(Hamil_one)
 Hamil_two = qubit_converter.map(Hamil_two)
 
 H_HF = estimator.run(initial_state, Hamiltonian).result().values[0]
+one_HF = estimator.run(initial_state, Hamil_one).result().values[0]
 two_HF = estimator.run(initial_state, Hamil_two).result().values[0]
-# H_UCCDopt = estimator.run(uccd, Hamiltonian, optimal_point).result().values[0]
-# two_UCCDopt = estimator.run(uccd, Hamil_two, optimal_point).result().values[0]
+H_UCCDopt = estimator.run(uccd_opt, Hamiltonian, optimal_point).result().values[0]
+one_UCCDopt = estimator.run(uccd_opt, Hamil_one, optimal_point).result().values[0]
+two_UCCDopt = estimator.run(uccd_opt, Hamil_two, optimal_point).result().values[0]
+
 with open(pathfilename["abstract_result"], "a") as f:
-    # print("H, HF              : ", round(H_HF,6), file=f)
+    print("H, HF              : ", round(H_HF,6), file=f)
+    print("one, HF            : ", round(one_HF,6), file=f)
     print("two, HF            : ", round(two_HF,6), file=f)
-    # print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
-    print("two, UCCDopt       : ", round(vqe_result.eigenvalue,6), file=f) # round(two_UCCDopt,6)
+    print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
+    print("one, UCCDopt       : ", round(one_UCCDopt,6), file=f)
+    print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
     
 
 # Draw the circuit
@@ -218,10 +249,6 @@ with open(pathfilename["full_result"], "a") as f:
     print(" ",file=f)
     print(" ",file=f)
     print(" ",file=f)
-    print(" ",file=f)
-    print(" ",file=f)
-    # print("**************************  Optimal Circuit  **************************",file=f)
-    # print(vqe_result.optimal_circuit.decompose().decompose().draw(),file=f)
     print("**************************  Pauli op         **************************", file=f)
     print(Hamiltonian,file=f)
 
@@ -237,7 +264,12 @@ pylab.title("Convergence for "+str(pathfilename["output_id"]))
 pylab.savefig(pathfilename["conver_png"])
 
 print("Calculation Done!! ", "@", current_time, "Time elapsed : ",time_elapsed_mins, "mins ; Energy Eigenvalue: ",vqe_result.eigenvalue)
-
+print("H, HF              : ", round(H_HF,6), )
+print("one, HF            : ", round(one_HF,6), )
+print("two, HF            : ", round(two_HF,6), )
+print("H, UCCDopt         : ", round(H_UCCDopt,6), )
+print("one, UCCDopt       : ", round(one_UCCDopt,6), )
+print("two, UCCDopt       : ", round(two_UCCDopt,6), )
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
 with open("Result/computed_result@Hpc.txt", "a") as f:
@@ -251,7 +283,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         input_dir,",",
         two_factor,",",
         hermitian_info,",",
-        "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(0)+";2B:"+str(len(obs_twobody_df))+",",
+        "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
         type(estimator),",",
         quan_algo+";",type(optimizer),",",
         "none,",

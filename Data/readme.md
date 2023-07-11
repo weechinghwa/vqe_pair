@@ -1,3 +1,24 @@
+New data code @230711
+1701_Be8
+"1" - Indicating new versioning generation index
+"7" - batch number
+"01" - Different data type, no specific versioning
+"Be8" - Nucleus code
+the last indeces from 01_Be8 is not resstricted to any specific data type.
+All configuration is written in the data description file in respective data folder
+
+
+
+
+
+
+
+
+
+
+
+Obsolete: --V-- ####################################################################################################
+
 New data code: @230629
 1601_Be8
 
@@ -16,16 +37,11 @@ New data code: @230629
 
 
 
-
-
-
-
 #
 #
 #
 #
 #
-Obsolete: --V-- ####################################################################################################
 Change of data code (230522)
 
 501_Be8
