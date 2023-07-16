@@ -43,12 +43,12 @@ var_form = UCC(
 from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
 # optimizer = ISRES(
 #     max_evals = optimizer_maxiter)
-# optimizer = SPSA(
-#     maxiter=optimizer_maxiter)
-optimizer=COBYLA(
-    maxiter=optimizer_maxiter,
-    disp=True, 
-    tol = optimizer_tol)
+optimizer = SPSA(
+    maxiter=optimizer_maxiter)
+# optimizer=COBYLA(
+    # maxiter=optimizer_maxiter,
+    # disp=True, 
+    # tol = optimizer_tol)
 
 # Define Solver
 vqe = VQE(
@@ -59,5 +59,5 @@ vqe = VQE(
 
 adapt_vqe = AdaptVQE(
     vqe,
-    threshold = 0.001,
-    max_iterations = 200)
+    threshold = grad_tol,
+    max_iterations = grad_maxiter)
