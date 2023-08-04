@@ -6,4 +6,4 @@ Description :   With Helium Core
                 Twobody = (6,4) in (8,14)
                 two_factor is 0.25; 
                 V_0 = -800MeVfm^3;
-                source file = Be8_600
+                source file = Be10_620
