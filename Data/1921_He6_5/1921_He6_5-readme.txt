@@ -1,7 +1,7 @@
 # Information for 1921_He6
 Nucleus     :   He6
 Onebody     :   SPE
-Twobody     :   strictly ijji where i<j
+Twobody     :   strictly ijkl where i<j, k>l, j>=k
 Description :   With Helium Core
                 Twobody = (4,2) in (6,6)
                 two_factor is 0.5; (antisymmetrized TBME)
