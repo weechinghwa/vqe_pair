@@ -83,8 +83,7 @@ def like_qiskit(num_spatial_orbitals: int,num_particles:tuple): ## note: num_orb
     my_excitation_list.sort()
     return my_excitation_list
 
-def pair_clusters(num_spatial_orbitals: int,num_particles:tuple): 
-    ## note: num_orbitals is crutial information, but it is not input(parameter_py takes care of this)
+def pair_clusters(num_spatial_orbitals: int,num_particles:tuple): ## note: num_orbitals is crutial information, but it is not input(parameter_py takes care of this)
     # the function is of resemblance of the excitations selected in the Hamiltonian, but not really"
     non_repeat_list = list(combinations(range(0,sum(num_orbitals)),2))
     
