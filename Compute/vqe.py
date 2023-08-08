@@ -14,6 +14,8 @@ qubit_converter = QubitConverter(JordanWignerMapper())
 
 # from qiskit_nature.second_q.circuit.library.initial_states import HartreeFock
 from qiskit_nature.second_q.circuit.library.ansatzes import UCC
+from ucc_trott import UCC as UCC_trott
+
 # from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
 from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
 from qiskit import Aer
@@ -31,13 +33,14 @@ initial_state = HartreeFock(
 
 ## Ansatz
 reps=1
-var_form = UCC(
+var_form = UCC_trott(
     num_particles=num_particles,
     num_spatial_orbitals=num_spatial_orbitals,
     excitations=vqe_excitations,
     qubit_converter=qubit_converter,
     reps=reps,
-    initial_state=initial_state)
+    initial_state=initial_state,
+    trott_order=2)
 
 ## Optimizer setting
 from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA

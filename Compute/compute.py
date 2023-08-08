@@ -233,6 +233,7 @@ two_HF = estimator.run(initial_state, Hamil_two).result().values[0]
 H_UCCDopt = estimator.run(uccd_opt, Hamiltonian, optimal_point).result().values[0]
 one_UCCDopt = estimator.run(uccd_opt, Hamil_one, optimal_point).result().values[0]
 two_UCCDopt = estimator.run(uccd_opt, Hamil_two, optimal_point).result().values[0]
+optimal_circuit_depth = vqe_result.optimal_circuit.decompose().decompose().decompose().depth()
 
 with open(pathfilename["abstract_result"], "a") as f:
     print("H, HF              : ", round(H_HF,6), file=f)
@@ -241,6 +242,8 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
     print("one, UCCDopt       : ", round(one_UCCDopt,6), file=f)
     print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
+    print(" ", file=f)
+    print("Circuit Depth      : ", optimal_circuit_depth)
     
 
 # Draw the circuit
@@ -270,6 +273,8 @@ print("two, HF            : ", round(two_HF,6), )
 print("H, UCCDopt         : ", round(H_UCCDopt,6), )
 print("one, UCCDopt       : ", round(one_UCCDopt,6), )
 print("two, UCCDopt       : ", round(two_UCCDopt,6), )
+print("Circuit Depth      : ", optimal_circuit_depth)
+
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
 with open("Result/computed_result@Hpc.txt", "a") as f:
