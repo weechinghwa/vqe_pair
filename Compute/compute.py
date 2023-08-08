@@ -243,7 +243,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("one, UCCDopt       : ", round(one_UCCDopt,6), file=f)
     print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
     print(" ", file=f)
-    print("Circuit Depth      : ", optimal_circuit_depth)
+    print("Circuit Depth      : ", optimal_circuit_depth,file=f)
     
 
 # Draw the circuit
