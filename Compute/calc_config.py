@@ -6,8 +6,8 @@ args = argParser.parse_args()
 print((args.input_dir))
 
 ## Source File input ##
-# input_dir = args.input_dir
-input_dir = "000_test0" #200_Be9
+input_dir = args.input_dir
+# input_dir = "000_test0" #200_Be9
 
 ### The following doesnt require setting up, unless file naming is different
 obs_onebody_csv = "../Data/"+input_dir+"/"+input_dir+"-1B_H_input.csv"

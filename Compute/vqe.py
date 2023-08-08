@@ -40,7 +40,7 @@ var_form = UCC_trott(
     qubit_converter=qubit_converter,
     reps=reps,
     initial_state=initial_state,
-    trott_order=2)
+    trott_order=1)
 
 ## Optimizer setting
 from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
