@@ -7,42 +7,46 @@ def store_intermediate_result(eval_count, parameters, mean, std):
     values.append(mean)
 
 
-## VQE Algorithm Setup ## 
-# Define a converter aka mapping method
-from qiskit_nature.second_q.mappers import JordanWignerMapper, QubitConverter
-qubit_converter = QubitConverter(JordanWignerMapper())
+## Mapper (FermionicOp to SparsePauliOp transformation) ## 
+from qiskit_nature.second_q.mappers import JordanWignerMapper
+qubit_mapper = JordanWignerMapper()
 
+
+## Reference state / Initial state ## 
 # from qiskit_nature.second_q.circuit.library.initial_states import HartreeFock
-from qiskit_nature.second_q.circuit.library.ansatzes import UCC
-from ucc_trott import UCC as UCC_trott
-
-# from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
-from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
-from qiskit import Aer
-
-## Define Estimator
-from qiskit.primitives import Estimator
-estimator = Estimator()
-
-## Reference state / Initial state
-from np_hartreefock import * ## Import custom init state
+from np_hartree_fock import * ## Import custom init state
 initial_state = HartreeFock(
     num_orbitals = num_orbitals,
     num_particles = num_particles,
-    qubit_converter = qubit_converter)
+    qubit_mapper = qubit_mapper)
 
+
+## Ansatz libraries ##
+from qiskit_nature.second_q.circuit.library.ansatzes import UCC
+# from ucc_trott import UCC as UCC_trott
 ## Ansatz
 reps=1
-var_form = UCC_trott(
+var_form = UCC(
     num_particles=num_particles,
     num_spatial_orbitals=num_spatial_orbitals,
     excitations=vqe_excitations,
-    qubit_converter=qubit_converter,
+    qubit_mapper=qubit_mapper,
     reps=reps,
     initial_state=initial_state,
-    trott_order=1)
+    preserve_spin= preserve_spin)
+# var_form = UCC_trott(
+#     num_particles=num_particles,
+#     num_spatial_orbitals=num_spatial_orbitals,
+#     excitations=vqe_excitations,
+#     qubit_converter=qubit_mapper,
+#     reps=reps,
+#     initial_state=initial_state,
+#     preserve_spin= preserve_spin,
+#     trott_order=1)
 
-## Optimizer setting
+
+## Classical Optimizer ##
+from qiskit import Aer
 from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
 # optimizer = ISRES(
 #     max_evals = optimizer_maxiter)
@@ -53,7 +57,15 @@ optimizer=COBYLA(
     disp=True, 
     tol = optimizer_tol)
 
+
+## Define Estimator
+from qiskit.primitives import Estimator
+estimator = Estimator()
+
+
+
 # Define Solver
+from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
 vqe = VQE(
     estimator = estimator,
     ansatz = var_form,

@@ -126,7 +126,7 @@ with open(pathfilename["full_result"], "a") as f:
     
 ## Prepping Hamiltonian to be computed. Mapping. ## 
 Hamiltonian_fermop_len = len(Hamiltonian)
-Hamiltonian = qubit_converter.map(Hamiltonian)
+Hamiltonian = qubit_mapper.map(Hamiltonian)
 Hamiltonian_paulop_len = len(Hamiltonian)
 
 # Begin Computation #
@@ -213,7 +213,7 @@ def uccd_opt(num_spatial_orbitals: int,num_particles:tuple):
 uccd_opt = UCC(num_particles=num_particles,
                 num_spatial_orbitals=num_spatial_orbitals,
                 excitations=uccd_opt,
-                qubit_converter=qubit_converter,
+                qubit_mapper=qubit_mapper,
                 reps=reps,
                 initial_state=initial_state)
 
@@ -223,9 +223,9 @@ Hamiltonian = FermionicOp(tmp_ham, num_spin_orbitals=num_spin_orbitals, copy=Fal
 Hamil_one = FermionicOp(tmp_ham_one, num_spin_orbitals=num_spin_orbitals, copy=False)
 Hamil_two = FermionicOp(tmp_ham_two, num_spin_orbitals=num_spin_orbitals, copy=False)
 
-Hamiltonian = qubit_converter.map(Hamiltonian)
-Hamil_one = qubit_converter.map(Hamil_one)
-Hamil_two = qubit_converter.map(Hamil_two)
+Hamiltonian = qubit_mapper.map(Hamiltonian)
+Hamil_one = qubit_mapper.map(Hamil_one)
+Hamil_two = qubit_mapper.map(Hamil_two)
 
 H_HF = estimator.run(initial_state, Hamiltonian).result().values[0]
 one_HF = estimator.run(initial_state, Hamil_one).result().values[0]

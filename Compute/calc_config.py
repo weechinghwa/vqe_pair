@@ -14,7 +14,13 @@ obs_onebody_csv = "../Data/"+input_dir+"/"+input_dir+"-1B_H_input.csv"
 obs_twobody_csv = "../Data/"+input_dir+"/"+input_dir+"-2B_H_input.csv"
 parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
 
-
+## False for N-P separated calculation
+# Note: to run a N_P separated calculation,
+# one shall fill up the alpha state with the 
+# pairs, and left the final one to be in beta
+# then set N_P_separate == True.
+N_P_separate = True
+preserve_spin = not N_P_separate 
 
 ## Computation config ## 
 pcname = "Hpc" #or "Hlp" or Ypc"
@@ -53,8 +59,12 @@ def HFground_pair_list(num_particles:"tuple",num_orbitals:"tuple")->"list":
     nucl_state_init = neut_state_init + prot_state_init
     pair_list = list(combinations(nucl_state_init,2))
     return pair_list
-def like_qiskit(num_spatial_orbitals: int,num_particles:tuple): ## note: num_orbitals is crutial information, but it is not input(parameter_py takes care of this)
-    # the function is of resemblance of the excitations selected in the Hamiltonian, but not really"
+
+#Custom excitation 1
+def like_qiskit(num_spatial_orbitals: int,num_particles:tuple): 
+    ## note: num_orbitals is crutial information, but it is not defined in qiskit, only as part of modification
+    # (parameter.py takes care of this: define this in parameter.py in each calculation input_dir)
+    # This function should mimic the excitation of a qiskit's UCC "d"-excitation with preserve_spin = False
     non_repeat_list = list(combinations(range(0,sum(num_orbitals)),2))
     
     neut_orbitals_list = list(range(0,num_orbitals[0]))
@@ -67,26 +77,33 @@ def like_qiskit(num_spatial_orbitals: int,num_particles:tuple): ## note: num_orb
 
     allowed_init = list(set(non_repeat_list) & set(init_pair_list))
     allowed_fina = non_repeat_list
-    my_excitation_list = []
+    my_excitation = set()
 
     for init in allowed_init:
         for fina in allowed_fina:
             if (fina[0] in init_state_indeces) or (fina[1] in init_state_indeces):
                 pass
-            elif ((init[0] in neut_orbitals_list) == (fina[0] in neut_orbitals_list) and
-                (init[1] in neut_orbitals_list) == (fina[1] in neut_orbitals_list) and
-                (init[0] in prot_orbitals_list) == (fina[0] in prot_orbitals_list) and
-                (init[1] in prot_orbitals_list) == (fina[1] in prot_orbitals_list) 
+            elif(   (fina[0] in neut_orbitals_list + prot_orbitals_list) and
+                    (fina[1] in neut_orbitals_list + prot_orbitals_list) and
+                    not preserve_spin
                ):
-                excitations = [init,fina];
-                my_excitation_list.append(tuple(excitations) if (excitations not in my_excitation_list) else tuple())
+                my_excitation.add(tuple([init,fina]))
+            elif(   (init[0] in neut_orbitals_list) == (fina[0] in neut_orbitals_list) and
+                    (init[1] in neut_orbitals_list) == (fina[1] in neut_orbitals_list) and
+                    (init[0] in prot_orbitals_list) == (fina[0] in prot_orbitals_list) and
+                    (init[1] in prot_orbitals_list) == (fina[1] in prot_orbitals_list) and
+                    preserve_spin
+               ):
+                my_excitation.add(tuple([init,fina]))
+
+    my_excitation_list = list(my_excitation)
     my_excitation_list.sort()
     return my_excitation_list
-
-def pair_clusters(num_spatial_orbitals: int,num_particles:tuple): ## note: num_orbitals is crutial information, but it is not input(parameter_py takes care of this)
-    # the function is of resemblance of the excitations selected in the Hamiltonian, but not really"
-    non_repeat_list = list(combinations(range(0,sum(num_orbitals)),2))
-    
+#Custom excitation 2
+def pair_clusters(num_spatial_orbitals: int,num_particles:tuple): 
+    ## note: num_orbitals is crutial information, but it is not defined in qiskit, only as part of modification
+    # (parameter.py takes care of this: define this in parameter.py in each calculation input_dir)
+    # This function constrain the like_qiskit function to only pairs    
     neut_orbitals_list = list(range(0,num_orbitals[0]))
     prot_orbitals_list = list(range(num_orbitals[0], sum(num_orbitals)))
     neut_state_list = list(range(0,num_particles[0]))
@@ -94,28 +111,33 @@ def pair_clusters(num_spatial_orbitals: int,num_particles:tuple): ## note: num_o
 
     init_state_indeces = neut_state_list + prot_state_list
     init_pair_list = HFground_pair_list(num_particles, num_orbitals) ## same functioned used in the txt_read.ipynb
-    number_pairs = [(i, i+1) for i in range(0, 20, 2)]
+    number_pairs = [(i, i+1) for i in range(0, 50, 2)]
 
-    allowed_init = list(set(non_repeat_list) & set(init_pair_list) & set(number_pairs))
-    allowed_fina = non_repeat_list
-    my_excitation_list = []
+    allowed_init = list(set(init_pair_list) & set(number_pairs))
+    allowed_fina = number_pairs
+    my_excitation = set()
 
     for init in allowed_init:
         for fina in allowed_fina:
             if (fina[0] in init_state_indeces) or (fina[1] in init_state_indeces):
                 pass
-            elif (((init[0] in neut_orbitals_list) == (fina[0] in neut_orbitals_list) ==
-                   (init[1] in neut_orbitals_list) == (fina[1] in neut_orbitals_list)) and
-                  ((init[0] in prot_orbitals_list) == (fina[0] in prot_orbitals_list) ==
-                   (init[1] in prot_orbitals_list) == (fina[1] in prot_orbitals_list)) and
-                  (init in allowed_init)
-                 ):
-                excitations = [init,fina];
-                my_excitation_list.append(tuple(excitations) if (excitations not in my_excitation_list) else tuple())
+            elif(   (fina[0] in neut_orbitals_list + prot_orbitals_list) and
+                    (fina[1] in neut_orbitals_list + prot_orbitals_list) and
+                    not preserve_spin
+                ):
+                my_excitation.add(tuple([init,fina]))
+            elif(   (init[0] in neut_orbitals_list) == (fina[0] in neut_orbitals_list) and
+                    (init[1] in neut_orbitals_list) == (fina[1] in neut_orbitals_list) and
+                    (init[0] in prot_orbitals_list) == (fina[0] in prot_orbitals_list) and
+                    (init[1] in prot_orbitals_list) == (fina[1] in prot_orbitals_list) and
+                    preserve_spin
+                ):
+                my_excitation.add(tuple([init,fina]))
+    my_excitation_list = list(my_excitation)
     my_excitation_list.sort()
     return my_excitation_list
 
-vqe_excitations = pair_clusters # or replace with "d" if wish to use default vqe_excitations list
+vqe_excitations = like_qiskit # or replace with "d" if wish to use default vqe_excitations list
 
 
 
