@@ -1,0 +1,2 @@
+num_orbitals,,,num_spin_orbitals,,,num_particles,,,two_factor,,,include_onebody,,,include_twobody
+(6,8),,,14,,,(4,2),,,0.5,,,True,,,True
