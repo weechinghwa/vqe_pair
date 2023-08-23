@@ -1,0 +1,9 @@
+# Information for 1621_Be10
+Nucleus     :   Be10
+Onebody     :   SPE
+Twobody     :   strictly ijkl where i<j, k>l, j>=k
+Description :   With Helium Core
+                Twobody = (6,4) in (8,14)
+                two_factor is 0.5; (antisymmetrized TBME)
+                Seniority force -Gq/(11+Nq); Nq neutron = 6, Nq proton = 4, Gq = (follows the naming of the dir)
+                source file = Be10_620(only onebody uses that): results from SIII HF-para        
