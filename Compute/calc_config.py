@@ -136,8 +136,59 @@ def pair_clusters(num_spatial_orbitals: int,num_particles:tuple):
     my_excitation_list = list(my_excitation)
     my_excitation_list.sort()
     return my_excitation_list
+#Custom excitation 3
+def UpCCGSD(num_spatial_orbitals: int,num_particles:tuple): 
+    ## note: num_orbitals is crutial information, but it is not defined in qiskit, only as part of modification
+    # (parameter.py takes care of this: define this in parameter.py in each calculation input_dir)
+    # This function constrain the like_qiskit function to only pairs    
+    neut_orbitals_list = list(range(0,num_orbitals[0]))
+    prot_orbitals_list = list(range(num_orbitals[0], sum(num_orbitals)))
+    neut_state_list = list(range(0,num_particles[0]))
+    prot_state_list = list(range(num_orbitals[0], num_orbitals[0] + num_particles[1]))
 
-vqe_excitations = like_qiskit # or replace with "d" if wish to use default vqe_excitations list
+    init_state_indeces = neut_state_list + prot_state_list
+    init_pair_list = HFground_pair_list(num_particles, num_orbitals) ## same functioned used in the txt_read.ipynb
+    number_pairs = [(i, i+1) for i in range(0, 50, 2)]
+
+    allowed_init = list(set(init_pair_list) & set(number_pairs))
+    allowed_fina = number_pairs
+    my_excitation = set()
+
+    for init in allowed_init:
+        for fina in allowed_fina:
+            if (fina[0] in init_state_indeces) or (fina[1] in init_state_indeces):
+                pass
+            elif(   (fina[0] in neut_orbitals_list + prot_orbitals_list) and
+                    (fina[1] in neut_orbitals_list + prot_orbitals_list) and
+                    not preserve_spin
+                ):
+                my_excitation.add(tuple([init,fina]))
+            elif(   (init[0] in neut_orbitals_list) == (fina[0] in neut_orbitals_list) and
+                    (init[1] in neut_orbitals_list) == (fina[1] in neut_orbitals_list) and
+                    (init[0] in prot_orbitals_list) == (fina[0] in prot_orbitals_list) and
+                    (init[1] in prot_orbitals_list) == (fina[1] in prot_orbitals_list) and
+                    preserve_spin
+                ):
+                my_excitation.add(tuple([init,fina]))
+    my_excitation_list = list(my_excitation)
+
+    for i in neut_orbitals_list:
+        for j in neut_orbitals_list:
+            if j > i:
+                my_excitation_list.append(((i,),(j,)))
+            else: 
+                pass
+    for i in prot_orbitals_list:
+        for j in prot_orbitals_list:
+            if j > i:
+                my_excitation_list.append(((i,),(j,)))
+            else: 
+                pass
+
+    my_excitation_list.sort()
+    return my_excitation_list
+
+vqe_excitations = UpCCGSD # or replace with "d" if wish to use default vqe_excitations list
 
 
 
