@@ -60,7 +60,7 @@ optimizer=COBYLA(
 
 ## Define Estimator
 from qiskit.primitives import Estimator
-estimator_exact = Estimator()
+estimator_exact = Estimator() # options={"shots":128}
 
 ## Alternative estimator
 from qiskit.primitives import BackendEstimator
