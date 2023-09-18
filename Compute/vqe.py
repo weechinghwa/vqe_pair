@@ -60,13 +60,18 @@ optimizer=COBYLA(
 
 ## Define Estimator
 from qiskit.primitives import Estimator
-estimator_exact = Estimator() # options={"shots":128}
+estimator_exact = Estimator()  # options={"shots":128}
 
-## Alternative estimator
+## Alternative estimator 1
 from qiskit.primitives import BackendEstimator
 from qiskit.providers.fake_provider import FakeGuadalupe
 estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe())
 
+## Alternative estimator 2
+from qiskit_aer.noise import NoiseModel
+
+
+### Estimator selection
 estimator = estimator_exact
 
 # Define Solver
