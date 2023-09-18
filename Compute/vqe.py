@@ -60,9 +60,14 @@ optimizer=COBYLA(
 
 ## Define Estimator
 from qiskit.primitives import Estimator
-estimator = Estimator()
+estimator_exact = Estimator()
 
+## Alternative estimator
+from qiskit.primitives import BackendEstimator
+from qiskit.providers.fake_provider import FakeGuadalupe
+estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe())
 
+estimator = estimator_exact
 
 # Define Solver
 from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
