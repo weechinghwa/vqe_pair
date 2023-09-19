@@ -71,6 +71,7 @@ estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe())
 from qiskit_aer.noise import NoiseModel
 
 
+
 ### Estimator selection
 estimator = estimator_exact
 
