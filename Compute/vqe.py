@@ -65,7 +65,7 @@ estimator_exact = Estimator()  # options={"shots":128}
 ## Alternative estimator 1
 from qiskit.primitives import BackendEstimator
 from qiskit.providers.fake_provider import FakeGuadalupe
-estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe())
+estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe(),options={"shots":shots})
 
 ## Alternative estimator 2
 from qiskit_aer.noise import NoiseModel
@@ -73,7 +73,7 @@ from qiskit_aer.noise import NoiseModel
 
 
 ### Estimator selection
-estimator = estimator_exact
+estimator = estimator_backend_fake
 
 # Define Solver
 from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE

@@ -2,11 +2,15 @@
 import argparse
 argParser = argparse.ArgumentParser()
 argParser.add_argument("-i", "--input_dir", help="The input file's directory name")
+argParser.add_argument("-s", "--shots", help="Integer, number of shots of the circuit")
+
 args = argParser.parse_args()
 print((args.input_dir))
+print((args.shots))
 
 ## Source File input ##
 input_dir = args.input_dir
+shots = args.shots
 # input_dir = "000_test0" #200_Be9
 
 ### The following doesnt require setting up, unless file naming is different
