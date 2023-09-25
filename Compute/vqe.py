@@ -47,10 +47,10 @@ var_form = UCC(
 
 ## Classical Optimizer ##
 from qiskit import Aer
-from qiskit.algorithms.optimizers import ISRES,ESCH, CRS, ADAM,SLSQP, SPSA,COBYLA,
+from qiskit.algorithms.optimizers import ISRES,ESCH, CRS, ADAM,SLSQP, SPSA,COBYLA
 optimizer = ISRES(
     max_evals = optimizer_maxiter)
-optimizer = 
+# optimizer = 
 # optimizer = SPSA(
 #     maxiter=optimizer_maxiter)
 # optimizer=COBYLA(

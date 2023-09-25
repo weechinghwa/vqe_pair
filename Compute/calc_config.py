@@ -31,7 +31,7 @@ preserve_spin = not N_P_separate
 pcname = "Hpc" #or "Hlp" or Ypc"
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
-optimizer_maxiter = 100
+optimizer_maxiter = 200
 optimizer_tol = 0.00001
 
 ## Estimator
