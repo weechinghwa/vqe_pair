@@ -47,12 +47,22 @@ var_form = UCC(
 
 ## Classical Optimizer ##
 from qiskit import Aer
-from qiskit.algorithms.optimizers import ISRES,ESCH, CRS, ADAM,SLSQP, SPSA,COBYLA
-optimizer = ISRES(
-    max_evals = optimizer_maxiter)
-# optimizer = 
-# optimizer = SPSA(
-#     maxiter=optimizer_maxiter)
+from qiskit.algorithms.optimizers import ISRES,ESCH,DIRECT_L, CRS, ADAM,SLSQP, SPSA,QNSPSA,COBYLA
+optimizer = ISRES(max_evals = optimizer_maxiter)
+# optimizer = ESCH(max_evals = optimizer_maxiter)
+# optimizer = DIRECT_L(max_evals=optimizer_maxiter)
+# optimizer = CRS(max_evals=optimizer_maxiter)
+
+
+# optimizer = ADAM(maxiter=optimizer_maxiter, tol=optimizer_tol)
+# optimizer = SLSQP(maxiter=optimizer_maxiter, tol=optimizer_tol)
+# optimizer = SPSA(maxiter=optimizer_maxiter)
+
+# ### for QNSPSA
+# from qiskit.primitives import Sampler
+# sampler = Sampler()
+# fidelity = QNSPSA.get_fidelity(var_form, sampler)
+# optimizer = QNSPSA(fidelity,maxiter=optimizer_maxiter)
 # optimizer=COBYLA(
 #     maxiter=optimizer_maxiter,
 #     disp=True, 
