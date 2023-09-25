@@ -1,4 +1,5 @@
 ## Argparser
+shots = 0 
 import argparse
 argParser = argparse.ArgumentParser()
 argParser.add_argument("-i", "--input_dir", help="The input file's directory name")
@@ -23,17 +24,19 @@ parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
 # one shall fill up the alpha state with the 
 # pairs, and left the final one to be in beta
 # then set N_P_separate == True.
-N_P_separate = True
+N_P_separate = False
 preserve_spin = not N_P_separate 
 
 ## Computation config ## 
 pcname = "Hpc" #or "Hlp" or Ypc"
-quan_algo = "adaptVQE"    ## (string)(VQE or adaptVQE)
+quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
-optimizer_maxiter = 2000
+optimizer_maxiter = 100
 optimizer_tol = 0.00001
 
-
+## Estimator
+# edit the vqe.py to change the setting of the estimator
+# Choosing either the exact, fakebackend or the aer simulator(with noise model)
 
 
 ## import computational data (observalbles and parameters)
@@ -192,7 +195,7 @@ def UpCCGSD(num_spatial_orbitals: int,num_particles:tuple):
     my_excitation_list.sort()
     return my_excitation_list
 
-vqe_excitations = UpCCGSD # or replace with "d" if wish to use default vqe_excitations list
+vqe_excitations = pair_clusters # or replace with "d" if wish to use default vqe_excitations list
 
 
 

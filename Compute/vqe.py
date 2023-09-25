@@ -47,15 +47,16 @@ var_form = UCC(
 
 ## Classical Optimizer ##
 from qiskit import Aer
-from qiskit.algorithms.optimizers import ISRES,COBYLA,SLSQP, SPSA
-# optimizer = ISRES(
-#     max_evals = optimizer_maxiter)
+from qiskit.algorithms.optimizers import ISRES,ESCH, CRS, ADAM,SLSQP, SPSA,COBYLA,
+optimizer = ISRES(
+    max_evals = optimizer_maxiter)
+optimizer = 
 # optimizer = SPSA(
 #     maxiter=optimizer_maxiter)
-optimizer=COBYLA(
-    maxiter=optimizer_maxiter,
-    disp=True, 
-    tol = optimizer_tol)
+# optimizer=COBYLA(
+#     maxiter=optimizer_maxiter,
+#     disp=True, 
+#     tol = optimizer_tol)
 
 
 ## Define Estimator
@@ -71,9 +72,8 @@ estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe(),options={"sh
 from qiskit_aer.noise import NoiseModel
 
 
-
 ### Estimator selection
-estimator = estimator_backend_fake
+estimator = estimator_exact
 
 # Define Solver
 from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
