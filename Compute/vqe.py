@@ -48,15 +48,16 @@ var_form = UCC(
 ## Classical Optimizer ##
 from qiskit import Aer
 from qiskit.algorithms.optimizers import ISRES,ESCH,DIRECT_L, CRS, ADAM,SLSQP, SPSA,QNSPSA,COBYLA
-optimizer = ISRES(max_evals = optimizer_maxiter)
+# optimizer = ISRES(max_evals = optimizer_maxiter)
 # optimizer = ESCH(max_evals = optimizer_maxiter)
-# optimizer = DIRECT_L(max_evals=optimizer_maxiter)
+# optimizer = (max_evals=optimizer_maxiter)
 # optimizer = CRS(max_evals=optimizer_maxiter)
 
 
 # optimizer = ADAM(maxiter=optimizer_maxiter, tol=optimizer_tol)
 # optimizer = SLSQP(maxiter=optimizer_maxiter, tol=optimizer_tol)
-# optimizer = SPSA(maxiter=optimizer_maxiter)
+
+optimizer = SPSA(maxiter=optimizer_maxiter)
 
 # ### for QNSPSA
 # from qiskit.primitives import Sampler
@@ -85,15 +86,4 @@ from qiskit_aer.noise import NoiseModel
 ### Estimator selection
 estimator = estimator_exact
 
-# Define Solver
-from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
-vqe = VQE(
-    estimator = estimator,
-    ansatz = var_form,
-    optimizer = optimizer,
-    callback=store_intermediate_result)
 
-adapt_vqe = AdaptVQE(
-    vqe,
-    threshold = grad_tol,
-    max_iterations = grad_maxiter)

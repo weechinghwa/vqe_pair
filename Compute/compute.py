@@ -6,7 +6,9 @@ from utils import *
 from calc_config import *
 from vqe import *
 
-
+## Setting to use latest framework (pauli)
+import qiskit_nature
+qiskit_nature.settings.use_pauli_sum_op = False
 
 ## The following are imported from the above calc_config and utils
 import pandas as pd
@@ -137,6 +139,25 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Computation started")
     print("VQE running ... ... ...")
 
+## Defining SPSA optimizer
+def loss(x):
+    result = estimator.run(var_form,Hamiltonian , x).result()
+    return np.real(result.values[0])
+lr, perturb = optimizer.calibrate(loss = loss, initial_point=[3.142*2]+[0]*(len(var_form.excitation_list) -1 ) )
+optimizer.learning_rate = lr
+optimizer.perturbation = perturb
+print(optimizer.learning_rate)
+# Define Solver
+from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
+vqe = VQE(
+    estimator = estimator,
+    ansatz = var_form,
+    optimizer = optimizer,
+    callback=store_intermediate_result)
+adapt_vqe = AdaptVQE(
+    vqe,
+    threshold = grad_tol,
+    max_iterations = grad_maxiter)
 
 ## The result ##
 ## quan_algo config
