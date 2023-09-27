@@ -50,7 +50,7 @@ from qiskit import Aer
 from qiskit.algorithms.optimizers import ISRES,ESCH,DIRECT_L,DIRECT_L_RAND, CRS, ADAM,SLSQP, SPSA,QNSPSA,COBYLA
 # optimizer = ISRES(max_evals = optimizer_maxiter)
 # optimizer = ESCH(max_evals = optimizer_maxiter)
-# optimizer = (max_evals=optimizer_maxiter)
+# optimizer = DIRECT_L(max_evals=optimizer_maxiter)
 # optimizer = CRS(max_evals=optimizer_maxiter)
 
 # optimizer = ADAM(maxiter=optimizer_maxiter, tol=optimizer_tol)
