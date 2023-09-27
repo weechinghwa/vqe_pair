@@ -4,7 +4,7 @@
 ## All package and functions used are defined in utils
 from utils import *
 from calc_config import *
-from VQE_pair.Compute.vqe1 import *
+from vqe import *
 
 ## Setting to use latest framework (pauli)
 import qiskit_nature
