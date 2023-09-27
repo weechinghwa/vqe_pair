@@ -52,6 +52,7 @@ from qiskit.algorithms.optimizers import ISRES,ESCH,DIRECT_L,DIRECT_L_RAND, CRS,
 # optimizer = ESCH(max_evals = optimizer_maxiter)
 # optimizer = DIRECT_L(max_evals=optimizer_maxiter)
 # optimizer = CRS(max_evals=optimizer_maxiter)
+optimizer = DIRECT_L_RAND(max_evals=optimizer_maxiter)
 
 # optimizer = ADAM(maxiter=optimizer_maxiter, tol=optimizer_tol)
 # optimizer = SLSQP(maxiter=optimizer_maxiter, tol=optimizer_tol)
@@ -63,7 +64,6 @@ from qiskit.algorithms.optimizers import ISRES,ESCH,DIRECT_L,DIRECT_L_RAND, CRS,
 # fidelity = QNSPSA.get_fidelity(var_form, sampler)
 # optimizer = QNSPSA(fidelity,maxiter=optimizer_maxiter)
 # optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol)
-optimizer = DIRECT_L_RAND(maxiter=optimizer_maxiter)
 
 ## Define Estimator
 from qiskit.primitives import Estimator
