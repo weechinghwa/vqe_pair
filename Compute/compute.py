@@ -276,8 +276,12 @@ with open(pathfilename["full_result"], "a") as f:
     print("**************************  Pauli op         **************************", file=f)
     print(Hamiltonian,file=f)
 
+
     
 ## Convergence information
+### Saving them into csv for future reference
+conver_csv = pd.DataFrame(list(zip(counts, values)), columns=["counts","values"])
+conver_csv.to_csv(pathfilename["conver_csv"])
 import pylab
 
 pylab.rcParams["figure.figsize"] = (12, 4)
