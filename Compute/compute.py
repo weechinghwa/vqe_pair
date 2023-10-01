@@ -153,7 +153,8 @@ vqe = VQE(
     estimator = estimator,
     ansatz = var_form,
     optimizer = optimizer,
-    callback=store_intermediate_result)
+    callback=store_intermediate_result,
+    initial_point=[0]*len(var_form.excitation_list))
 adapt_vqe = AdaptVQE(
     vqe,
     threshold = grad_tol,
