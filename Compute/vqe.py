@@ -44,6 +44,8 @@ var_form = UCC(
 #     preserve_spin= preserve_spin,
 #     trott_order=1)
 
+## Initial point
+initial_point = [0]*len(var_form.excitation_list)
 
 ## Classical Optimizer ##
 from qiskit import Aer

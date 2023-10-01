@@ -42,6 +42,7 @@ with open(pathfilename["full_result"], "a") as f:
         print("                          |",i, optimizer.__dict__[i], file=f)
     print("Size of excitations     : ", len(var_form.excitation_list), file=f)
     print("Excitations input       : ", var_form.excitation_list, file=f)
+    print("Intial Point            : ", initial_point, file = f)
 with open(pathfilename["abstract_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
@@ -52,6 +53,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("include_onebody?        : ", include_onebody, file=f)
     print("include_twobody?        : ", include_twobody, file=f)
     print("Size of excitations     : ", len(var_form.excitation_list), file=f)
+    print("Intial Point            : ", initial_point, file = f)
 if quan_algo == "adaptVQE":
     with open(pathfilename["abstract_result"],"a") as f1, open(pathfilename["full_result"], "a") as f2:
         print("Gradient maxiter        : ", grad_maxiter, file=f1)
@@ -154,7 +156,7 @@ vqe = VQE(
     ansatz = var_form,
     optimizer = optimizer,
     callback=store_intermediate_result,
-    initial_point=[0]*len(var_form.excitation_list))
+    initial_point=initial_point)
 adapt_vqe = AdaptVQE(
     vqe,
     threshold = grad_tol,
