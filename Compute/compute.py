@@ -141,14 +141,18 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Computation started")
     print("VQE running ... ... ...")
 
-# ## Defining SPSA optimizer
-# def loss(x):
-#     result = estimator.run(var_form,Hamiltonian , x).result()
-#     return np.real(result.values[0])
-# lr, perturb = optimizer.calibrate(loss = loss, initial_point=[3.142*2]+[0]*(len(var_form.excitation_list) -1 ) )
-# optimizer.learning_rate = lr
-# optimizer.perturbation = perturb
-# print(optimizer.learning_rate)
+
+## Defining SPSA optimizer
+if optmz =="SPSA":
+    def loss(x):
+        result = estimator.run(var_form,Hamiltonian , x).result()
+        return np.real(result.values[0])
+    lr, perturb = optimizer.calibrate(loss = loss, initial_point=[1]+[0]*(len(var_form.excitation_list) -1 ) )
+    optimizer.learning_rate = lr
+    optimizer.perturbation = perturb
+    print(optimizer.learning_rate)
+
+
 # Define Solver
 from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
 vqe = VQE(
