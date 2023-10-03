@@ -30,11 +30,11 @@ N_P_separate = False
 preserve_spin = not N_P_separate 
 
 ## Computation config ## 
-pcname = "Hpc" #or "Hlp" or Ypc"
+pcname = "Hlp" #or "Hlp" or Ypc"
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
-optimizer_maxiter = 200
-optimizer_tol = 0.00001
+optimizer_maxiter = 100
+optimizer_tol = 0.001
 
 ## Estimator
 # edit the vqe.py to change the setting of the estimator

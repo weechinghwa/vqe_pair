@@ -85,6 +85,6 @@ from qiskit_aer.noise import NoiseModel
 
 
 ### Estimator selection
-estimator = estimator_exact
+estimator = estimator_backend_fake #estimator_exact
 
 

@@ -289,14 +289,30 @@ with open(pathfilename["full_result"], "a") as f:
 ### Saving them into csv for future reference
 conver_csv = pd.DataFrame(list(zip(counts, values)), columns=["counts","values"])
 conver_csv.to_csv(pathfilename["conver_csv"])
-import pylab
 
-pylab.rcParams["figure.figsize"] = (12, 4)
-pylab.plot(counts, values)
-pylab.xlabel("Iterations/Eval_count")
-pylab.ylabel("Energy")
-pylab.title("Convergence for "+str(pathfilename["output_id"]))
-pylab.savefig(pathfilename["conver_png"])
+## Plot them out
+from matplotlib import pyplot as plt
+import numpy as np
+
+plt.figure(figsize = (20,10))
+plt.rcParams.update({'font.size': 12})
+
+plt.plot(counts, values)
+## The grids
+ylocs, ylabels = plt.yticks()
+xlocs, xlabels = plt.xticks()
+
+plt.yticks(np.arange(ylocs[0],ylocs[-1], step=0.2))
+plt.xticks(np.arange(xlocs[1],xlocs[-1], step=xlocs[-2]/25), rotation=70)
+plt.grid(visible=True)
+
+plt.xlabel("Iterations/Eval_count")
+plt.ylabel("Energy")
+plt.legend()
+plt.title("Convergence plot for "+str(pathfilename["output_id"])+nucleus_name)
+
+plt.savefig(pathfilename["conver_png"])
+
 
 print("Calculation Done!! ", "@", current_time, "Time elapsed : ",time_elapsed_mins, "mins ; Energy Eigenvalue: ",vqe_result.eigenvalue)
 print("H, HF              : ", round(H_HF,6), )
