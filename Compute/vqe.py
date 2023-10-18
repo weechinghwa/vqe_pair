@@ -1,4 +1,5 @@
 from calc_config import *
+from utils import TerminationChecker
 
 ## Define callback function: to collect convergence information
 counts = []; values = []
@@ -57,7 +58,7 @@ from qiskit.algorithms.optimizers import ISRES,ESCH,DIRECT_L,DIRECT_L_RAND, CRS,
 if optmz == "DIRECT_L_RAND":
     optimizer = DIRECT_L_RAND(max_evals=optimizer_maxiter)
 if optmz =="SPSA":
-    optimizer = SPSA(maxiter=optimizer_maxiter)
+    optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 2, tol = optimizer_tol,))
 if optmz == "COBYLA":
     optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol)
 
@@ -89,4 +90,4 @@ backend_gpu = AerSimulator.from_backend(FakeGuadalupe(), method="automatic", dev
 estimator_gpu = BackendEstimator(backend=backend_gpu, options={"shots":shots})
 
 ### Estimator selection
-estimator = estimator_gpu #backend_fake #estimator_exact
+estimator = estimator_exact #backend_fake #estimator_exact

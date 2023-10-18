@@ -121,12 +121,12 @@ def sin_bod_if_list_gen(num_orbitals:"tuple")->"list":
     if_list = if_neut + if_prot
     return if_list
 
-def extract_number(file:'string')->"int":
+def extract_number(file:'str')->"int":
     phrase_interest = re.findall("\D\D\D_\d+",file)[0] # to ensure the phrase match XXX_NNN whr XXX is string for pcname, and NNN is the code of calculation
     s = re.findall("\d+",phrase_interest)[0]
     return (int(s) if s else -1,file)
 
-def pathfilename_gen(pcname_:"string", input_dir_:"string")->"string , string , dict":
+def pathfilename_gen(pcname_:"str", input_dir_:"str")->"str , str , dict":
     ## Setting up the path (now is directory where compute.py is ran)
     current_path = os.getcwd()                     # Current path(which is the Compute dir)
     try:
@@ -173,7 +173,20 @@ def pathfilename_gen(pcname_:"string", input_dir_:"string")->"string , string , 
     pathfilename["output_id"] = output_id
     return abs_main, nucleus_name, pathfilename
 
+class TerminationChecker:
 
+    def __init__(self, N : int, tol :float ):
+        self.N = N
+        self.tol = tol
+        self.values = []
+
+    def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
+        self.values.append(value)
+
+        if len(self.values) > self.N:
+            if abs(self.values[-1] - self.values[-2]) < self.tol:
+                return True
+        return False
 
 ## ORIginal excitations function
 # def custom_excitation_list(num_spatial_orbitals: int,
