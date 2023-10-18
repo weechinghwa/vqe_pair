@@ -83,8 +83,10 @@ estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe(),options={"sh
 ## Alternative estimator 2
 from qiskit_aer.noise import NoiseModel
 
+## Estimator with IBM quantum Backend (GPU accelerated)
+from qiskit_aer.backends import AerSimulator
+backend_gpu = AerSimulator.from_backend(FakeGuadalupe(), method="automatic", device="GPU")
+estimator_gpu = BackendEstimator(backend=backend_gpu, options={"shots":shots})
 
 ### Estimator selection
-estimator = estimator_backend_fake #estimator_exact
-
-
+estimator = estimator_gpu #backend_fake #estimator_exact
