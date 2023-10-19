@@ -171,6 +171,8 @@ def pathfilename_gen(pcname_:"str", input_dir_:"str")->"str , str , dict":
     pathfilename["callback"] = subresult_dir + "-callback.csv"
     pathfilename["circuit"] = subresult_dir + "circuit.txt"
     pathfilename["output_id"] = output_id
+    pathfilename["SPSA_lr_perturb"] = subresult_dir + "-lr_perturb.csv"
+    pathfilename["subresult_dir"] = subresult_dir
     return abs_main, nucleus_name, pathfilename
 
 class TerminationChecker:

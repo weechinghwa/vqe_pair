@@ -43,7 +43,7 @@ if expmode == "yes":
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
 optimizer_maxiter = 100
-optimizer_tol = 0.001
+optimizer_tol = 0.00001
 
 ## Estimator
 # edit the vqe.py to change the setting of the estimator

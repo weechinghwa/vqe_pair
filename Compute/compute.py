@@ -147,9 +147,11 @@ if optmz =="SPSA":
     def loss(x):
         result = estimator.run(var_form,Hamiltonian , x).result()
         return np.real(result.values[0])
-    lr, perturb = optimizer.calibrate(loss = loss, initial_point=[1]+[0]*(len(var_form.excitation_list) -1 ) )
-    # lr = np.array([0.10000, 0.05000, 0.03333, 0.02500, 0.02000, 0.01667, 0.01429, 0.01250, 0.01111, 0.01000, 0.00909, 0.00833, 0.00769, 0.00714, 0.00667, 0.00625, 0.00588, 0.00556, 0.00526, 0.00500, 0.00476, 0.00455, 0.00435, 0.00417, 0.00400, 0.00385, 0.00370, 0.00357, 0.00345, 0.00333, 0.00323, 0.00312, 0.00303, 0.00294, 0.00286, 0.00278, 0.00270, 0.00263, 0.00256, 0.00250, 0.00244, 0.00238, 0.00233, 0.00227, 0.00222, 0.00217, 0.00213, 0.00208, 0.00204, 0.00200, 0.00196, 0.00192, 0.00189, 0.00185, 0.00182, 0.00179, 0.00175, 0.00172, 0.00169, 0.00167, 0.00164, 0.00161, 0.00159, 0.00156, 0.00154, 0.00152, 0.00149, 0.00147, 0.00145, 0.00143, 0.00141, 0.00139, 0.00137, 0.00135, 0.00133, 0.00132, 0.00130, 0.00128, 0.00127, 0.00125, 0.00123, 0.00122, 0.00120, 0.00119, 0.00118, 0.00116, 0.00115, 0.00114, 0.00112, 0.00111, 0.00110, 0.00109, 0.00108, 0.00106, 0.00105, 0.00104, 0.00103, 0.00102, 0.00101, 0.00100, 0.00099])
-    # perturb = np.array([0.10000, 0.08706, 0.08027, 0.07579, 0.07248, 0.06988, 0.06776, 0.06598, 0.06444, 0.06310, 0.06190, 0.06084, 0.05987, 0.05899, 0.05818, 0.05743, 0.05674, 0.05610, 0.05549, 0.05493, 0.05439, 0.05389, 0.05341, 0.05296, 0.05253, 0.05212, 0.05173, 0.05135, 0.05099, 0.05065, 0.05032, 0.05000, 0.04969, 0.04940, 0.04911, 0.04884, 0.04857, 0.04831, 0.04806, 0.04782, 0.04758, 0.04735, 0.04713, 0.04691, 0.04670, 0.04650, 0.04630, 0.04611, 0.04592, 0.04573, 0.04555, 0.04537, 0.04520, 0.04503, 0.04487, 0.04471, 0.04455, 0.04439, 0.04424, 0.04409, 0.04395, 0.04380, 0.04366, 0.04353, 0.04339, 0.04326, 0.04313, 0.04300, 0.04288, 0.04275, 0.04263, 0.04251, 0.04240, 0.04228, 0.04217, 0.04206, 0.04195, 0.04184, 0.04173, 0.04163, 0.04152, 0.04142, 0.04132, 0.04122, 0.04113, 0.04103, 0.04094, 0.04084, 0.04075, 0.04066, 0.04057, 0.04048, 0.04039, 0.04031, 0.04022, 0.04014, 0.04005, 0.03997, 0.03989, 0.03981, 0.03973])
+    alpha = 1.2 ; a = 0.5 ; A = 0 ; gamma = 1; c = 0.5
+    lr, perturb = optimizer.calibrate(gamma = gamma, c = c, target_magnitude = a, alpha = alpha, stability_constant  = A, 
+                                      loss = loss, initial_point=[1]+[0]*(len(var_form.excitation_list) -1 ) )
+    # lr = np.array([0.10000, 0.04353, 0.02676, 0.01895, 0.01450, 0.01165, 0.00968, 0.00825, 0.00716, 0.00631, 0.00563, 0.00507, 0.00461, 0.00421, 0.00388, 0.00359, 0.00334, 0.00312, 0.00292, 0.00275, 0.00259, 0.00245, 0.00232, 0.00221, 0.00210, 0.00200, 0.00192, 0.00183, 0.00176, 0.00169, 0.00162, 0.00156, 0.00151, 0.00145, 0.00140, 0.00136, 0.00131, 0.00127, 0.00123, 0.00120, 0.00116, 0.00113, 0.00110, 0.00107, 0.00104, 0.00101, 0.00099, 0.00096, 0.00094, 0.00091, 0.00089, 0.00087, 0.00085, 0.00083, 0.00082, 0.00080, 0.00078, 0.00077, 0.00075, 0.00073, 0.00072, 0.00071, 0.00069, 0.00068, 0.00067, 0.00066, 0.00064, 0.00063, 0.00062, 0.00061, 0.00060, 0.00059, 0.00058, 0.00057, 0.00056, 0.00055, 0.00054, 0.00054, 0.00053, 0.00052, 0.00051, 0.00051, 0.00050, 0.00049, 0.00048, 0.00048, 0.00047, 0.00046, 0.00046, 0.00045, 0.00045, 0.00044, 0.00043, 0.00043, 0.00042, 0.00042, 0.00041, 0.00041, 0.00040, 0.00040, 0.00039])
+    # perturb = np.array([0.10000, 0.05000, 0.03333, 0.02500, 0.02000, 0.01667, 0.01429, 0.01250, 0.01111, 0.01000, 0.00909, 0.00833, 0.00769, 0.00714, 0.00667, 0.00625, 0.00588, 0.00556, 0.00526, 0.00500, 0.00476, 0.00455, 0.00435, 0.00417, 0.00400, 0.00385, 0.00370, 0.00357, 0.00345, 0.00333, 0.00323, 0.00312, 0.00303, 0.00294, 0.00286, 0.00278, 0.00270, 0.00263, 0.00256, 0.00250, 0.00244, 0.00238, 0.00233, 0.00227, 0.00222, 0.00217, 0.00213, 0.00208, 0.00204, 0.00200, 0.00196, 0.00192, 0.00189, 0.00185, 0.00182, 0.00179, 0.00175, 0.00172, 0.00169, 0.00167, 0.00164, 0.00161, 0.00159, 0.00156, 0.00154, 0.00152, 0.00149, 0.00147, 0.00145, 0.00143, 0.00141, 0.00139, 0.00137, 0.00135, 0.00133, 0.00132, 0.00130, 0.00128, 0.00127, 0.00125, 0.00123, 0.00122, 0.00120, 0.00119, 0.00118, 0.00116, 0.00115, 0.00114, 0.00112, 0.00111, 0.00110, 0.00109, 0.00108, 0.00106, 0.00105, 0.00104, 0.00103, 0.00102, 0.00101, 0.00100, 0.00099])
     optimizer.learning_rate = lr
     optimizer.perturbation = perturb
     print(optimizer.learning_rate)
@@ -289,7 +291,7 @@ with open(pathfilename["full_result"], "a") as f:
     
 ## Convergence information
 ### Saving them into csv for future reference
-conver_csv = pd.DataFrame(list(zip(counts, values,param_list,stdeviation)), columns=["eval_count","eval_values","Parameters","stdeviation"])
+conver_csv = pd.DataFrame(list(zip(counts, values,param_list,stdeviation)), columns=["eval_count","eval_value","Parameters","stdeviation"])
 conver_csv.to_csv(pathfilename["callback"])
 
 ## Plot them out
@@ -304,7 +306,7 @@ plt.plot(counts, values)
 ylocs, ylabels = plt.yticks()
 xlocs, xlabels = plt.xticks()
 
-plt.yticks(np.arange(ylocs[0],ylocs[-1], step=0.2))
+plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
 plt.xticks(np.arange(xlocs[1],xlocs[-1], step=xlocs[-2]/25), rotation=70)
 plt.grid(visible=True)
 
@@ -314,6 +316,44 @@ plt.legend()
 plt.title("Convergence plot for "+str(pathfilename["output_id"])+nucleus_name)
 
 plt.savefig(pathfilename["conver_png"])
+
+if optmz =="SPSA":
+    values_dum = []
+    print(len(values))
+    for i in range(0,int((len(values)-1)/2),2):
+
+        index_dum = 2*i; index_next = index_dum + 1
+        value_dum = values[index_dum] if values[index_dum] < values[index_next] else values[index_next]
+        values_dum.append(value_dum)
+    values_dum.append(values[-1])
+
+    # ## Save the info
+    # lr_perturb = pd.DataFrame(list(zip(lr,perturb)), columns=["LearningRate","Perturbation"])
+    # lr_perturb.to_csv(pathfilename["SPSA_lr_perturb"])
+
+    SPSA_convergence = pd.DataFrame(list(zip(list(range(0,len(values_dum))), values_dum)), columns=["iter_count", "Energy"])
+    SPSA_convergence.to_csv(pathfilename["subresult_dir"]+"-SPSA_converg.csv")
+
+    ## plot it out
+    plt.clf()
+    plt.figure(figsize = (20,10))
+    plt.rcParams.update({'font.size': 12})
+
+    plt.plot(list(range(0,len(values_dum))), values_dum)
+    ## The grids
+    ylocs, ylabels = plt.yticks()
+    xlocs, xlabels = plt.xticks()
+
+    plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
+    plt.xticks(np.arange(xlocs[1],xlocs[-1], step=xlocs[-2]/25), rotation=70)
+    plt.grid(visible=True)
+
+    plt.xlabel("Iterations")
+    plt.ylabel("Energy")
+    plt.legend()
+    plt.title("Convergence plot for "+str(pathfilename["output_id"])+nucleus_name)
+
+    plt.savefig(pathfilename["conver_png"])
 
 
 print("Calculation Done!! ", "@", current_time, "Time elapsed : ",time_elapsed_mins, "mins ; Energy Eigenvalue: ",vqe_result.eigenvalue)
