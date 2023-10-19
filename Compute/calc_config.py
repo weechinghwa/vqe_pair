@@ -4,16 +4,23 @@ argParser = argparse.ArgumentParser()
 argParser.add_argument("-i", "--input_dir", help="The input file's directory name")
 argParser.add_argument("-s", "--shots", help="Integer, number of shots of the circuit")
 argParser.add_argument("-o", "--optmz", help="Define Optimizer: COBYLA or SPSA or DIRECT_L_RAND")
+argParser.add_argument("-e", "--expmode", help="Boolean, yes for experiment/development no for actual Calculation")
+argParser.add_argument("-n", "--pcname", help="3-character alphabets, the name of the PC doing the calculation, currently working in the Hwalaptop(Hlp), HwaPC(HPC), Hui (Hui), and Yoon's Server, respective nodes name eg: (c21==cba)")
 
 args = argParser.parse_args()
-print((args.input_dir))
-print((args.shots))
-print((args.optmz))
 
+print("Input filename:    ", (args.input_dir))
+print("Number of shots:   ", (args.shots))
+print("Optimizer:         ", (args.optmz))
+print("Experiment Mode?:  ", (args.expmode))
+print("Computer:          ", (args.pcname))
 ## Source File input ##
 input_dir = args.input_dir
 shots = args.shots
 optmz = args.optmz
+expmode = args.expmode
+pcname = args.pcname #or "Hlp" or Ypc"
+
 # input_dir = "000_test0" #200_Be9
 
 ### The following doesnt require setting up, unless file naming is different
@@ -29,8 +36,10 @@ parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
 N_P_separate = False
 preserve_spin = not N_P_separate 
 
+
 ## Computation config ## 
-pcname = "Hlp" #or "Hlp" or Ypc"
+if expmode == "yes":
+    pcname = "exp-" + pcname
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
 optimizer_maxiter = 100

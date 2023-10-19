@@ -2,10 +2,12 @@ from calc_config import *
 from utils import TerminationChecker
 
 ## Define callback function: to collect convergence information
-counts = []; values = []
+counts = []; values = []; stdeviation = []; param_list = []
 def store_intermediate_result(eval_count, parameters, mean, std):
     counts.append(eval_count)
     values.append(mean)
+    param_list.append(parameters)
+    stdeviation.append(std)
 
 
 ## Mapper (FermionicOp to SparsePauliOp transformation) ## 
@@ -58,7 +60,7 @@ from qiskit.algorithms.optimizers import ISRES,ESCH,DIRECT_L,DIRECT_L_RAND, CRS,
 if optmz == "DIRECT_L_RAND":
     optimizer = DIRECT_L_RAND(max_evals=optimizer_maxiter)
 if optmz =="SPSA":
-    optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 2, tol = optimizer_tol,))
+    optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 10, tol = optimizer_tol,))
 if optmz == "COBYLA":
     optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol)
 
