@@ -152,7 +152,7 @@ def pathfilename_gen(pcname_:"str", input_dir_:"str")->"str , str , dict":
     ##### Extract neucleus name
     input_dir_dum = re.split('-|_|\\.', input_dir_)
     nucleus_name = input_dir_dum[1]
-    output_id = pcname_ + "_" + "{:03d}".format(new_index) + "_"
+    output_id = pcname_ + "_" + "{:03d}".format(new_index) + "_"    ### When the index reaches 999, add A to expand.
     subresult_dir_name = os.path.join(rel_path_result,output_id+nucleus_name)
     os.mkdir(subresult_dir_name)
     subresult_dir = os.path.join(subresult_dir_name,output_id+nucleus_name)
