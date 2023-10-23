@@ -321,9 +321,9 @@ plt.savefig(pathfilename["conver_png"])
 if optmz =="SPSA":
     values_dum = []
     print(len(values))
-    for i in range(0,int((len(values)-1)/2),2):
-
+    for i in range(0,int((len(values)-1)/2)):
         index_dum = 2*i; index_next = index_dum + 1
+        print(index_dum,index_next)
         value_dum = values[index_dum] if values[index_dum] < values[index_next] else values[index_next]
         values_dum.append(value_dum)
     values_dum.append(values[-1])
