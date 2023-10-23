@@ -6,6 +6,7 @@ argParser.add_argument("-s", "--shots", help="Integer, number of shots of the ci
 argParser.add_argument("-o", "--optmz", help="Define Optimizer: COBYLA or SPSA or DIRECT_L_RAND")
 argParser.add_argument("-e", "--expmode", help="Boolean, yes for experiment/development no for actual Calculation")
 argParser.add_argument("-n", "--pcname", help="3-character alphabets, the name of the PC doing the calculation, currently working in the Hwalaptop(Hlp), HwaPC(HPC), Hui (Hui), and Yoon's Server, respective nodes name eg: (c21==cba)")
+# argParser.add_argument("-lrpt", "--learningrateperturbation", help="LRPT001 - Current version take in only np.array")
 
 args = argParser.parse_args()
 
@@ -36,14 +37,13 @@ parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
 N_P_separate = False
 preserve_spin = not N_P_separate 
 
-
 ## Computation config ## 
 if expmode == "yes":
     pcname = "exp-" + pcname
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
-optimizer_maxiter = 100
-optimizer_tol = 0.00001
+optimizer_maxiter = 1000
+optimizer_tol = 0.001
 
 ## Estimator
 # edit the vqe.py to change the setting of the estimator
