@@ -34,6 +34,8 @@ with open(pathfilename["full_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
+    print("Estimator               : ", estimator, file=f)
+    print("Backend                 : ", estimator.backend, file=f)
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
@@ -47,6 +49,8 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
+    print("Estimator               : ", estimator, file=f)
+    print("Backend                 : ", estimator.backend, file=f)
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
@@ -380,7 +384,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         two_factor,",",
         hermitian_info,",",
         "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
-        type(estimator), shots,"shots",",",
+        type(estimator), stimator.backend ,shots,"shots",",",
         quan_algo+";",type(optimizer),",",
         "none,",
         len(var_form.excitation_list),";",vqe_excitations, ",",

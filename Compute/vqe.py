@@ -74,22 +74,39 @@ if optmz == "COBYLA":
 # fidelity = QNSPSA.get_fidelity(var_form, sampler)
 # optimizer = QNSPSA(fidelity,maxiter=optimizer_maxiter)
 
-## Define Estimator
+# Define Estimator
+#A# Exact Evaluation (Estimator)
 from qiskit.primitives import Estimator
 estimator_exact = Estimator()  # options={"shots":128}
 
-## Alternative estimator 1
+#B# IBM's Fake Backends
 from qiskit.primitives import BackendEstimator
-from qiskit.providers.fake_provider import FakeGuadalupe
+from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2
+## Alternative estimator 1 **No GPU**
 estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe(),options={"shots":shots})
 
-## Alternative estimator 2
-from qiskit_aer.noise import NoiseModel
-
-## Estimator with IBM quantum Backend (GPU accelerated)
+### with IBM quantum Backend (GPU accelerated)
 from qiskit_aer.backends import AerSimulator
-backend_gpu = AerSimulator.from_backend(FakeGuadalupe(), method="automatic", device="GPU")
-estimator_gpu = BackendEstimator(backend=backend_gpu, options={"shots":shots})
+## Alternative estimator 2 FakeGuadalupeV2
+backend_gpu2 = AerSimulator.from_backend(FakeGuadalupeV2(), method="automatic", device="GPU")
+estimator_gpu2 = BackendEstimator(backend=backend_gpu2, options={"shots":shots})
+
+## Alternative estimator 3 FakeKolkataV2
+backend_gpu3 = AerSimulator.from_backend(FakeKolkataV2(), method="automatic", device="GPU")
+estimator_gpu3 = BackendEstimator(backend=backend_gpu3, options={"shots":shots})
+
+## Alternative estimator 4 
+
 
 ### Estimator selection
-estimator = estimator_exact #backend_fake #estimator_exact
+if esti == "esti0":
+    estimator = estimator_exact #backend_fake #estimator_exact
+elif esti == "esti1":
+    estimator = estimator_backend_fake #backend_fake #estimator_exact
+elif esti == "esti2":
+    estimator = estimator_gpu2
+elif esti == "esti3":
+    estimator = estimator_gpu3
+elif esti == None: 
+    print("Please define the esti properly")
+
