@@ -83,7 +83,7 @@ estimator_exact = Estimator()  # options={"shots":128}
 from qiskit.primitives import BackendEstimator
 from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2
 ## Alternative estimator 1 **No GPU**
-estimator_backend_fake = BackendEstimator(backend = FakeGuadalupe(),options={"shots":shots})
+estimator_backend_fake = BackendEstimator(backend = FakeGuadalupeV2(),options={"shots":shots})
 
 ### with IBM quantum Backend (GPU accelerated)
 from qiskit_aer.backends import AerSimulator
