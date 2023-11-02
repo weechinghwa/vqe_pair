@@ -82,18 +82,27 @@ estimator_exact = Estimator()  # options={"shots":128}
 #B# IBM's Fake Backends
 from qiskit.primitives import BackendEstimator
 from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+
 ## Alternative estimator 1 **No GPU**
 estimator_backend_fake = BackendEstimator(backend = FakeGuadalupeV2(),options={"shots":shots})
 
 ### with IBM quantum Backend (GPU accelerated)
 from qiskit_aer.backends import AerSimulator
 ## Alternative estimator 2 FakeGuadalupeV2
-backend_gpu2 = AerSimulator.from_backend(FakeGuadalupeV2(), method="automatic", device="GPU")
-estimator_gpu2 = BackendEstimator(backend=backend_gpu2, options={"shots":shots})
+backend2 = FakeGuadalupeV2()
+pass_manager2 = generate_preset_pass_manager(3, backend2)
+backend_gpu2 = AerSimulator.from_backend(backend2, method="automatic", device="GPU")
+
+estimator_gpu2 = BackendEstimator(backend=backend_gpu2, options={"shots":shots},bound_pass_manager = pass_manager2)
 
 ## Alternative estimator 3 FakeKolkataV2
-backend_gpu3 = AerSimulator.from_backend(FakeKolkataV2(), method="automatic", device="GPU")
-estimator_gpu3 = BackendEstimator(backend=backend_gpu3, options={"shots":shots})
+backend3 = FakeKolkataV2()
+pass_manager3 = generate_preset_pass_manager(3, backend3)
+backend_gpu3 = AerSimulator.from_backend(backend3, method="automatic", device="GPU")
+
+estimator_gpu3 = BackendEstimator(backend=backend_gpu3, options={"shots":shots},bound_pass_manager = pass_manager3)
+
 
 ## Alternative estimator 4 
 
