@@ -239,6 +239,11 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("**************************************** N ****************************************", file=f)
     print("**************************************** D ****************************************", file=f)
 
+if pass_manager == None:
+    pass
+else: 
+    fin_cir_depth = pass_manager.run(vqe_result.optimal_circuit.bind(vqe_result.optimal_parameters)).depth()
+
 
 # Generating the breakdown of the energy
 optimal_point = []
@@ -280,7 +285,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("one, UCCDopt       : ", round(one_UCCDopt,6), file=f)
     print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
     print(" ", file=f)
-    print("Circuit Depth      : ", optimal_circuit_depth,file=f)
+    print("Circuit Depth      : ", fin_cir_depth ,file=f)
     
 
 # Draw the circuit
@@ -299,11 +304,6 @@ with open(pathfilename["full_result"], "a") as f:
 conver_csv = pd.DataFrame(list(zip(counts, values,param_list,stdeviation)), columns=["eval_count","eval_value","Parameters","stdeviation"])
 conver_csv.to_csv(pathfilename["callback"])
 
-
-if pass_manager == None:
-    pass
-else: 
-    fin_cir_depth = pass_manager.run(vqe_result.optimal_circuit.bind(vqe_result.optimal_parameters)).depth()
 
 ## Plot them out
 from matplotlib import pyplot as plt
