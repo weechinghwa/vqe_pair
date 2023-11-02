@@ -109,12 +109,16 @@ estimator_gpu3 = BackendEstimator(backend=backend_gpu3, options={"shots":shots},
 
 ### Estimator selection
 if esti == "esti0":
+    pass_manager = None
     estimator = estimator_exact #backend_fake #estimator_exact
 elif esti == "esti1":
+    pass_manager = None
     estimator = estimator_backend_fake #backend_fake #estimator_exact
 elif esti == "esti2":
+    pass_manager = pass_manager2
     estimator = estimator_gpu2
 elif esti == "esti3":
+    pass_manager = pass_manager3
     estimator = estimator_gpu3
 elif esti == None: 
     print("Please define the esti properly")

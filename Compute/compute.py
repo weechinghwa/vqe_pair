@@ -270,7 +270,7 @@ two_HF = estimator.run(initial_state, Hamil_two).result().values[0]
 H_UCCDopt = estimator.run(uccd_opt, Hamiltonian, optimal_point).result().values[0]
 one_UCCDopt = estimator.run(uccd_opt, Hamil_one, optimal_point).result().values[0]
 two_UCCDopt = estimator.run(uccd_opt, Hamil_two, optimal_point).result().values[0]
-optimal_circuit_depth = vqe_result.optimal_circuit.decompose().decompose().decompose().depth()
+
 
 with open(pathfilename["abstract_result"], "a") as f:
     print("H, HF              : ", round(H_HF,6), file=f)
@@ -298,6 +298,12 @@ with open(pathfilename["full_result"], "a") as f:
 ### Saving them into csv for future reference
 conver_csv = pd.DataFrame(list(zip(counts, values,param_list,stdeviation)), columns=["eval_count","eval_value","Parameters","stdeviation"])
 conver_csv.to_csv(pathfilename["callback"])
+
+
+if pass_manager == None:
+    pass
+else: 
+    fin_cir_depth = pass_manager.run(vqe_result.optimal_circuit.bind(vqe_result.optimal_parameters)).depth()
 
 ## Plot them out
 from matplotlib import pyplot as plt
@@ -379,7 +385,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         end_time,",",
         time_elapsed_mins,",",
         " ",",",
-        " ",",",
+        f"Final_circuit Depth: {fin_cir_depth} ",",",
         input_dir,",",
         two_factor,",",
         hermitian_info,",",
