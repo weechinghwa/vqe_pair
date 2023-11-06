@@ -243,7 +243,7 @@ with open(pathfilename["abstract_result"], "a") as f:
 if pass_manager == None:
     pass
 else: 
-    fin_cir_depth = pass_manager.run(vqe_result.optimal_circuit.bind(vqe_result.optimal_parameters)).depth()
+    fin_cir_depth = pass_manager.run(var_form.bind(vqe_result.optimal_parameters)).depth()
 
 
 # Generating the breakdown of the energy
