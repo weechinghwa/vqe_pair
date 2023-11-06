@@ -39,7 +39,6 @@ with open(pathfilename["full_result"], "a") as f:
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
-    print("Optimizer's config      : |", optimizer, file=f)
     for i in optimizer.__dict__:
         print("                          |",i, optimizer.__dict__[i], file=f)
     print("Size of excitations     : ", len(var_form.excitation_list), file=f)
@@ -160,6 +159,8 @@ if optmz =="SPSA":
     optimizer.perturbation = perturb
     print(optimizer.learning_rate)
 
+with open(pathfilename["full_result"], "a") as f:
+    print("Optimizer's config      : |", optimizer, file=f)
 
 # Define Solver
 from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
@@ -337,7 +338,7 @@ if optmz =="SPSA":
         value_dum = values[index_dum] if values[index_dum] < values[index_next] else values[index_next]
         values_dum.append(value_dum)
     values_dum.append(values[-1])
-
+    
     # ## Save the info
     # lr_perturb = pd.DataFrame(list(zip(lr,perturb)), columns=["LearningRate","Perturbation"])
     # lr_perturb.to_csv(pathfilename["SPSA_lr_perturb"])
