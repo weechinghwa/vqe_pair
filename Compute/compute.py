@@ -144,6 +144,8 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Computation started")
     print("VQE running ... ... ...")
 
+## LR and perturb initialized as None
+lr, perturb = None, None
 
 ## Defining SPSA optimizer
 if optmz =="SPSA":
