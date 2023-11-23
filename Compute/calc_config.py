@@ -212,7 +212,11 @@ def UpCCGSD(num_spatial_orbitals: int,num_particles:tuple):
     my_excitation_list.sort()
     return my_excitation_list
 
-vqe_excitations = pair_clusters # or replace with "d" if wish to use default vqe_excitations list
+#Custom excitation Custom of the custom
+def custom_excite(num_spatial_orbitals: int,num_particles:tuple):
+    return([((6,7),(8,9))])
+
+vqe_excitations = custom_excite # or replace with "d" if wish to use default vqe_excitations list
 
 
 

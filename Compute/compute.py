@@ -28,14 +28,17 @@ os.chdir(abs_main)
 
 # Record the start time for computation; And computation configuration.
 start_time = datetime.now()
-
+if esti == "esti0":
+    backend_dummy = "NOPE:Exact_eval"
+else:
+    backend_dummy = estimator.backend
 ## Record config information on the abstract result and full result file.
 with open(pathfilename["full_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
     print("Estimator               : ", estimator, file=f)
-    print("Backend                 : ", estimator.backend, file=f)
+    print("Backend                 : ", backend_dummy, file=f)
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
@@ -49,7 +52,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
     print("Estimator               : ", estimator, file=f)
-    print("Backend                 : ", estimator.backend, file=f)
+    print("Backend                 : ", backend_dummy, file=f)
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
@@ -243,10 +246,10 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("**************************************** D ****************************************", file=f)
 
 if pass_manager == None:
+    fin_cir_depth = vqe_result.optimal_circuit.bind_parameters(vqe_result.optimal_parameters).decompose().decompose().decompose().depth()
     pass
 else: 
     fin_cir_depth = pass_manager.run(vqe_result.optimal_circuit.bind_parameters(vqe_result.optimal_parameters)).depth()
-
 
 # Generating the breakdown of the energy
 optimal_point = []
@@ -320,7 +323,7 @@ plt.plot(counts, values)
 ylocs, ylabels = plt.yticks()
 xlocs, xlabels = plt.xticks()
 
-plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
+# plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
 plt.xticks(np.arange(xlocs[1],xlocs[-1], step=xlocs[-2]/25), rotation=70)
 plt.grid(visible=True)
 
@@ -358,7 +361,7 @@ if optmz =="SPSA":
     ylocs, ylabels = plt.yticks()
     xlocs, xlabels = plt.xticks()
 
-    plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
+    # plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
     plt.xticks(np.arange(xlocs[1],xlocs[-1], step=xlocs[-2]/25), rotation=70)
     plt.grid(visible=True)
 
@@ -393,7 +396,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         two_factor,",",
         hermitian_info,",",
         "H:"+str(Hamiltonian_fermop_len)+";1B:"+str(len(obs_onebody_df))+";2B:"+str(len(obs_twobody_df))+",",
-        type(estimator), estimator.backend ,shots,"shots",",",
+        type(estimator), backend_dummy ,shots,"shots",",",
         quan_algo+";",type(optimizer),",",
         "none,",
         len(var_form.excitation_list),";",vqe_excitations, ",",

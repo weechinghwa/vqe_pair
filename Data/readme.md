@@ -9,7 +9,7 @@ All configuration is written in the data description file in respective data fol
 
 
 
-
+2121_He6_herm_1_mod is the same as 2121_He6_herm_1 but with corrected SPE as ( e_v - \lambda ) and the two_factor.
 
 
 
