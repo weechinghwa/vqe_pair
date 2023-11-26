@@ -48,7 +48,7 @@ if expmode == "yes":
     pcname = "exp-" + pcname
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
-optimizer_maxiter = 100
+optimizer_maxiter = 200
 optimizer_tol = 0.001
 
 ## Estimator
@@ -214,9 +214,9 @@ def UpCCGSD(num_spatial_orbitals: int,num_particles:tuple):
 
 #Custom excitation Custom of the custom
 def custom_excite(num_spatial_orbitals: int,num_particles:tuple):
-    return([((6,7),(8,9))])
+    return([((2,3),(4,5))])
 
-vqe_excitations = custom_excite # or replace with "d" if wish to use default vqe_excitations list
+vqe_excitations = pair_clusters # or replace with "d" if wish to use default vqe_excitations list
 
 
 

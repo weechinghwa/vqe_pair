@@ -288,7 +288,7 @@ two_UCCDopt = estimator.run(uccd_opt, Hamil_two, optimal_point).result().values[
 with open(pathfilename["abstract_result"], "a") as f:
     print(f"{input_dir} Done!! ", "@", current_time, "Time elapsed : ",time_elapsed_mins, "mins ; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
     print(f"With Backend:    {backend_dummy};     on computer:    {pcname}",file = f)
-    print(f"Parameters        : {optimal_point}", file = f )
+    print(f"Parameters        : Excitations of {optimal_excitations} with params {optimal_point}", file = f )
     print("Fin Cir Details    : ", fin_cir_details ,file=f)
     print(" ", file = f)
     print("H, HF              : ", round(H_HF,6), file=f)
