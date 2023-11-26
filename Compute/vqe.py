@@ -81,7 +81,7 @@ estimator_exact = Estimator()  # options={"shots":128}
 
 #B# IBM's Fake Backends
 from qiskit.primitives import BackendEstimator
-from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2, FakeHanoiV2, FakeSherbrooke
+from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2, FakeHanoiV2, FakeSherbrooke, FakeEssexV2
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
 ## Alternative estimator 1 **No GPU**
@@ -103,15 +103,24 @@ estimator_gpu3 = BackendEstimator(backend=backend_gpu3, options={"shots":shots},
 
 ## Alternative estimator 4 FakeHanoiV2
 backend4 = FakeHanoiV2()
-pass_manager4 = generate_preset_pass_manager(3, backend4)
+pass_manager4 = generate_preset_pass_manager(2, backend4)
 backend_gpu4 = AerSimulator.from_backend(backend4, method="automatic", device="GPU")
 estimator_gpu4 = BackendEstimator(backend=backend_gpu4, options={"shots":shots},bound_pass_manager = pass_manager4)
 
-## Alternative estimator 4 FakeSherbooke 
+## Alternative estimator 4______ FakeHanoiV2 NO GPU
+estimator_4_cpu = BackendEstimator(backend=backend4, options={"shots":shots})
+
+## Alternative estimator 5 FakeSherbooke 
 backend5 = FakeSherbrooke()
 pass_manager5 = generate_preset_pass_manager(3, backend5)
 backend_gpu5 = AerSimulator.from_backend(backend5, method="automatic", device="GPU")
 estimator_gpu5 = BackendEstimator(backend=backend_gpu5, options={"shots":shots},bound_pass_manager = pass_manager5)
+
+## Alternative estimator 6 FakeEssex 
+backend6 = FakeEssexV2()
+pass_manager6 = generate_preset_pass_manager(3, backend6)
+backend_gpu6 = AerSimulator.from_backend(backend6, method="automatic", device="GPU")
+estimator_gpu6 = BackendEstimator(backend=backend_gpu6, options={"shots":shots},bound_pass_manager = pass_manager6)
 
 ### Estimator selection
 if esti == "esti0":
@@ -129,9 +138,15 @@ elif esti == "esti3":
 elif esti == "esti4":
     pass_manager = pass_manager4
     estimator = estimator_gpu4
+elif esti == "esti4_cpu":
+    pass_manager = pass_manager4
+    estimator = estimator_4_cpu
 elif esti == "esti5":
     pass_manager = pass_manager5
     estimator = estimator_gpu5
+elif esti == "esti6":
+    pass_manager = pass_manager6
+    estimator = estimator_gpu6
 elif esti == None: 
     print("Please define the esti properly")
 

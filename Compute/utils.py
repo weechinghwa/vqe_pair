@@ -186,7 +186,8 @@ class TerminationChecker:
         self.values.append(value)
 
         if len(self.values) > self.N:
-            if abs(self.values[-1] - self.values[-2]) < self.tol:
+            if ((abs(self.values[-1] - self.values[-2]) < self.tol) and
+                (abs(self.values[-2] - self.values[-3]) < self.tol)): # 2 steps to confirm termination
                 return True
         return False
 

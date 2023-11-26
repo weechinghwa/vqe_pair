@@ -246,10 +246,12 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("**************************************** D ****************************************", file=f)
 
 if pass_manager == None:
-    fin_cir_depth = vqe_result.optimal_circuit.bind_parameters(vqe_result.optimal_parameters).decompose().decompose().decompose().depth()
+    fin_cir = vqe_result.optimal_circuit.bind_parameters(vqe_result.optimal_parameters).decompose().decompose().decompose()
+    fin_cir_details = f"Circuit Depth {fin_cir.depth()}; Compositions: {fin_cir.count_ops()}"
     pass
 else: 
-    fin_cir_depth = pass_manager.run(vqe_result.optimal_circuit.bind_parameters(vqe_result.optimal_parameters)).depth()
+    fin_cir = pass_manager.run(vqe_result.optimal_circuit.bind_parameters(vqe_result.optimal_parameters))
+    fin_cir_details = f"Circuit Depth {fin_cir.depth()}; Compositions: {fin_cir.count_ops()}"
 
 # Generating the breakdown of the energy
 optimal_point = []
@@ -284,14 +286,17 @@ two_UCCDopt = estimator.run(uccd_opt, Hamil_two, optimal_point).result().values[
 
 
 with open(pathfilename["abstract_result"], "a") as f:
+    print(f"{input_dir} Done!! ", "@", current_time, "Time elapsed : ",time_elapsed_mins, "mins ; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+    print(f"With Backend:    {backend_dummy};     on computer:    {pcname}",file = f)
+    print(f"Parameters        : {optimal_point}", file = f )
+    print("Fin Cir Details    : ", fin_cir_details ,file=f)
+    print(" ", file = f)
     print("H, HF              : ", round(H_HF,6), file=f)
     print("one, HF            : ", round(one_HF,6), file=f)
     print("two, HF            : ", round(two_HF,6), file=f)
     print("H, UCCDopt         : ", round(H_UCCDopt,6), file=f)
     print("one, UCCDopt       : ", round(one_UCCDopt,6), file=f)
     print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
-    print(" ", file=f)
-    print("Circuit Depth      : ", fin_cir_depth ,file=f)
     
 
 # Draw the circuit
@@ -380,7 +385,7 @@ print("two, HF            : ", round(two_HF,6), )
 print("H, UCCDopt         : ", round(H_UCCDopt,6), )
 print("one, UCCDopt       : ", round(one_UCCDopt,6), )
 print("two, UCCDopt       : ", round(two_UCCDopt,6), )
-print("Fin Circuit Depth  : ", fin_cir_depth)
+print("Fin Cir Details    : ", fin_cir_details)
 
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
@@ -391,7 +396,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         end_time,",",
         time_elapsed_mins,",",
         " ",",",
-        f"Final_circuit Depth: {fin_cir_depth} ",",",
+        f"Final_circuit Details: {fin_cir_details} ",",",
         input_dir,",",
         two_factor,",",
         hermitian_info,",",
