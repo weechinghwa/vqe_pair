@@ -81,7 +81,7 @@ estimator_exact = Estimator()  # options={"shots":128}
 
 #B# IBM's Fake Backends
 from qiskit.primitives import BackendEstimator
-from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2, FakeHanoiV2, FakeSherbrooke, FakeEssexV2
+from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2, FakeHanoiV2, FakeSherbrooke, FakeGeneva
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
 ## Alternative estimator 1 **No GPU**
@@ -117,7 +117,7 @@ backend_gpu5 = AerSimulator.from_backend(backend5, method="automatic", device="G
 estimator_gpu5 = BackendEstimator(backend=backend_gpu5, options={"shots":shots},bound_pass_manager = pass_manager5)
 
 ## Alternative estimator 6 FakeEssex 
-backend6 = FakeEssexV2()
+backend6 = FakeGeneva()
 pass_manager6 = generate_preset_pass_manager(3, backend6)
 backend_gpu6 = AerSimulator.from_backend(backend6, method="automatic", device="GPU")
 estimator_gpu6 = BackendEstimator(backend=backend_gpu6, options={"shots":shots},bound_pass_manager = pass_manager6)
