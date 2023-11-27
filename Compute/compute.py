@@ -386,6 +386,7 @@ print("H, UCCDopt         : ", round(H_UCCDopt,6), )
 print("one, UCCDopt       : ", round(one_UCCDopt,6), )
 print("two, UCCDopt       : ", round(two_UCCDopt,6), )
 print("Fin Cir Details    : ", fin_cir_details)
+print("Optimal Params     : ", vqe_result.optimal_parameters)
 
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
