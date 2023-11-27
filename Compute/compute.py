@@ -246,11 +246,11 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("**************************************** D ****************************************", file=f)
 
 if pass_manager == None:
-    fin_cir = vqe_result.optimal_circuit.bind_parameters(vqe_result.optimal_parameters).decompose().decompose().decompose()
+    fin_cir = vqe_result.optimal_circuit.assign_parameters(vqe_result.optimal_parameters).decompose().decompose().decompose()
     fin_cir_details = f"Circuit Depth {fin_cir.depth()}; Compositions: {fin_cir.count_ops()}"
     pass
 else: 
-    fin_cir = pass_manager.run(vqe_result.optimal_circuit.bind_parameters(vqe_result.optimal_parameters))
+    fin_cir = pass_manager.run(vqe_result.optimal_circuit.assign_parameters(vqe_result.optimal_parameters))
     fin_cir_details = f"Circuit Depth {fin_cir.depth()}; Compositions: {fin_cir.count_ops()}"
 
 # Generating the breakdown of the energy

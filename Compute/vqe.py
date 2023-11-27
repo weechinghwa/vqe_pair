@@ -122,6 +122,9 @@ pass_manager6 = generate_preset_pass_manager(3, backend6)
 backend_gpu6 = AerSimulator.from_backend(backend6, method="automatic", device="GPU")
 estimator_gpu6 = BackendEstimator(backend=backend_gpu6, options={"shots":shots},bound_pass_manager = pass_manager6)
 
+## Alternative estimator 4______ FakeHanoiV2 NO GPU
+estimator_6_cpu = BackendEstimator(backend=backend6, options={"shots":shots})
+
 ### Estimator selection
 if esti == "esti0":
     pass_manager = None
@@ -147,6 +150,9 @@ elif esti == "esti5":
 elif esti == "esti6":
     pass_manager = pass_manager6
     estimator = estimator_gpu6
+elif esti == "esti6_cpu":
+    pass_manager = pass_manager6
+    estimator = estimator_6_cpu
 elif esti == None: 
     print("Please define the esti properly")
 
