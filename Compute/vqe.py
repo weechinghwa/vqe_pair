@@ -104,7 +104,7 @@ estimator_gpu3 = BackendEstimator(backend=backend_gpu3, options={"shots":shots},
 ## Alternative estimator 4 FakeHanoiV2
 backend4 = FakeHanoiV2()
 pass_manager4 = generate_preset_pass_manager(2, backend4)
-backend_gpu4 = AerSimulator.from_backend(backend4, method="automatic", device="GPU",fusion_threshold = 30)
+backend_gpu4 = AerSimulator.from_backend(backend4, method="automatic", device="GPU")
 estimator_gpu4 = BackendEstimator(backend=backend_gpu4, options={"shots":shots},bound_pass_manager = pass_manager4)
 
 ## Alternative estimator 4______ FakeHanoiV2 NO GPU
