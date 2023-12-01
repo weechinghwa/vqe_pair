@@ -12,5 +12,5 @@
 
 """Mock Hwa Custom backend"""
 
-from .fake_hwabackend import FakeHwaBackendV2
-from .fake_hwabackend import FakeHwaBackendV2
+from .fake_johor import FakeJohorV2
+from .fake_johor import FakeJohor

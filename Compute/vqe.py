@@ -126,8 +126,8 @@ estimator_gpu6 = BackendEstimator(backend=backend_gpu6, options={"shots":shots},
 estimator_cpu6 = BackendEstimator(backend=backend6, options={"shots":shots})
 
 ## Alternative estimator Custom
-from hwabackend import FakeHwaBackendV2
-backend_custom = FakeHwaBackendV2()
+from fake_johor import FakeJohorV2
+backend_custom = FakeJohorV2()
 pass_manager_custom = generate_preset_pass_manager(3, backend_custom)
 backend_gpu_custom = AerSimulator.from_backend(backend_custom, method="automatic", device="GPU")
 estimator_gpu_custom = BackendEstimator(backend=backend_gpu_custom, options={"shots":shots}, bound_pass_manager = pass_manager_custom)
