@@ -108,7 +108,7 @@ backend_gpu4 = AerSimulator.from_backend(backend4, method="automatic", device="G
 estimator_gpu4 = BackendEstimator(backend=backend_gpu4, options={"shots":shots},bound_pass_manager = pass_manager4)
 
 ## Alternative estimator 4______ FakeHanoiV2 NO GPU
-estimator_4_cpu = BackendEstimator(backend=backend4, options={"shots":shots})
+estimator_cpu4 = BackendEstimator(backend=backend4, options={"shots":shots})
 
 ## Alternative estimator 5 FakeSherbooke 
 backend5 = FakeSherbrooke()
@@ -116,14 +116,21 @@ pass_manager5 = generate_preset_pass_manager(3, backend5)
 backend_gpu5 = AerSimulator.from_backend(backend5, method="automatic", device="GPU")
 estimator_gpu5 = BackendEstimator(backend=backend_gpu5, options={"shots":shots},bound_pass_manager = pass_manager5)
 
-## Alternative estimator 6 FakeEssex 
+## Alternative estimator 6 FakeGeneva 
 backend6 = FakeGeneva()
 pass_manager6 = generate_preset_pass_manager(3, backend6)
 backend_gpu6 = AerSimulator.from_backend(backend6, method="automatic", device="GPU")
 estimator_gpu6 = BackendEstimator(backend=backend_gpu6, options={"shots":shots},bound_pass_manager = pass_manager6)
 
-## Alternative estimator 4______ FakeHanoiV2 NO GPU
-estimator_6_cpu = BackendEstimator(backend=backend6, options={"shots":shots})
+## Alternative estimator 6______ FakeGeneva NO GPU
+estimator_cpu6 = BackendEstimator(backend=backend6, options={"shots":shots})
+
+## Alternative estimator Custom
+from hwabackend import FakeHwaBackendV2
+backend_custom = FakeHwaBackendV2()
+pass_manager_custom = generate_preset_pass_manager(3, backend_custom)
+backend_gpu_custom = AerSimulator.from_backend(backend_custom, method="automatic", device="GPU")
+estimator_gpu_custom = BackendEstimator(backend=backend_gpu_custom, options={"shots":shots}, bound_pass_manager = pass_manager_custom)
 
 ### Estimator selection
 if esti == "esti0":
@@ -143,7 +150,7 @@ elif esti == "esti4":
     estimator = estimator_gpu4
 elif esti == "esti4_cpu":
     pass_manager = pass_manager4
-    estimator = estimator_4_cpu
+    estimator = estimator_cpu4
 elif esti == "esti5":
     pass_manager = pass_manager5
     estimator = estimator_gpu5
@@ -152,7 +159,10 @@ elif esti == "esti6":
     estimator = estimator_gpu6
 elif esti == "esti6_cpu":
     pass_manager = pass_manager6
-    estimator = estimator_6_cpu
+    estimator = estimator_cpu6
+elif esti == "custom_esti":
+    pass_manager = pass_manager_custom
+    estimator = estimator_gpu_custom
 elif esti == None: 
     print("Please define the esti properly")
 
