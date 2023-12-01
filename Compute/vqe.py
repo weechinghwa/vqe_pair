@@ -160,7 +160,7 @@ elif esti == "esti6":
 elif esti == "esti6_cpu":
     pass_manager = pass_manager6
     estimator = estimator_cpu6
-elif esti == "custom_esti":
+elif esti == "esti_custom":
     pass_manager = pass_manager_custom
     estimator = estimator_gpu_custom
 elif esti == None: 
