@@ -379,6 +379,7 @@ if optmz =="SPSA":
 
 
 print("Calculation Done!! ", "@", current_time, "Time elapsed : ",time_elapsed_mins, "mins ; Energy Eigenvalue: ",vqe_result.eigenvalue)
+print("Calculation ID     : ", pathfilename["output_id"])
 print("H, HF              : ", round(H_HF,6), )
 print("one, HF            : ", round(one_HF,6), )
 print("two, HF            : ", round(two_HF,6), )
