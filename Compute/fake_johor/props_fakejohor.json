@@ -32,19 +32,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -82,19 +82,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -132,19 +132,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -182,19 +182,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -232,19 +232,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -282,19 +282,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -332,19 +332,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -382,19 +382,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -432,19 +432,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -482,19 +482,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -532,19 +532,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -582,19 +582,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -632,19 +632,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -682,19 +682,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -732,19 +732,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
@@ -782,19 +782,19 @@
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "readout_error",
                 "unit": "",
-                "value": 0.0001
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas0_prep1",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
                 "name": "prob_meas1_prep0",
                 "unit": "",
-                "value": 1e-05
+                "value": 1e-06
             },
             {
                 "date": "2021-04-20T06:16:34+02:00",
