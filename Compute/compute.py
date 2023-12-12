@@ -151,6 +151,7 @@ with open(pathfilename["abstract_result"], "a") as f:
 lr, perturb = None, None
 
 ## Defining SPSA optimizer
+from sympy import Symbol, sequence
 if optmz =="SPSA":
     def loss(x):
         result = estimator.run(var_form,Hamiltonian , x).result()
@@ -162,13 +163,13 @@ if optmz =="SPSA":
     # perturb = 0.01 # np.array([0.01]*1000)
     optimizer.learning_rate = lr
     optimizer.perturbation = perturb
-    print(optimizer.learning_rate)
+
 
 with open(pathfilename["full_result"], "a") as f:
     print("Optimizer's config      : |", optimizer, file=f)
 
 # Define Solver
-from qiskit.algorithms.minimum_eigensolvers import VQE, AdaptVQE
+from qiskit_algorithms.minimum_eigensolvers import VQE, AdaptVQE
 vqe = VQE(
     estimator = estimator,
     ansatz = var_form,
@@ -177,7 +178,8 @@ vqe = VQE(
     initial_point=initial_point)
 adapt_vqe = AdaptVQE(
     vqe,
-    threshold = grad_tol,
+    gradient_threshold = grad_tol,
+    eigenvalue_threshold = optimizer_tol,
     max_iterations = grad_maxiter)
 
 ## The result ##
@@ -247,10 +249,12 @@ with open(pathfilename["abstract_result"], "a") as f:
 
 if pass_manager == None:
     fin_cir = vqe_result.optimal_circuit.assign_parameters(vqe_result.optimal_parameters).decompose().decompose().decompose()
+    fin_cir.draw("mpl", filename = pathfilename["subresult_dir"] + "-circ.png")
     fin_cir_details = f"Circuit Depth {fin_cir.depth()}; Compositions: {fin_cir.count_ops()}"
     pass
 else: 
     fin_cir = pass_manager.run(vqe_result.optimal_circuit.assign_parameters(vqe_result.optimal_parameters))
+    fin_cir.draw("mpl", filename = pathfilename["subresult_dir"] + "-circ.png")
     fin_cir_details = f"Circuit Depth {fin_cir.depth()}; Compositions: {fin_cir.count_ops()}"
 
 # Generating the breakdown of the energy
@@ -329,7 +333,7 @@ ylocs, ylabels = plt.yticks()
 xlocs, xlabels = plt.xticks()
 
 # plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
-plt.xticks(np.arange(xlocs[1],xlocs[-1], step=xlocs[-2]/25), rotation=70)
+plt.xticks(np.arange(xlocs[1],xlocs[-1], step=round(xlocs[-2]/25)), rotation=70)
 plt.grid(visible=True)
 
 plt.xlabel("Iterations/Eval_count")
@@ -344,7 +348,6 @@ if optmz =="SPSA":
     print(len(values))
     for i in range(0,int((len(values)-1)/2)):
         index_dum = 2*i; index_next = index_dum + 1
-        print(index_dum,index_next)
         value_dum = values[index_dum] if values[index_dum] < values[index_next] else values[index_next]
         values_dum.append(value_dum)
     values_dum.append(values[-1])

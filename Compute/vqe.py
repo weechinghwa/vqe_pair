@@ -52,7 +52,7 @@ initial_point = [0]*len(var_form.excitation_list)
 
 ## Classical Optimizer ##
 from qiskit import Aer
-from qiskit.algorithms.optimizers import ISRES,ESCH,DIRECT_L,DIRECT_L_RAND, CRS, ADAM,SLSQP, SPSA,QNSPSA,COBYLA
+from qiskit_algorithms.optimizers import ISRES,ESCH,DIRECT_L,DIRECT_L_RAND, CRS, ADAM,SLSQP, SPSA,QNSPSA,COBYLA
 # optimizer = ISRES(max_evals = optimizer_maxiter)
 # optimizer = ESCH(max_evals = optimizer_maxiter)
 # optimizer = DIRECT_L(max_evals=optimizer_maxiter)
@@ -61,6 +61,7 @@ if optmz == "DIRECT_L_RAND":
     optimizer = DIRECT_L_RAND(max_evals=optimizer_maxiter)
 if optmz =="SPSA":
     optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 10, tol = optimizer_tol,))
+    initial_point = [0,0,0,0] #  [0]+[0]*(len(var_form.excitation_list) -1)
 if optmz == "COBYLA":
     optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol)
 
@@ -129,7 +130,7 @@ estimator_gpu3 = BackendEstimator(backend=backend_gpu3, options={"shots":shots},
 
 ## Alternative estimator 4 FakeHanoiV2
 backend4 = FakeHanoiV2()
-pass_manager4 = generate_preset_pass_manager(2, backend4)
+pass_manager4 = generate_preset_pass_manager(3, backend4)
 backend_gpu4 = AerSimulator.from_backend(backend4, method="automatic", device="GPU")
 estimator_gpu4 = BackendEstimator(backend=backend_gpu4, options={"shots":shots},bound_pass_manager = pass_manager4)
 
