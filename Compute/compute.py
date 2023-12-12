@@ -370,7 +370,7 @@ if optmz =="SPSA":
     xlocs, xlabels = plt.xticks()
 
     # plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
-    plt.xticks(np.arange(xlocs[1],xlocs[-1], step=xlocs[-2]/25), rotation=70)
+    plt.xticks(np.arange(xlocs[1],xlocs[-1], step=round(xlocs[-2]/25)), rotation=70)
     plt.grid(visible=True)
 
     plt.xlabel("Iterations")
