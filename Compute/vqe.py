@@ -61,7 +61,7 @@ if optmz == "DIRECT_L_RAND":
     optimizer = DIRECT_L_RAND(max_evals=optimizer_maxiter)
 if optmz =="SPSA":
     optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 10, tol = optimizer_tol,))
-    initial_point = [0,0,0,0.1] #  [0]+[0]*(len(var_form.excitation_list) -1)
+    initial_point = [0]+[0]*(len(var_form.excitation_list) -1) #[0,0,0,0.1] #
 if optmz == "COBYLA":
     optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol)
 
