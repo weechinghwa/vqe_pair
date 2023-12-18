@@ -1,0 +1,31 @@
+## ALl the untracked files 
+
+__pycache__
+Compute/__pycache__/calc_config.cpython-39.pyc
+Compute/__pycache__/np_hartree_fock.cpython-39.pyc
+Compute/__pycache__/utils.cpython-39.pyc
+Compute/__pycache__/vqe.cpython-39.pyc
+Compute/vqe_run_command.sh
+Data/2121_He6_herm_5/
+Developing/.ipynb_checkpoints/Resource Estimation Be8-checkpoint.ipynb
+Developing/.ipynb_checkpoints/Submitting job-checkpoint.ipynb      
+Developing/.ipynb_checkpoints/be9_be10_pairing-checkpoint.ipynb    
+Developing/.ipynb_checkpoints/test-checkpoint.ipynb
+Developing/.ipynb_checkpoints/txt_read-Copy1-checkpoint.ipynb      
+Developing/231203-statevector_sim.ipynb
+Developing/231211-LRPertb_sympy_series.ipynb
+Developing/231211-Statistic_Gen_for_Fakebackends.ipynb
+Developing/231212-CircuitGen.ipynb
+Developing/887_circuit.png
+Developing/Convergence_info_from_TerminationChecker.ipynb
+Developing/Evaluator.ipynb
+Developing/SPSA_LR_Pertb/
+Developing/Submitting job to ibm.ipynb
+Developing/Test2.ipynb
+Developing/circ_gen_He6.ipynb
+Developing/fake_johor-Fresh/
+Developing/fake_johor/
+Developing/np_hartree_fock.py
+Developing/occupation_numbers.ipynb
+Developing/unsorted/
+Result/
