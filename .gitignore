@@ -1,12 +1,14 @@
 ## ALl the untracked files 
 
-__pycache__
-Compute/__pycache__/calc_config.cpython-39.pyc
-Compute/__pycache__/np_hartree_fock.cpython-39.pyc
-Compute/__pycache__/utils.cpython-39.pyc
-Compute/__pycache__/vqe.cpython-39.pyc
+__pycache__/*
+Compute/__pycache__/*
+Developing/.ipynb_checkpoints/*
+
+Result/
+
 Compute/vqe_run_command.sh
-Data/2121_He6_herm_5/
+
+Developing/231218-Convergence_info_from_TerminationChecker.ipynb
 Developing/.ipynb_checkpoints/Resource Estimation Be8-checkpoint.ipynb
 Developing/.ipynb_checkpoints/Submitting job-checkpoint.ipynb      
 Developing/.ipynb_checkpoints/be9_be10_pairing-checkpoint.ipynb    
@@ -28,4 +30,4 @@ Developing/fake_johor/
 Developing/np_hartree_fock.py
 Developing/occupation_numbers.ipynb
 Developing/unsorted/
-Result/
+

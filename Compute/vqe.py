@@ -59,8 +59,15 @@ from qiskit_algorithms.optimizers import ISRES,ESCH,DIRECT_L,DIRECT_L_RAND, CRS,
 # optimizer = CRS(max_evals=optimizer_maxiter)
 if optmz == "DIRECT_L_RAND":
     optimizer = DIRECT_L_RAND(max_evals=optimizer_maxiter)
+SPSA_callback_counts = []; SPSA_callback_param_list = []; SPSA_callback_values = []; SPSA_callback_stepsize = []; SPSA_callback_accept = []
+def SPSA_callback(spsa_count,spsa_param,spsa_value,spsa_stepsiz,spsa_accept):
+    SPSA_callback_counts.append(spsa_count)
+    SPSA_callback_param_list.append(spsa_param)
+    SPSA_callback_values.append(spsa_value)
+    SPSA_callback_stepsize.append(spsa_stepsiz)
+    SPSA_callback_accept.append(spsa_accept)
 if optmz =="SPSA":
-    optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 10, tol = optimizer_tol,))
+    optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 10, tol = optimizer_tol,), callback=SPSA_callback)
     initial_point = [0.1,0,0,0]
 if optmz == "COBYLA":
     optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol)

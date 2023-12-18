@@ -391,7 +391,14 @@ print("one, UCCDopt       : ", round(one_UCCDopt,6), )
 print("two, UCCDopt       : ", round(two_UCCDopt,6), )
 print("Fin Cir Details    : ", fin_cir_details)
 print("Optimal Params     : ", vqe_result.optimal_parameters)
-print("Terminiation checker: ", optimizer.termination_checker.collected)
+
+with open(pathfilename["subresult_dir"]+"SPSA_TC_callback.txt", "a") as f: 
+    print(f"(nfev, parameters, value, stepsize, accepted)\n")
+    print(optimizer.termination_checker.collected, file = f)
+
+SPSA_callback = pd.DataFrame(list(zip(SPSA_callback_counts, SPSA_callback_param_list,SPSA_callback_values,SPSA_callback_stepsize,SPSA_callback_accept)), columns=["count", "param_list", "value", "stepsize", "accepted"])
+conver_csv.to_csv(pathfilename["subresult_dir"]+"SPSA_callback.csv")
+
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
 with open("Result/computed_result@Hpc.txt", "a") as f:
