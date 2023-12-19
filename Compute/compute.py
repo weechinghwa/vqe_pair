@@ -393,7 +393,7 @@ print("Fin Cir Details    : ", fin_cir_details)
 print("Optimal Params     : ", vqe_result.optimal_parameters)
 
 with open(pathfilename["subresult_dir"]+"SPSA_TC_callback.txt", "a") as f: 
-    print(f"(nfev, parameters, value, stepsize, accepted)\n")
+    print(f"(nfev, parameters, value, stepsize, accepted)\n",file = f)
     print(optimizer.termination_checker.collected, file = f)
 
 SPSA_callback = pd.DataFrame(list(zip(SPSA_callback_counts, SPSA_callback_param_list,SPSA_callback_values,SPSA_callback_stepsize,SPSA_callback_accept)), columns=["count", "param_list", "value", "stepsize", "accepted"])
