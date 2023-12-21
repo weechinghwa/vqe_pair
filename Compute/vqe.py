@@ -138,13 +138,6 @@ estimator_gpu6 = BackendEstimator(backend=backend_gpu6, options={"shots":shots},
 ## Alternative estimator 6______ FakeGeneva NO GPU
 estimator_cpu6 = BackendEstimator(backend=backend6, options={"shots":shots})
 
-## Alternative estimator Custom
-from fake_johor import FakeJohorV2
-backend_custom = FakeJohorV2()
-pass_manager_custom = generate_preset_pass_manager(3, backend_custom)
-backend_gpu_custom = AerSimulator.from_backend(backend_custom, method="automatic", device="GPU")
-estimator_gpu_custom = BackendEstimator(backend=backend_gpu_custom, options={"shots":shots}, bound_pass_manager = pass_manager_custom)
-
 ### Estimator selection
 if esti == "esti0":
     pass_manager = None
@@ -173,9 +166,8 @@ elif esti == "esti6":
 elif esti == "esti6_cpu":
     pass_manager = pass_manager6
     estimator = estimator_cpu6
-elif esti == "esti_custom":
-    pass_manager = pass_manager_custom
-    estimator = estimator_gpu_custom
 elif esti == None: 
     print("Please define the esti properly")
-
+else:
+    from fake_johor_s import esti_fj_dic
+    pass_manager, estimator = esti_fj_dic[esti]
