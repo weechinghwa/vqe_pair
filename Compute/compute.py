@@ -37,7 +37,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("##### ##### ##### ##### ##### Configuration info START ##### ##### ##### ##### #####", file =f)
     print("Computation for nucleus : ", nucleus_name, file=f)
     print("Computer name           : ", pcname, file=f)
-    print("Estimator               : ", estimator, file=f)
+    print("Estimator               : ", f"esti=={esti} ", estimator, file=f)
     print("Backend                 : ", backend_dummy, file=f)
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)

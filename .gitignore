@@ -7,6 +7,16 @@ Developing/.ipynb_checkpoints/*
 Result/
 
 Compute/vqe_run_command.sh
+Compute/FakeBackends/fake_johor
+
+## ignoring all pycache
+Compute\FakeBackends\fake_johor_FJ001\__pycache__
+Compute\FakeBackends\fake_johor_FJ002\__pycache__
+Compute\FakeBackends\fake_johor_FJ003\__pycache__
+Compute\FakeBackends\fake_johor_FJ004\__pycache__
+Compute\FakeBackends\fake_johor_FJ005\__pycache__
+Compute\__pycache__
+*.pyc
 
 Developing/231218-Convergence_info_from_TerminationChecker.ipynb
 Developing/.ipynb_checkpoints/Resource Estimation Be8-checkpoint.ipynb

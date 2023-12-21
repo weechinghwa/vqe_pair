@@ -1,0 +1,44 @@
+from calc_config import *
+
+from qiskit_aer.backends import AerSimulator
+from qiskit.primitives import BackendEstimator
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+
+# Sample code
+# ## Alternative estimator Custom
+# from FakeBackends.fake_johor_NAME import FakeJohorV2 as NAME
+# backend_name = NAME(); backend_name_gpu = AerSimulator.from_backend(backend_name, method="automatic", device="GPU")
+# pass_man_name = generate_preset_pass_manager(3, backend_name)
+# esti_gpu_name= BackendEstimator(backend=backend_name_gpu, options={"shots":shots}, bound_pass_manager = pass_man_name)
+
+from FakeBackends.fake_johor_FJ001 import FakeJohorV2 as FJ001
+backend_fj001 = FJ001(); backend_fj001_gpu = AerSimulator.from_backend(backend_fj001, method="automatic", device="GPU")
+pass_man_fj001 = generate_preset_pass_manager(3, backend_fj001)
+esti_gpu_fj001= BackendEstimator(backend=backend_fj001_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj001)
+
+from FakeBackends.fake_johor_FJ002 import FakeJohorV2 as FJ002
+backend_fj002 = FJ002(); backend_fj002_gpu = AerSimulator.from_backend(backend_fj002, method="automatic", device="GPU")
+pass_man_fj002 = generate_preset_pass_manager(3, backend_fj002)
+esti_gpu_fj002= BackendEstimator(backend=backend_fj002_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj002)
+
+from FakeBackends.fake_johor_FJ003 import FakeJohorV2 as FJ003
+backend_fj003 = FJ003(); backend_fj003_gpu = AerSimulator.from_backend(backend_fj003, method="automatic", device="GPU")
+pass_man_fj003 = generate_preset_pass_manager(3, backend_fj003)
+esti_gpu_fj003= BackendEstimator(backend=backend_fj003_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj003)
+
+from FakeBackends.fake_johor_FJ004 import FakeJohorV2 as FJ004
+backend_fj004 = FJ004(); backend_fj004_gpu = AerSimulator.from_backend(backend_fj004, method="automatic", device="GPU")
+pass_man_fj004 = generate_preset_pass_manager(3, backend_fj004)
+esti_gpu_fj004= BackendEstimator(backend=backend_fj004_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj004)
+
+from FakeBackends.fake_johor_FJ005 import FakeJohorV2 as FJ005
+backend_fj005 = FJ005(); backend_fj005_gpu = AerSimulator.from_backend(backend_fj005, method="automatic", device="GPU")
+pass_man_fj005 = generate_preset_pass_manager(3, backend_fj005)
+esti_gpu_fj005= BackendEstimator(backend=backend_fj005_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj005)
+
+esti_fj_dic = {"esti_fj001" : (pass_man_fj001, esti_gpu_fj001),
+               "esti_fj002" : (pass_man_fj002, esti_gpu_fj002),
+               "esti_fj003" : (pass_man_fj003, esti_gpu_fj003),
+               "esti_fj004" : (pass_man_fj004, esti_gpu_fj004),
+               "esti_fj005" : (pass_man_fj005, esti_gpu_fj005),
+               }

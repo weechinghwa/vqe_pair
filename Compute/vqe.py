@@ -94,29 +94,8 @@ from qiskit.primitives import BackendEstimator
 from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2, FakeHanoiV2, FakeSherbrooke, FakeGeneva
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
-## Statevector simulator
-from qiskit_aer.backends import StatevectorSimulator
-backend_sv = StatevectorSimulator(n_qubits=12, device = "CPU",
-                                  precision = "double",
-                                  max_parallel_threads = 0,
-                                  max_parallel_experiments = 0,
-                                  max_memory_mb = 0)
-backend_sv 
-pass_manager_sv = generate_preset_pass_manager(3, backend_sv)
-estimator_sv_gpu = BackendEstimator(backend=backend_sv, options={"shots":shots},bound_pass_manager = pass_manager_sv)
 ##### Alternative method of using statevector simulator follow the code on https://qiskit.org/ecosystem/algorithms/tutorials/03_vqe_simulation_with_noise.html#Performance-without-noise
 ##### ref https://quantumcomputing.stackexchange.com/questions/32667/what-are-the-differences-between-the-two-estimator-in-the-qiskit
-# ## For example
-# from qiskit_algorithms.utils import algorithm_globals
-# from qiskit_aer.primitives import Estimator as AerEstimator
-
-# seed = 170
-# algorithm_globals.random_seed = seed
-
-# noiseless_estimator = AerEstimator(
-#     run_options={"seed": seed, "shots": 1024},
-#     transpile_options={"seed_transpiler": seed},
-# )
 
 ## Alternative estimator 1 **No GPU**
 estimator_backend_fake = BackendEstimator(backend = FakeGuadalupeV2(),options={"shots":shots})
@@ -159,13 +138,6 @@ estimator_gpu6 = BackendEstimator(backend=backend_gpu6, options={"shots":shots},
 ## Alternative estimator 6______ FakeGeneva NO GPU
 estimator_cpu6 = BackendEstimator(backend=backend6, options={"shots":shots})
 
-## Alternative estimator Custom
-from fake_johor import FakeJohorV2
-backend_custom = FakeJohorV2()
-pass_manager_custom = generate_preset_pass_manager(3, backend_custom)
-backend_gpu_custom = AerSimulator.from_backend(backend_custom, method="automatic", device="GPU")
-estimator_gpu_custom = BackendEstimator(backend=backend_gpu_custom, options={"shots":shots}, bound_pass_manager = pass_manager_custom)
-
 ### Estimator selection
 if esti == "esti0":
     pass_manager = None
@@ -194,12 +166,8 @@ elif esti == "esti6":
 elif esti == "esti6_cpu":
     pass_manager = pass_manager6
     estimator = estimator_cpu6
-elif esti == "esti_custom":
-    pass_manager = pass_manager_custom
-    estimator = estimator_gpu_custom
-elif esti == "esti_sv":
-    pass_manager = pass_manager_sv
-    estimator = estimator_sv_gpu
 elif esti == None: 
     print("Please define the esti properly")
-
+else:
+    from fake_johor_s import esti_fj_dic
+    pass_manager, estimator = esti_fj_dic[esti]
