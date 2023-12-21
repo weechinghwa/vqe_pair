@@ -181,10 +181,11 @@ class TerminationChecker:
         self.N = N
         self.tol = tol
         self.values = []
+        self.collected = []
 
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
-
+        self.collected.append((nfev, parameters, value, stepsize, accepted))
         if len(self.values) > self.N:
             if ((abs(self.values[-1] - self.values[-2]) < self.tol) and
                 (abs(self.values[-2] - self.values[-3]) < self.tol)): # 2 steps to confirm termination
