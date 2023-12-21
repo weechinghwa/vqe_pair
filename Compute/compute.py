@@ -149,7 +149,7 @@ with open(pathfilename["abstract_result"], "a") as f:
 
 ## LR and perturb initialized as None
 lr, perturb = None, None
-
+alpha = None
 ## Defining SPSA optimizer
 from sympy import Symbol, sequence
 if optmz =="SPSA":
@@ -200,7 +200,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("########################################################################################", file=f)
     print("lr schedule (float if constant):        ", lr, file=f)
     print("perturb schedule (float if constant):   ", perturb, file=f)
-    if alpha:
+    if alpha is not None:
         print(f"alpha = {alpha} ; target_magnitude = {target_magnitude} ; A = {A} ; gamma = {gamma} ; c = {c}", file=f)
     print("**************************   VQE final iteration START   *********************************", file=f)
     print(vqe_result, file=f)
