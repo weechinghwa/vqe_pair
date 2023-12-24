@@ -4,6 +4,64 @@ from qiskit_aer.backends import AerSimulator
 from qiskit.primitives import BackendEstimator
 from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 
+# Define Estimator
+#A# Exact Evaluation (Estimator)
+from qiskit.primitives import Estimator
+## Primitives from qiskit
+estimator_exact = Estimator()  # options={"shots":128}
+
+
+#B# IBM's Fake Backends
+from qiskit.primitives import BackendEstimator
+from qiskit.providers.fake_provider import FakeGuadalupeV2, FakeKolkataV2, FakeHanoiV2, FakeSherbrooke, FakeGeneva
+from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
+
+##### Alternative method of using statevector simulator follow the code on https://qiskit.org/ecosystem/algorithms/tutorials/03_vqe_simulation_with_noise.html#Performance-without-noise
+##### ref https://quantumcomputing.stackexchange.com/questions/32667/what-are-the-differences-between-the-two-estimator-in-the-qiskit
+
+## Alternative estimator 1: Fake guadalupe  **No GPU**
+estimator_backend_fake = BackendEstimator(backend = FakeGuadalupeV2(),options={"shots":shots})
+
+### with IBM quantum Backend (GPU accelerated)
+from qiskit_aer.backends import AerSimulator
+## Alternative estimator 2 FakeGuadalupeV2
+backend2 = FakeGuadalupeV2()
+pass_manager2 = generate_preset_pass_manager(3, backend2)
+backend_gpu2 = AerSimulator.from_backend(backend2, method="automatic", device="GPU")
+estimator_gpu2 = BackendEstimator(backend=backend_gpu2, options={"shots":shots},bound_pass_manager = pass_manager2)
+
+## Alternative estimator 3 FakeKolkataV2
+backend3 = FakeKolkataV2()
+pass_manager3 = generate_preset_pass_manager(3, backend3)
+backend_gpu3 = AerSimulator.from_backend(backend3, method="automatic", device="GPU")
+estimator_gpu3 = BackendEstimator(backend=backend_gpu3, options={"shots":shots},bound_pass_manager = pass_manager3)
+
+## Alternative estimator 4 FakeHanoiV2
+backend4 = FakeHanoiV2()
+pass_manager4 = generate_preset_pass_manager(3, backend4)
+backend_gpu4 = AerSimulator.from_backend(backend4, method="automatic", device="GPU")
+estimator_gpu4 = BackendEstimator(backend=backend_gpu4, options={"shots":shots},bound_pass_manager = pass_manager4)
+
+## Alternative estimator 4______ FakeHanoiV2 NO GPU
+estimator_cpu4 = BackendEstimator(backend=backend4, options={"shots":shots})
+
+## Alternative estimator 5 FakeSherbooke 
+backend5 = FakeSherbrooke()
+pass_manager5 = generate_preset_pass_manager(3, backend5)
+backend_gpu5 = AerSimulator.from_backend(backend5, method="automatic", device="GPU")
+estimator_gpu5 = BackendEstimator(backend=backend_gpu5, options={"shots":shots},bound_pass_manager = pass_manager5)
+
+## Alternative estimator 6 FakeGeneva 
+backend6 = FakeGeneva()
+pass_manager6 = generate_preset_pass_manager(3, backend6)
+backend_gpu6 = AerSimulator.from_backend(backend6, method="automatic", device="GPU")
+estimator_gpu6 = BackendEstimator(backend=backend_gpu6, options={"shots":shots},bound_pass_manager = pass_manager6)
+
+## Alternative estimator 6______ FakeGeneva NO GPU
+estimator_cpu6 = BackendEstimator(backend=backend6, options={"shots":shots})
+
+
+# Fake Johors
 # Sample code
 # ## Alternative estimator Custom
 # from FakeBackends.fake_johor_NAME import FakeJohorV2 as NAME
@@ -61,14 +119,23 @@ backend_fj010 = FJ010(); backend_fj010_gpu = AerSimulator.from_backend(backend_f
 pass_man_fj010 = generate_preset_pass_manager(3, backend_fj010)
 esti_gpu_fj010= BackendEstimator(backend=backend_fj010_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj010)
 
-esti_fj_dic = {"esti_fj001" : (pass_man_fj001, esti_gpu_fj001),
-               "esti_fj002" : (pass_man_fj002, esti_gpu_fj002),
-               "esti_fj003" : (pass_man_fj003, esti_gpu_fj003),
-               "esti_fj004" : (pass_man_fj004, esti_gpu_fj004),
-               "esti_fj005" : (pass_man_fj005, esti_gpu_fj005),
-               "esti_fj006" : (pass_man_fj005, esti_gpu_fj006),
-               "esti_fj007" : (pass_man_fj005, esti_gpu_fj007),
-               "esti_fj008" : (pass_man_fj005, esti_gpu_fj008),
-               "esti_fj009" : (pass_man_fj005, esti_gpu_fj009),
-               "esti_fj010" : (pass_man_fj005, esti_gpu_fj010),
-               }
+esti_dic = {"esti0": (None, estimator_exact),
+            "esti1": (None, estimator_backend_fake),
+            "esti2": (pass_manager2, estimator_gpu2),
+            "esti3": (pass_manager3, estimator_gpu3),
+            "esti4": (pass_manager4, estimator_gpu4),
+            "esti4_cpu": (pass_manager4, estimator_cpu4),
+            "esti5": (pass_manager5, estimator_gpu5),
+            "esti6": (pass_manager6, estimator_gpu6),
+            "esti6_cpu": (pass_manager6, estimator_cpu6),
+            "esti_fj001" : (pass_man_fj001, esti_gpu_fj001),
+            "esti_fj002" : (pass_man_fj002, esti_gpu_fj002),
+            "esti_fj003" : (pass_man_fj003, esti_gpu_fj003),
+            "esti_fj004" : (pass_man_fj004, esti_gpu_fj004),
+            "esti_fj005" : (pass_man_fj005, esti_gpu_fj005),
+            "esti_fj006" : (pass_man_fj005, esti_gpu_fj006),
+            "esti_fj007" : (pass_man_fj005, esti_gpu_fj007),
+            "esti_fj008" : (pass_man_fj005, esti_gpu_fj008),
+            "esti_fj009" : (pass_man_fj005, esti_gpu_fj009),
+            "esti_fj010" : (pass_man_fj005, esti_gpu_fj010),
+            }
