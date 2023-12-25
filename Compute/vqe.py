@@ -70,7 +70,7 @@ if optmz =="SPSA":
     optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 10, tol = optimizer_tol,), callback=SPSA_callback)
     initial_point = [0.1,0,0,0]
 if optmz == "COBYLA":
-    optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol)
+    optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol,rhobeg = 0.1)
 
 # optimizer = ADAM(maxiter=optimizer_maxiter, tol=optimizer_tol)
 # optimizer = SLSQP(maxiter=optimizer_maxiter, tol=optimizer_tol)
