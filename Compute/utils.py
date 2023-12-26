@@ -192,6 +192,25 @@ class TerminationChecker:
                 return True
         return False
 
+class TerminatePovSlope:
+ 
+    def __init__(self, N : int):
+        self.N = N
+        self.values = []
+        self.collected = []
+ 
+    def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
+        self.values.append(value)
+        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        if len(self.values) > self.N:
+            last_values = self.values[-self.N:]
+            pp = np.polyfit(range(self.N), last_values, 1)
+            slope = pp[0] / self.N
+ 
+            if slope > 0:
+                return True
+        return False
+
 ## ORIginal excitations function
 # def custom_excitation_list(num_spatial_orbitals: int,
 #                            num_particles: tuple[int, int]):
