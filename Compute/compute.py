@@ -73,15 +73,19 @@ with open(pathfilename["full_result"], "a") as f:
     print("num_spatial_orbitals    : ", num_spatial_orbitals, file=f)
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
     print("Observable data_id      : ", input_dir, file = f)    
+    print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
     print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
     print("Factor in twobody terms : ", two_factor, file=f)
-    print("Factor in twobody terms : ", two_factor, file=f)
+    print("Optimizer's config      : |", optimizer, file=f)
+    for i in optimizer.__dict__:
+        print("                          |",i, optimizer.__dict__[i], file=f)
     print("Twobody matrix elements      :-",file=f)
     pd.set_option('display.max_rows', obs_twobody_df.shape[0]+1),
     print(obs_twobody_df, file=f)
 
 with open(pathfilename["abstract_result"], "a") as f:
     print("num_particles           : ", num_particles, file=f)
+    print("num_orbitals            : ", num_spatial_orbitals, file=f)
     print("num_spatial_orbitals    : ", num_spatial_orbitals, file=f)
     print("num_spin_orbitals       : ", num_spin_orbitals, file=f)
     print("Observable data_id      : ", input_dir, file = f)
@@ -162,10 +166,6 @@ if optmz =="SPSA":
 
     optimizer.learning_rate = lr
     optimizer.perturbation = perturb
-
-
-with open(pathfilename["full_result"], "a") as f:
-    print("Optimizer's config      : |", optimizer, file=f)
 
 # Define Solver
 from qiskit_algorithms.minimum_eigensolvers import VQE, AdaptVQE

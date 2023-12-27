@@ -175,7 +175,7 @@ def pathfilename_gen(pcname_:"str", input_dir_:"str")->"str , str , dict":
     pathfilename["subresult_dir"] = subresult_dir
     return abs_main, nucleus_name, pathfilename
 
-class TerminationChecker:
+class TerminateThreeStep:
 
     def __init__(self, N : int, tol :float ):
         self.N = N
@@ -189,6 +189,25 @@ class TerminationChecker:
         if len(self.values) > self.N:
             if ((abs(self.values[-1] - self.values[-2]) < self.tol) and
                 (abs(self.values[-2] - self.values[-3]) < self.tol)): # 2 steps to confirm termination
+                return True
+        return False
+
+class TerminatePovSlope:
+ 
+    def __init__(self, N : int):
+        self.N = N
+        self.values = []
+        self.collected = []
+ 
+    def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
+        self.values.append(value)
+        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        if len(self.values) > self.N:
+            last_values = self.values[-self.N:]
+            pp = np.polyfit(range(self.N), last_values, 1)
+            slope = pp[0] / self.N
+ 
+            if slope > 0:
                 return True
         return False
 

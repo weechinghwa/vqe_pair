@@ -1,5 +1,5 @@
 from calc_config import *
-from utils import TerminationChecker
+from utils import TerminateThreeStep, TerminatePovSlope
 
 ## Define callback function: to collect convergence information
 counts = []; values = []; stdeviation = []; param_list = []
@@ -67,7 +67,10 @@ def SPSA_callback(spsa_count,spsa_param,spsa_value,spsa_stepsiz,spsa_accept):
     SPSA_callback_stepsize.append(spsa_stepsiz)
     SPSA_callback_accept.append(spsa_accept)
 if optmz =="SPSA":
-    optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=TerminationChecker(N = 10, tol = optimizer_tol,), callback=SPSA_callback)
+    tc_dict = {"TerminateThreeStep": TerminateThreeStep(N = 10, tol = optimizer_tol),
+               "TerminatePovSlope": TerminatePovSlope(N = 10)}
+    termination_checker = tc_dict[tc]
+    optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=termination_checker, callback=SPSA_callback)
     initial_point = [0.1,0,0,0]
 if optmz == "COBYLA":
     optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol,rhobeg = 0.1)
