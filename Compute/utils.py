@@ -211,6 +211,31 @@ class TerminatePovSlope:
                 return True
         return False
 
+class TerminateThreeSMA:
+ 
+    def __init__(self, N : int, tol :float ):
+        self.N = N
+        self.tol = tol
+        self.values = []
+        self.collected = []
+ 
+    def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
+        self.values.append(value)
+        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        if len(self.values) > self.N + 3:
+            sma_l1 = self.sma(values=self.values, step_num=-1, period=self.N)
+            sma_l2 = self.sma(values=self.values, step_num=-2, period=self.N)
+            sma_l3 = self.sma(values=self.values, step_num=-3, period=self.N)
+ 
+            if ((abs(sma_l2 - sma_l1) < self.tol) and
+                (abs(sma_l3 - sma_l2) < self.tol)):
+                return True
+        return False
+    
+    def sma(self, values: list, step_num : int, period : int):
+        mv_list = values[-(period - step_num - 1) : len(values) + step_num + 1 ]
+        sma_val = sum(mv_list)/period
+        return sma_val
 ## ORIginal excitations function
 # def custom_excitation_list(num_spatial_orbitals: int,
 #                            num_particles: tuple[int, int]):
