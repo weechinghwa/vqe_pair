@@ -119,6 +119,16 @@ backend_fj010 = FJ010(); backend_fj010_gpu = AerSimulator.from_backend(backend_f
 pass_man_fj010 = generate_preset_pass_manager(3, backend_fj010)
 esti_gpu_fj010= BackendEstimator(backend=backend_fj010_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj010)
 
+from FakeBackends.fake_johor_FJ011 import FakeJohorV2 as FJ011
+backend_fj011 = FJ011(); backend_fj011_gpu = AerSimulator.from_backend(backend_fj011, method="automatic", device="GPU")
+pass_man_fj011 = generate_preset_pass_manager(3, backend_fj011)
+esti_gpu_fj011= BackendEstimator(backend=backend_fj011_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj011)
+
+from FakeBackends.fake_johor_FJ012 import FakeJohorV2 as FJ012
+backend_fj012 = FJ012(); backend_fj012_gpu = AerSimulator.from_backend(backend_fj012, method="automatic", device="GPU")
+pass_man_fj012 = generate_preset_pass_manager(3, backend_fj012)
+esti_gpu_fj012= BackendEstimator(backend=backend_fj012_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj012)
+
 esti_dic = {"esti0": (None, estimator_exact),
             "esti1": (None, estimator_backend_fake),
             "esti2": (pass_manager2, estimator_gpu2),
@@ -133,9 +143,11 @@ esti_dic = {"esti0": (None, estimator_exact),
             "esti_fj003" : (pass_man_fj003, esti_gpu_fj003),
             "esti_fj004" : (pass_man_fj004, esti_gpu_fj004),
             "esti_fj005" : (pass_man_fj005, esti_gpu_fj005),
-            "esti_fj006" : (pass_man_fj005, esti_gpu_fj006),
-            "esti_fj007" : (pass_man_fj005, esti_gpu_fj007),
-            "esti_fj008" : (pass_man_fj005, esti_gpu_fj008),
-            "esti_fj009" : (pass_man_fj005, esti_gpu_fj009),
-            "esti_fj010" : (pass_man_fj005, esti_gpu_fj010),
+            "esti_fj006" : (pass_man_fj006, esti_gpu_fj006),
+            "esti_fj007" : (pass_man_fj007, esti_gpu_fj007),
+            "esti_fj008" : (pass_man_fj008, esti_gpu_fj008),
+            "esti_fj009" : (pass_man_fj009, esti_gpu_fj009),
+            "esti_fj010" : (pass_man_fj010, esti_gpu_fj010),
+            "esti_fj011" : (pass_man_fj011, esti_gpu_fj011),
+            "esti_fj012" : (pass_man_fj012, esti_gpu_fj012),
             }
