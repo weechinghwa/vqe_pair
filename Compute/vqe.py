@@ -1,5 +1,5 @@
 from calc_config import *
-from utils import TerminateThreeStep, TerminatePovSlope, TerminateThreeSMA, TerminateMinSlope
+from utils import TerminateThreeStep, TerminatePovSlope, TerminateThreeSMA, TerminateMinSlope, TerminateLnFit
 
 ## Define callback function: to collect convergence information
 counts = []; values = []; stdeviation = []; param_list = []
@@ -70,7 +70,9 @@ if optmz =="SPSA":
     tc_dict = {"TerminateThreeStep": TerminateThreeStep(N = 10, tol = optimizer_tol),
                "TerminatePovSlope": TerminatePovSlope(N = 10),
                "TerminateThreeSMA": TerminateThreeSMA(N = 10, tol = optimizer_tol),
-               "TerminateMinSlope": TerminateMinSlope(N = 10)
+               "TerminateMinSlope": TerminateMinSlope(N = 10),
+               "TerminateLnFit_neg_0.112" : TerminateLnFit(coeff=-0.112),
+               "TerminateLnFit_neg_0.1" : TerminateLnFit(coeff=-0.1)
                }
     termination_checker = tc_dict[tc]
     optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=termination_checker, callback=SPSA_callback)

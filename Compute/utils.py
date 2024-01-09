@@ -191,7 +191,7 @@ class TerminateThreeStep:
                 (abs(self.values[-2] - self.values[-3]) < self.tol)): # 2 steps to confirm termination
                 return True
         return False
-
+    
 class TerminatePovSlope:
  
     def __init__(self, N : int):
@@ -255,6 +255,27 @@ class TerminateMinSlope:
             if slope >= -0.001:
                 return True
         return False
+
+class TerminateLnFit:
+ 
+    def __init__(self, coeff : float):
+        self.coeff = coeff
+        self.values = []
+        self.collected = []
+ 
+    def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
+        self.values.append(value)
+        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        if len(self.values) > self.N:
+            last_values = np.array(self.values)
+            x_array = np.arrange(1, len(self.values) + 1)
+            ln_fit = np.polyfit(np.log(x_array), last_values, 1)
+            coef_log = ln_fit[0] 
+
+            if 0 > coef_log > self.coeff:
+                return True
+        return False
+
 ## ORIginal excitations function
 # def custom_excitation_list(num_spatial_orbitals: int,
 #                            num_particles: tuple[int, int]):
