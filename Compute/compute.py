@@ -42,6 +42,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("Input directory name    : ", input_dir, file=f)
     print("Start time              : ", start_time, file=f)
     print("Algorithm used          : ", quan_algo, file=f)
+    print("Termination checker     : ", tc, file=f)
     for i in optimizer.__dict__:
         print("                          |",i, optimizer.__dict__[i], file=f)
     print("Size of excitations     : ", len(var_form.excitation_list), file=f)
@@ -76,6 +77,7 @@ with open(pathfilename["full_result"], "a") as f:
     print("Size of obs_onebody     : ", len(obs_onebody_df),file=f)
     print("Size of obs_twobody     : ", len(obs_twobody_df),file=f)
     print("Factor in twobody terms : ", two_factor, file=f)
+    print("Termination checker     : ", tc, file=f)
     print("Optimizer's config      : |", optimizer, file=f)
     for i in optimizer.__dict__:
         print("                          |",i, optimizer.__dict__[i], file=f)

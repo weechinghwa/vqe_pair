@@ -269,7 +269,7 @@ class TerminateLnFit:
         self.collected.append((nfev, parameters, value, stepsize, accepted))
         if len(self.values) > self.N:
             last_values = np.array(self.values)
-            x_array = np.arrange(1, len(self.values) + 1)
+            x_array = np.arange(1, len(self.values) + 1)
             ln_fit = np.polyfit(np.log(x_array), last_values, 1)
             coef_log = ln_fit[0] 
 
