@@ -258,7 +258,8 @@ class TerminateMinSlope:
 
 class TerminateLnFit:
  
-    def __init__(self, coeff : float):
+    def __init__(self, N: int, coeff : float):
+        self.N = N #number of steps before accepting trigger
         self.coeff = coeff
         self.values = []
         self.collected = []
