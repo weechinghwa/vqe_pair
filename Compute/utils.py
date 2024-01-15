@@ -298,6 +298,34 @@ class TerminateLnFit10step:
             if 0 > coef_log > self.coeff:
                 return True
         return False
+    
+class TerminateLnFit10stepRel:
+    """The Rel in TerminateLnFit10stepRel means relative.
+    """
+    def __init__(self, N: int):
+        self.N = N #number of steps before accepting trigger
+        self.values = []
+        self.collected = [] # collected for the callback output
+        self.collected_m = []
+ 
+    def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
+        self.values.append(value)
+        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        if (len(self.values) > self.N and 
+            len(self.values) % 10 == 0):
+            last_values = np.array(self.values)
+            x_array = np.arange(1, len(self.values) + 1)
+            ln_fit = np.polyfit(np.log(x_array), last_values, 1)
+            coef_log = ln_fit[0]
+            self.collected_m.append(coef_log)
+
+            try:
+                if abs(self.collected_m[-1] - self.collected_m[-2])/abs(self.collected_m[-2]) < 0.1:
+                    return True
+            except:
+                pass
+
+        return False
 ## ORIginal excitations function
 # def custom_excitation_list(num_spatial_orbitals: int,
 #                            num_particles: tuple[int, int]):
