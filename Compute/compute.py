@@ -348,9 +348,13 @@ plt.title("VQEcallback-Optimization Steps for "+str(pathfilename["output_id"])+n
 plt.savefig(pathfilename["subresult_dir"]+"-VQE_opt_step.png")
 
 if optmz =="SPSA":
-    with open(pathfilename["subresult_dir"]+"_SPSA_TC_callback.txt", "a") as f: 
-        print(f"(nfev, parameters, value, stepsize, accepted)\n",file = f)
-        print(optimizer.termination_checker.collected, file = f)
+    nfev = optimizer.termination_checker.cb_nfev
+    parameters = optimizer.termination_checker.cb_parameters
+    value = optimizer.termination_checker.cb_value
+    stepsize = optimizer.termination_checker.cb_stepsize
+    accepted = optimizer.termination_checker.cb_accepted
+    SPSA_TC_callback_df = pd.DataFrame(list(zip(nfev,parameters,value,stepsize,accepted)), columns=["nfev","parameters","value", "stepsize", "accepted"])
+    SPSA_TC_callback_df.to_csv(pathfilename["subresult_dir"]+"_SPSA_TC_callback.csv")
 
     SPSA_callback = pd.DataFrame(list(zip(SPSA_callback_counts, SPSA_callback_param_list,SPSA_callback_values,SPSA_callback_stepsize,SPSA_callback_accept)), columns=["count", "param_list", "value", "stepsize", "accepted"])
     SPSA_callback.to_csv(pathfilename["subresult_dir"]+"_SPSA_callback.csv")

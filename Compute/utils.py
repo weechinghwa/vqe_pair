@@ -181,11 +181,22 @@ class TerminateThreeStep:
         self.N = N
         self.tol = tol
         self.values = []
-        self.collected = []
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
 
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
-        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
+
         if len(self.values) > self.N:
             if ((abs(self.values[-1] - self.values[-2]) < self.tol) and
                 (abs(self.values[-2] - self.values[-3]) < self.tol)): # 2 steps to confirm termination
@@ -197,11 +208,22 @@ class TerminatePovSlope:
     def __init__(self, N : int):
         self.N = N
         self.values = []
-        self.collected = []
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
  
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
-        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
+
         if len(self.values) > self.N:
             last_values = self.values[-self.N:]
             pp = np.polyfit(range(self.N), last_values, 1)
@@ -217,11 +239,21 @@ class TerminateThreeSMA:
         self.N = N
         self.tol = tol
         self.values = []
-        self.collected = []
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
  
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
-        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
         if len(self.values) > self.N + 3:
             sma_l1 = self.sma(values=self.values, step_num=-1, period=self.N)
             sma_l2 = self.sma(values=self.values, step_num=-2, period=self.N)
@@ -242,11 +274,21 @@ class TerminateMinSlope:
     def __init__(self, N : int):
         self.N = N
         self.values = []
-        self.collected = []
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
  
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
-        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
         if len(self.values) > self.N:
             last_values = self.values[-self.N:]
             pp = np.polyfit(range(self.N), last_values, 1)
@@ -262,11 +304,21 @@ class TerminateLnFit:
         self.N = N #number of steps before accepting trigger
         self.coeff = coeff
         self.values = []
-        self.collected = []
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
  
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
-        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
         if len(self.values) > self.N:
             last_values = np.array(self.values)
             x_array = np.arange(1, len(self.values) + 1)
@@ -283,11 +335,21 @@ class TerminateLnFit10step:
         self.N = N #number of steps before accepting trigger
         self.coeff = coeff
         self.values = []
-        self.collected = []
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
  
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
-        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
         if (len(self.values) > self.N and 
             len(self.values) % 10 == 0):
             last_values = np.array(self.values)
@@ -305,12 +367,23 @@ class TerminateLnFit10stepRel:
     def __init__(self, N: int):
         self.N = N #number of steps before accepting trigger
         self.values = []
-        self.collected = [] # collected for the callback output
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
+
         self.collected_m = []
  
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
-        self.collected.append((nfev, parameters, value, stepsize, accepted))
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
         if (len(self.values) > self.N and 
             len(self.values) % 10 == 0):
             last_values = np.array(self.values)
@@ -326,10 +399,3 @@ class TerminateLnFit10stepRel:
                 pass
 
         return False
-## ORIginal excitations function
-# def custom_excitation_list(num_spatial_orbitals: int,
-#                            num_particles: tuple[int, int]):
-# #### EDIT HERE
-#     my_excitation_list = [((0, 1), (2, 3)), ((0, 1), (4, 5)), ((6, 7), (8, 9)), ((6, 7), (10, 11))]
-#     return my_excitation_list
-# excitations = custom_excitation_list
