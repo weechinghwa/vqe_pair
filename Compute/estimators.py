@@ -138,16 +138,16 @@ esti_dic = {"esti0": (None, estimator_exact),
             "esti5": (pass_manager5, estimator_gpu5),
             "esti6": (pass_manager6, estimator_gpu6),
             "esti6_cpu": (pass_manager6, estimator_cpu6),
-            "esti_fj001" : (pass_man_fj001, esti_gpu_fj001),
-            "esti_fj002" : (pass_man_fj002, esti_gpu_fj002),
-            "esti_fj003" : (pass_man_fj003, esti_gpu_fj003),
-            "esti_fj004" : (pass_man_fj004, esti_gpu_fj004),
-            "esti_fj005" : (pass_man_fj005, esti_gpu_fj005),
-            "esti_fj006" : (pass_man_fj006, esti_gpu_fj006),
-            "esti_fj007" : (pass_man_fj007, esti_gpu_fj007),
-            "esti_fj008" : (pass_man_fj008, esti_gpu_fj008),
-            "esti_fj009" : (pass_man_fj009, esti_gpu_fj009),
-            "esti_fj010" : (pass_man_fj010, esti_gpu_fj010),
-            "esti_fj011" : (pass_man_fj011, esti_gpu_fj011),
-            "esti_fj012" : (pass_man_fj012, esti_gpu_fj012),
+            "esti_fj001" : (pass_man_fj001, esti_gpu_fj001), #  5.00E+05	1.00E-09
+            "esti_fj002" : (pass_man_fj002, esti_gpu_fj002), #  5.00E+05	1.00E-08
+            "esti_fj003" : (pass_man_fj003, esti_gpu_fj003), #  5.00E+05	1.00E-07
+            "esti_fj004" : (pass_man_fj004, esti_gpu_fj004), #  5.00E+05	1.00E-06
+            "esti_fj005" : (pass_man_fj005, esti_gpu_fj005), #  5.00E+05	1.00E-05
+            "esti_fj006" : (pass_man_fj006, esti_gpu_fj006), #  5.00E+04	1.00E-06
+            "esti_fj007" : (pass_man_fj007, esti_gpu_fj007), #  5.00E+03	1.00E-06
+            "esti_fj008" : (pass_man_fj008, esti_gpu_fj008), #  2.50E+03	1.00E-06
+            "esti_fj009" : (pass_man_fj009, esti_gpu_fj009), #  1.00E+03	1.00E-06
+            "esti_fj010" : (pass_man_fj010, esti_gpu_fj010), #  5.00E+02	1.00E-06
+            "esti_fj011" : (pass_man_fj011, esti_gpu_fj011), #  5.00E+01	1.00E-06
+            "esti_fj012" : (pass_man_fj012, esti_gpu_fj012), #  5.00E+00	1.00E-06
             }
