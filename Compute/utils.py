@@ -397,6 +397,10 @@ class TerminateLnFit10stepRel:
             self.collected_m.append(coef_log)
 
             try:
+                if self.collected_m[-1] > 0  : # Cond 1: m should always be negative
+                    return True
+                if self.collected_m[1] > -0.1: # Cond 2:
+                    return True
                 if abs(self.collected_m[-1] - self.collected_m[-2])/abs(self.collected_m[-2]) < 0.1:
                     return True
             except:
