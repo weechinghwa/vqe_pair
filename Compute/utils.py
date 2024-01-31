@@ -179,6 +179,30 @@ def pathfilename_gen(pcname_:"str", input_dir_:"str")->"str , str , dict":
     pathfilename["subresult_dir"] = subresult_dir
     return abs_main, nucleus_name, pathfilename
 
+class TerminationChecker: ## Stop at Step N
+    def __init__(self, N : int):
+        self.N = N
+        self.values = []
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
+
+    def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
+        self.values.append(value)
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
+
+        if len(self.values) == self.N:
+                return True
+        return False
+    
 class TerminateThreeStep:
 
     def __init__(self, N : int, tol :float ):
@@ -399,7 +423,7 @@ class TerminateLnFit10stepRel:
             try:
                 if self.collected_m[-1] > 0  : # Cond 1: m should always be negative
                     return True
-                if self.collected_m[1] > -0.1: # Cond 2:
+                if self.collected_m[1] > -0.1: # Cond 2: Decay too slow
                     return True
                 if abs(self.collected_m[-1] - self.collected_m[-2])/abs(self.collected_m[-2]) < 0.1:
                     return True
