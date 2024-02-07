@@ -236,6 +236,7 @@ time_elapsed_mins = divmod(time_elapsed_s, 60)[0]
 
 with open(pathfilename["full_result"], "a") as f:
     print("Computation done @", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+    print(f"Termination condition triggered: {tc, optimizer.termination_checker.termi_message}", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Computation Ended @",end_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Total time elapsed(mins): ",+time_elapsed_mins,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print("**************************************** E ****************************************", file=f)
@@ -244,6 +245,7 @@ with open(pathfilename["full_result"], "a") as f:
 
 with open(pathfilename["abstract_result"], "a") as f:
     print("Computation done @", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
+    print(f"Termination condition triggered: {tc, optimizer.termination_checker.termi_message}", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Computation Ended @",end_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Total time elapsed(mins): ",+time_elapsed_mins,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print("**************************************** E ****************************************", file=f)
@@ -408,7 +410,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         end_time,"|",
         time_elapsed_mins,"|",
         " ","|",
-        " ","|",
+        f"{tc ,optimizer.termination_checker.termi_message} ","|",
         f"Final_circuit Details: {fin_cir_details} ","|",
         input_dir,"|",
         two_factor,"|",

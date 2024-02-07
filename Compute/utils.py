@@ -431,3 +431,51 @@ class TerminateLnFit10stepRel:
                 pass
 
         return False
+
+class TerminateLnFit10stepRel_A:
+    """The Rel in TerminateLnFit10stepRel means relative.
+    """
+    def __init__(self, N: int, m_diff: int):
+        self.N = N #number of steps before accepting trigger
+        self.m_diff = m_diff
+        self.values = []
+        self.termi_message = None
+        # for callback output
+        self.cb_nfev = []
+        self.cb_parameters = []
+        self.cb_value = [] 
+        self.cb_stepsize = []
+        self.cb_accepted = []
+
+        self.collected_m = []
+ 
+    def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
+        self.values.append(value)
+        # for callback output
+        self.cb_nfev.append(nfev)
+        self.cb_parameters.append(parameters)
+        self.cb_value.append(value)
+        self.cb_stepsize.append(stepsize)
+        self.cb_accepted.append(accepted)
+        if (len(self.values) > self.N and 
+            len(self.values) % 10 == 0):
+            last_values = np.array(self.values)
+            x_array = np.arange(1, len(self.values) + 1)
+            ln_fit = np.polyfit(np.log(x_array), last_values, 1)
+            coef_log = ln_fit[0]
+            self.collected_m.append(coef_log)
+
+            try:
+                if self.collected_m[-1] > 0  : # Cond 1: m should always be negative
+                    self.termi_message = "Cond 1: m < 0, not satisfied; Positive m detected"
+                    return True
+                if self.collected_m[1] > -0.1: # Cond 2: Decay too slow
+                    self.termi_message = "Cond 2: init m > -0.1, not satisfied; Slow decend or invalid"
+                    return True
+                if abs(self.collected_m[-1] - self.collected_m[-2])/abs(self.collected_m[-2]) < self.m_diff:
+                    self.termi_message = f"Cond 3: diff m = {self.m_diff}; Calculation Passed"
+                    return True
+            except:
+                pass
+
+        return False
