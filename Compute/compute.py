@@ -162,7 +162,7 @@ if optmz =="SPSA":
     def loss(x):
         result = estimator.run(var_form,Hamiltonian , x).result()
         return np.real(result.values[0])
-    alpha = 0.602 ; target_magnitude = 0.1 ; A = 0 ; gamma = 0.101 ; c = 0.1
+    alpha = 0.602 ; target_magnitude = 1 ; A = 0 ; gamma = 0.101 ; c = 0.1
     lr, perturb = optimizer.calibrate(gamma = gamma, c = c, target_magnitude = target_magnitude, alpha = alpha, stability_constant  = A, 
                                       loss = loss, initial_point=initial_point )
 
