@@ -143,7 +143,9 @@ with open(pathfilename["full_result"], "a") as f:
 ## Prepping Hamiltonian to be computed. Mapping. ## 
 Hamiltonian_fermop_len = len(Hamiltonian)
 Hamiltonian = qubit_mapper.map(Hamiltonian)
-Hamiltonian_paulop_len = len(Hamiltonian)
+H_with_HF = SparsePauliOp("IIIIIIIIIIII", coeffs=np.array([92.6515]))
+Hamiltonian = SparsePauliOp.sum([Hamiltonian, H_with_HF]) ### Hamiltonian changed to E_UCCD - <PHI_0|H|PHI_0>
+Hamiltonian_paulop_len = len(Hamiltonian)   
 
 # Begin Computation #
 with open(pathfilename["abstract_result"], "a") as f:
@@ -160,7 +162,7 @@ alpha = None
 from sympy import Symbol, sequence
 if optmz =="SPSA":
     def loss(x):
-        result = estimator.run(var_form,Hamiltonian , x).result()
+        result = estimator.run(var_form, Hamiltonian, x).result()
         return np.real(result.values[0])
     alpha = 0.602 ; target_magnitude = 1 ; A = 0 ; gamma = 0.101 ; c = 0.1
     lr, perturb = optimizer.calibrate(gamma = gamma, c = c, target_magnitude = target_magnitude, alpha = alpha, stability_constant  = A, 
