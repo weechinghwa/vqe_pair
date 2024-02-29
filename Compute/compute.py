@@ -143,8 +143,8 @@ with open(pathfilename["full_result"], "a") as f:
 ## Prepping Hamiltonian to be computed. Mapping. ## 
 Hamiltonian_fermop_len = len(Hamiltonian)
 Hamiltonian = qubit_mapper.map(Hamiltonian)
-H_with_HF = SparsePauliOp("IIIIIIIIIIII", coeffs=np.array([92.6515]))
-Hamiltonian = SparsePauliOp.sum([Hamiltonian, H_with_HF]) ### Hamiltonian changed to E_UCCD - <PHI_0|H|PHI_0>
+# H_with_HF = SparsePauliOp("IIIIIIIIIIII", coeffs=np.array([92.6515]))
+# Hamiltonian = SparsePauliOp.sum([Hamiltonian, H_with_HF]) ### Hamiltonian changed to E_UCCD - <PHI_0|H|PHI_0>
 Hamiltonian_paulop_len = len(Hamiltonian)   
 
 # Begin Computation #
