@@ -10,24 +10,17 @@ from vqe import *
 import qiskit_nature
 qiskit_nature.settings.use_pauli_sum_op = False
 
-## The following are imported from the above calc_config and utils
-import pandas as pd
-obs_twobody_df = pd.read_csv(obs_twobody_csv) if include_twobody == True else []
-obs_onebody_df = pd.read_csv(obs_onebody_csv) if include_onebody == True else []
-# vqe_excitations = custom_excitation_list or 'd' ; check calc_config
-# nucleus_name ; check pathfilename_gen
-
-
+# import Observable to solve for
+from obs import Hamiltonian, tmp_ham, tmp_ham_one, tmp_ham_two, obs_twobody_df, obs_onebody_df, hermitian_info, Hamiltonian_fermop_len
 
 ## Setting up path and define names, pathfilename carry all the names for input and output
 ## This line was ran in the ipynb so, dont need to run once more 
 abs_main, nucleus_name, pathfilename = pathfilename_gen(pcname,input_dir)
 os.chdir(abs_main)
 
-
-
 # Record the start time for computation; And computation configuration.
 start_time = datetime.now()
+
 if esti == "esti0":
     backend_dummy = "NOPE:Exact_eval"
 else:
@@ -99,53 +92,11 @@ with open(pathfilename["abstract_result"], "a") as f:
         print("                          |",i, optimizer.__dict__[i], file=f)
     print("Configuration information recorded")
 
-## The Hamiltonian
-### Use the defined obs_twobody_df to construct the Hamiltonian
-from qiskit_nature.second_q.operators import FermionicOp
-
-### Two body Terms: Pairing interaction
-if include_onebody == True:
-    tmp_ham_one = {}
-    for index, row in obs_onebody_df.iterrows():
-        fina = int(row['i']); init = int(row['j'])
-        the_onestring = "+_" +str(fina) + " " + "-_" +str(init) 
-        tmp_ham_one[the_onestring] = row["epsilon"]
-        tmp_ham = tmp_ham_one
-else: 
-    tmp_ham_one = {}
-    
-### Two body Terms: Pairing interaction
-if include_twobody == True:
-    tmp_ham_two = {}
-    for index, row in obs_twobody_df.iterrows():
-        fina_1 = int(row['i']); fina_2 = int(row['j']); 
-        init_1 = int(row['k']); init_2 = int(row['l']); 
-        the_twostring = "+_" +str(fina_1) + " " + "+_" +str(fina_2) + " " + "-_" +str(init_1) + " " + "-_" +str(init_2)
-        tmp_ham_two[the_twostring] = two_factor*row['V_ijkl']
-        tmp_ham = tmp_ham_two
-
-if include_onebody == True and include_twobody == True:
-    tmp_ham = z = {**tmp_ham_one, **tmp_ham_two}
-
-## The Hamiltonian Fermionic operator are given by
-Hamiltonian = FermionicOp(tmp_ham, 
-                          num_spin_orbitals=num_spin_orbitals, 
-                          copy=False)
-hermitian_info = Hamiltonian.is_hermitian()
-
 # Record the operators being evaluated/computed
 with open(pathfilename["full_result"], "a") as f:
     print("The fermionic op        : ", Hamiltonian, file=f)
     print("##### ##### ##### ##### ##### Configuration info END ##### ##### ##### ##### #####", file=f)
     print("", file=f)
-
-    
-## Prepping Hamiltonian to be computed. Mapping. ## 
-Hamiltonian_fermop_len = len(Hamiltonian)
-Hamiltonian = qubit_mapper.map(Hamiltonian)
-# H_with_HF = SparsePauliOp("IIIIIIIIIIII", coeffs=np.array([92.6515]))
-# Hamiltonian = SparsePauliOp.sum([Hamiltonian, H_with_HF]) ### Hamiltonian changed to E_UCCD - <PHI_0|H|PHI_0>
-Hamiltonian_paulop_len = len(Hamiltonian)   
 
 # Begin Computation #
 with open(pathfilename["abstract_result"], "a") as f:
@@ -185,14 +136,20 @@ adapt_vqe = AdaptVQE(
     eigenvalue_threshold = optimizer_tol,
     max_iterations = grad_maxiter)
 
+# Define the Observable
+sp_energies = obs_onebody_df["epsilon"].to_list()
+E_sum_sp = sum(sp_energies[0:num_particles[0]] + sp_energies[num_orbitals[0]:num_orbitals[0]+num_particles[1]])
+constant_term = SparsePauliOp("IIIIIIIIIIII", coeffs=np.array([-round(E_sum_sp,6)]))
+Hamiltonian = SparsePauliOp.sum([Hamiltonian, constant_term])
+
 ## The result ##
-## quan_algo config
+## Execution and data logging
 if quan_algo == "VQE":
     vqe_result = vqe.compute_minimum_eigenvalue(Hamiltonian) ## compute_minimum_eigenvalue
 elif quan_algo == "adaptVQE":
     vqe_result = adapt_vqe.compute_minimum_eigenvalue(Hamiltonian)
 else:
-    print("PLEASE PROVIDE AN ALGORITHM NAME, it can be " + "VQE" + " or " + "adaptVQE" )
+    print("PLEASE PROVIDE AN ALGORITHM NAME, it can be VQE or adaptVQE" )
 
 current_time = datetime.now()
 with open(pathfilename["full_result"], "a") as f:
@@ -218,9 +175,6 @@ for counter_1 , cluster in enumerate(vqe_result.optimal_circuit.operators):
      for counter_2 , cluster_term in enumerate(var_form.operators):
         if cluster == cluster_term:
             adaptvqe_ansatz[(counter_1,counter_2)] = var_form.excitation_list[counter_2]
-
-        # if cluster.equals(cluster_term):
-        #     adaptvqe_ansatz[var_form.excitation_list[i]] = cluster_term
 
 optimal_excitations = []
 with open(pathfilename["full_result"], "a") as f:
@@ -310,7 +264,7 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
     
 
-# Draw the circuit
+# Print out the pauli strings of converted Hamiltonian
 with open(pathfilename["full_result"], "a") as f:
     print(" ",file=f)
     print(" ",file=f)
