@@ -4,6 +4,8 @@ from qiskit_nature.second_q.operators import FermionicOp
 from calc_config import *
 import pandas as pd
 from vqe import qubit_mapper
+import numpy as np
+from qiskit.quantum_info.operators import SparsePauliOp
 
 ## Data Loading
 obs_twobody_df = pd.read_csv(obs_twobody_csv) if include_twobody == True else []
@@ -42,3 +44,9 @@ hermitian_info = Hamiltonian.is_hermitian()
 ## Prepping Hamiltonian to be computed. Mapping. ## 
 Hamiltonian_fermop_len = len(Hamiltonian)
 Hamiltonian = qubit_mapper.map(Hamiltonian)
+
+## Add a constant term to the Hamiltonian
+sp_energies = obs_onebody_df["epsilon"].to_list()
+E_sum_sp = sum(sp_energies[0:num_particles[0]] + sp_energies[num_orbitals[0]:num_orbitals[0]+num_particles[1]])
+constant_term = SparsePauliOp("IIIIIIIIIIII", coeffs=np.array([-round(E_sum_sp,6)]))
+Hamiltonian = SparsePauliOp.sum([Hamiltonian, constant_term])

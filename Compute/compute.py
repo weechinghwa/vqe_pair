@@ -136,12 +136,6 @@ adapt_vqe = AdaptVQE(
     eigenvalue_threshold = optimizer_tol,
     max_iterations = grad_maxiter)
 
-# Define the Observable
-sp_energies = obs_onebody_df["epsilon"].to_list()
-E_sum_sp = sum(sp_energies[0:num_particles[0]] + sp_energies[num_orbitals[0]:num_orbitals[0]+num_particles[1]])
-constant_term = SparsePauliOp("IIIIIIIIIIII", coeffs=np.array([-round(E_sum_sp,6)]))
-Hamiltonian = SparsePauliOp.sum([Hamiltonian, constant_term])
-
 ## The result ##
 ## Execution and data logging
 if quan_algo == "VQE":
