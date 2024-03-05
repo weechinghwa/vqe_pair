@@ -11,7 +11,7 @@ import qiskit_nature
 qiskit_nature.settings.use_pauli_sum_op = False
 
 # import Observable to solve for
-from obs import Hamiltonian, tmp_ham, tmp_ham_one, tmp_ham_two, obs_twobody_df, obs_onebody_df, hermitian_info, Hamiltonian_fermop_len
+from obs import Hamiltonian, obs_to_minimize, tmp_ham, tmp_ham_one, tmp_ham_two, obs_twobody_df, obs_onebody_df, hermitian_info, Hamiltonian_fermop_len
 
 ## Setting up path and define names, pathfilename carry all the names for input and output
 ## This line was ran in the ipynb so, dont need to run once more 
@@ -94,7 +94,7 @@ with open(pathfilename["abstract_result"], "a") as f:
 
 # Record the operators being evaluated/computed
 with open(pathfilename["full_result"], "a") as f:
-    print("The fermionic op        : ", Hamiltonian, file=f)
+    print("The observable          : ", obs_to_minimize, file=f)
     print("##### ##### ##### ##### ##### Configuration info END ##### ##### ##### ##### #####", file=f)
     print("", file=f)
 
@@ -113,7 +113,7 @@ alpha = None
 from sympy import Symbol, sequence
 if optmz =="SPSA":
     def loss(x):
-        result = estimator.run(var_form, Hamiltonian, x).result()
+        result = estimator.run(var_form, obs_to_minimize, x).result()
         return np.real(result.values[0])
     alpha = 0.602 ; target_magnitude = 1 ; A = 0 ; gamma = 0.101 ; c = 0.1
     lr, perturb = optimizer.calibrate(gamma = gamma, c = c, target_magnitude = target_magnitude, alpha = alpha, stability_constant  = A, 
@@ -139,9 +139,9 @@ adapt_vqe = AdaptVQE(
 ## The result ##
 ## Execution and data logging
 if quan_algo == "VQE":
-    vqe_result = vqe.compute_minimum_eigenvalue(Hamiltonian) ## compute_minimum_eigenvalue
+    vqe_result = vqe.compute_minimum_eigenvalue(obs_to_minimize) ## compute_minimum_eigenvalue
 elif quan_algo == "adaptVQE":
-    vqe_result = adapt_vqe.compute_minimum_eigenvalue(Hamiltonian)
+    vqe_result = adapt_vqe.compute_minimum_eigenvalue(obs_to_minimize)
 else:
     print("PLEASE PROVIDE AN ALGORITHM NAME, it can be VQE or adaptVQE" )
 
@@ -258,14 +258,14 @@ with open(pathfilename["abstract_result"], "a") as f:
     print("two, UCCDopt       : ", round(two_UCCDopt,6), file=f)
     
 
-# Print out the pauli strings of converted Hamiltonian
+# Print out the pauli strings of converted observable_to_minimize
 with open(pathfilename["full_result"], "a") as f:
     print(" ",file=f)
     print(" ",file=f)
     print(" ",file=f)
     print(" ",file=f)
     print("**************************  Pauli op         **************************", file=f)
-    print(Hamiltonian,file=f)
+    print(obs_to_minimize, file=f)
 
 
     

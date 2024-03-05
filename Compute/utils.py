@@ -467,10 +467,10 @@ class TerminateLnFit10stepRel_A:
 
             try:
                 if self.collected_m[-1] > 0  : # Cond 1: m should always be negative
-                    self.termi_message = "Cond 1: m < 0, not satisfied; Positive m detected"
+                    self.termi_message = "Cond 1: m > 0; Positive m detected"
                     return True
                 if self.collected_m[1] > -0.1: # Cond 2: Decay too slow
-                    self.termi_message = "Cond 2: init m > -0.1, not satisfied; Slow decend or invalid"
+                    self.termi_message = "Cond 2: init m > -0.1; Slow decend"
                     return True
                 curr_diff = abs(self.collected_m[-1] - self.collected_m[-2])/abs(self.collected_m[-2])
                 if curr_diff < self.m_diff:

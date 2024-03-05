@@ -45,9 +45,10 @@ hermitian_info = Hamiltonian.is_hermitian()
 Hamiltonian_fermop_len = len(Hamiltonian)
 Hamiltonian = qubit_mapper.map(Hamiltonian)
 
+# Define observable to minimize (obs_to_minimize)
 ## Add a constant term to the Hamiltonian
 sp_energies = obs_onebody_df["epsilon"].to_list()
 E_sum_sp = sum(sp_energies[0:num_particles[0]] + sp_energies[num_orbitals[0]:num_orbitals[0]+num_particles[1]])
 Identity_string = "I"*num_spin_orbitals
 constant_term = SparsePauliOp(Identity_string, coeffs=np.array([-round(E_sum_sp,6)]))
-Hamiltonian = SparsePauliOp.sum([Hamiltonian, constant_term])
+obs_to_minimize = SparsePauliOp.sum([Hamiltonian, constant_term])
