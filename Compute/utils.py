@@ -474,7 +474,7 @@ class TerminateLnFit10stepRel_A:
                     return True
                 curr_diff = abs(self.collected_m[-1] - self.collected_m[-2])/abs(self.collected_m[-2])
                 if curr_diff < self.m_diff:
-                    self.termi_message = f"Cond 3: diff m = {curr_diff} < {self.m_diff}; Calculation Passed"
+                    self.termi_message = f"Cond 3: diff m = {round(curr_diff,3)} < {self.m_diff}; Calculation Passed"
                     return True
             except:
                 pass
