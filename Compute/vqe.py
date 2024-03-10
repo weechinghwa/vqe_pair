@@ -66,6 +66,7 @@ if optmz =="SPSA":
                "TerminateLnFit10stepRel" : TerminateLnFit10stepRel(N=10),
                "TerminateLnFit10stepRel_A08": TerminateLnFit10stepRel_A(N=10, m_diff=0.08),
                "TerminateLnFit10stepRel_A05": TerminateLnFit10stepRel_A(N=10, m_diff=0.05),
+               "TerminateLnFit10stepRel_A01": TerminateLnFit10stepRel_A(N=10, m_diff=0.01),
                }
     termination_checker = tc_dict[tc]
     optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=termination_checker, callback=SPSA_callback)
