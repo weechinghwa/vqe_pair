@@ -254,6 +254,76 @@ backend_fj037 = FJ037(); backend_fj037_gpu = AerSimulator.from_backend(backend_f
 pass_man_fj037 = generate_preset_pass_manager(3, backend_fj037)
 esti_gpu_fj037 = BackendEstimator(backend=backend_fj037_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj037)
 
+from FakeBackends.fake_johor_FJ038 import FakeJohorV2 as FJ038
+backend_fj038 = FJ038(); backend_fj038_gpu = AerSimulator.from_backend(backend_fj038, method="automatic", device="GPU")
+pass_man_fj038 = generate_preset_pass_manager(3, backend_fj038)
+esti_gpu_fj038 = BackendEstimator(backend=backend_fj038_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj038)
+
+from FakeBackends.fake_johor_FJ039 import FakeJohorV2 as FJ039
+backend_fj039 = FJ039(); backend_fj039_gpu = AerSimulator.from_backend(backend_fj039, method="automatic", device="GPU")
+pass_man_fj039 = generate_preset_pass_manager(3, backend_fj039)
+esti_gpu_fj039 = BackendEstimator(backend=backend_fj039_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj039)
+
+from FakeBackends.fake_johor_FJ040 import FakeJohorV2 as FJ040
+backend_fj040 = FJ040(); backend_fj040_gpu = AerSimulator.from_backend(backend_fj040, method="automatic", device="GPU")
+pass_man_fj040 = generate_preset_pass_manager(3, backend_fj040)
+esti_gpu_fj040 = BackendEstimator(backend=backend_fj040_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj040)
+
+from FakeBackends.fake_johor_FJ041 import FakeJohorV2 as FJ041
+backend_fj041 = FJ041(); backend_fj041_gpu = AerSimulator.from_backend(backend_fj041, method="automatic", device="GPU")
+pass_man_fj041 = generate_preset_pass_manager(3, backend_fj041)
+esti_gpu_fj041 = BackendEstimator(backend=backend_fj041_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj041)
+
+from FakeBackends.fake_johor_FJ042 import FakeJohorV2 as FJ042
+backend_fj042 = FJ042(); backend_fj042_gpu = AerSimulator.from_backend(backend_fj042, method="automatic", device="GPU")
+pass_man_fj042 = generate_preset_pass_manager(3, backend_fj042)
+esti_gpu_fj042 = BackendEstimator(backend=backend_fj042_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj042)
+
+from FakeBackends.fake_johor_FJ043 import FakeJohorV2 as FJ043
+backend_fj043 = FJ043(); backend_fj043_gpu = AerSimulator.from_backend(backend_fj043, method="automatic", device="GPU")
+pass_man_fj043 = generate_preset_pass_manager(3, backend_fj043)
+esti_gpu_fj043 = BackendEstimator(backend=backend_fj043_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj043)
+
+from FakeBackends.fake_johor_FJ044 import FakeJohorV2 as FJ044
+backend_fj044 = FJ044(); backend_fj044_gpu = AerSimulator.from_backend(backend_fj044, method="automatic", device="GPU")
+pass_man_fj044 = generate_preset_pass_manager(3, backend_fj044)
+esti_gpu_fj044 = BackendEstimator(backend=backend_fj044_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj044)
+
+from FakeBackends.fake_johor_FJ045 import FakeJohorV2 as FJ045
+backend_fj045 = FJ045(); backend_fj045_gpu = AerSimulator.from_backend(backend_fj045, method="automatic", device="GPU")
+pass_man_fj045 = generate_preset_pass_manager(3, backend_fj045)
+esti_gpu_fj045 = BackendEstimator(backend=backend_fj045_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj045)
+
+from FakeBackends.fake_johor_FJ046 import FakeJohorV2 as FJ046
+backend_fj046 = FJ046(); backend_fj046_gpu = AerSimulator.from_backend(backend_fj046, method="automatic", device="GPU")
+pass_man_fj046 = generate_preset_pass_manager(3, backend_fj046)
+esti_gpu_fj046 = BackendEstimator(backend=backend_fj046_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj046)
+
+from FakeBackends.fake_johor_FJ047 import FakeJohorV2 as FJ047
+backend_fj047 = FJ047(); backend_fj047_gpu = AerSimulator.from_backend(backend_fj047, method="automatic", device="GPU")
+pass_man_fj047 = generate_preset_pass_manager(3, backend_fj047)
+esti_gpu_fj047 = BackendEstimator(backend=backend_fj047_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj047)
+
+from FakeBackends.fake_johor_FJ048 import FakeJohorV2 as FJ048
+backend_fj048 = FJ048(); backend_fj048_gpu = AerSimulator.from_backend(backend_fj048, method="automatic", device="GPU")
+pass_man_fj048 = generate_preset_pass_manager(3, backend_fj048)
+esti_gpu_fj048 = BackendEstimator(backend=backend_fj048_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj048)
+
+from FakeBackends.fake_johor_FJ049 import FakeJohorV2 as FJ049
+backend_fj049 = FJ049(); backend_fj049_gpu = AerSimulator.from_backend(backend_fj049, method="automatic", device="GPU")
+pass_man_fj049 = generate_preset_pass_manager(3, backend_fj049)
+esti_gpu_fj049 = BackendEstimator(backend=backend_fj049_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj049)
+
+from FakeBackends.fake_johor_FJ050 import FakeJohorV2 as FJ050
+backend_fj050 = FJ050(); backend_fj050_gpu = AerSimulator.from_backend(backend_fj050, method="automatic", device="GPU")
+pass_man_fj050 = generate_preset_pass_manager(3, backend_fj050)
+esti_gpu_fj050 = BackendEstimator(backend=backend_fj050_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj050)
+
+from FakeBackends.fake_johor_FJ051 import FakeJohorV2 as FJ051
+backend_fj051 = FJ051(); backend_fj051_gpu = AerSimulator.from_backend(backend_fj051, method="automatic", device="GPU")
+pass_man_fj051 = generate_preset_pass_manager(3, backend_fj051)
+esti_gpu_fj051 = BackendEstimator(backend=backend_fj051_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj051)
+
 esti_dic = {"esti0": (None, estimator_exact),
             "esti1": (None, estimator_backend_fake),
             "esti2": (pass_manager2, estimator_gpu2),
@@ -293,11 +363,25 @@ esti_dic = {"esti0": (None, estimator_exact),
             "esti_fj028" : (pass_man_fj028, esti_gpu_fj028), # 0.005        1.00E-08
             "esti_fj029" : (pass_man_fj029, esti_gpu_fj029), # 0.005        1.00E-07
             "esti_fj030" : (pass_man_fj030, esti_gpu_fj030), # 0.005        1.00E-05
-            "esti_fj031" : (pass_man_fj031, esti_gpu_fj031), # 500          1.00E-05
-            "esti_fj032" : (pass_man_fj032, esti_gpu_fj032), # 50           1.00E-05
-            "esti_fj033" : (pass_man_fj033, esti_gpu_fj033), # 5            1.00E-05
-            "esti_fj034" : (pass_man_fj034, esti_gpu_fj034), # 1            1.00E-05
-            "esti_fj035" : (pass_man_fj035, esti_gpu_fj035), # 0.5          1.00E-05
-            "esti_fj036" : (pass_man_fj036, esti_gpu_fj036), # 0.05         1.00E-05
-            "esti_fj037" : (pass_man_fj037, esti_gpu_fj037), # 0.005        1.00E-05
+            "esti_fj031" : (pass_man_fj031, esti_gpu_fj031), # 500          1.00E-04
+            "esti_fj032" : (pass_man_fj032, esti_gpu_fj032), # 50           1.00E-04
+            "esti_fj033" : (pass_man_fj033, esti_gpu_fj033), # 5            1.00E-04
+            "esti_fj034" : (pass_man_fj034, esti_gpu_fj034), # 1            1.00E-04
+            "esti_fj035" : (pass_man_fj035, esti_gpu_fj035), # 0.5          1.00E-04
+            "esti_fj036" : (pass_man_fj036, esti_gpu_fj036), # 0.05         1.00E-04
+            "esti_fj037" : (pass_man_fj037, esti_gpu_fj037), # 0.005        1.00E-04
+            "esti_fj038" : (pass_man_fj038, esti_gpu_fj038), # 500          1.00E-03
+            "esti_fj039" : (pass_man_fj039, esti_gpu_fj039), # 50           1.00E-03
+            "esti_fj030" : (pass_man_fj030, esti_gpu_fj030), # 5            1.00E-03
+            "esti_fj041" : (pass_man_fj041, esti_gpu_fj041), # 1            1.00E-03
+            "esti_fj042" : (pass_man_fj042, esti_gpu_fj042), # 0.5          1.00E-03
+            "esti_fj043" : (pass_man_fj043, esti_gpu_fj043), # 0.05         1.00E-03
+            "esti_fj044" : (pass_man_fj044, esti_gpu_fj044), # 0.005        1.00E-03
+            "esti_fj045" : (pass_man_fj045, esti_gpu_fj045), # 500          1.00E-02
+            "esti_fj046" : (pass_man_fj046, esti_gpu_fj046), # 50           1.00E-02
+            "esti_fj047" : (pass_man_fj047, esti_gpu_fj047), # 5            1.00E-02
+            "esti_fj048" : (pass_man_fj048, esti_gpu_fj048), # 1            1.00E-02
+            "esti_fj049" : (pass_man_fj049, esti_gpu_fj049), # 0.5          1.00E-02
+            "esti_fj050" : (pass_man_fj050, esti_gpu_fj050), # 0.05         1.00E-02
+            "esti_fj051" : (pass_man_fj051, esti_gpu_fj051), # 0.005        1.00E-02
             }
