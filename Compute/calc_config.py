@@ -51,7 +51,7 @@ if expmode == "yes":
     pcname = "exp-" + pcname
 quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
 
-optimizer_maxiter = 500
+optimizer_maxiter = 200
 optimizer_tol = 0.001
 
 ## Estimator
