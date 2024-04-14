@@ -372,7 +372,7 @@ esti_dic = {"esti0": (None, estimator_exact),
             "esti_fj037" : (pass_man_fj037, esti_gpu_fj037), # 0.005        1.00E-04
             "esti_fj038" : (pass_man_fj038, esti_gpu_fj038), # 500          1.00E-03
             "esti_fj039" : (pass_man_fj039, esti_gpu_fj039), # 50           1.00E-03
-            "esti_fj030" : (pass_man_fj030, esti_gpu_fj030), # 5            1.00E-03
+            "esti_fj040" : (pass_man_fj040, esti_gpu_fj040), # 5            1.00E-03
             "esti_fj041" : (pass_man_fj041, esti_gpu_fj041), # 1            1.00E-03
             "esti_fj042" : (pass_man_fj042, esti_gpu_fj042), # 0.5          1.00E-03
             "esti_fj043" : (pass_man_fj043, esti_gpu_fj043), # 0.05         1.00E-03
