@@ -52,3 +52,5 @@ E_sum_sp = sum(sp_energies[0:num_particles[0]] + sp_energies[num_orbitals[0]:num
 Identity_string = "I"*num_spin_orbitals
 constant_term = SparsePauliOp(Identity_string, coeffs=np.array([-round(E_sum_sp,6)]))
 obs_to_minimize = SparsePauliOp.sum([Hamiltonian, constant_term])
+
+obs_to_minimize = Hamiltonian

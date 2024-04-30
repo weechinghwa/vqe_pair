@@ -20,7 +20,9 @@ from qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager
 ##### ref https://quantumcomputing.stackexchange.com/questions/32667/what-are-the-differences-between-the-two-estimator-in-the-qiskit
 
 ## Alternative estimator 1: Fake guadalupe  **No GPU**
-estimator_backend_fake = BackendEstimator(backend = FakeGuadalupeV2(),options={"shots":shots})
+backend1 = FakeGuadalupeV2()
+pass_manager1 = generate_preset_pass_manager(3, backend1)
+estimator_backend_fake = BackendEstimator(backend = backend1, options={"shots":shots},bound_pass_manager = pass_manager1)
 
 ### with IBM quantum Backend (GPU accelerated)
 from qiskit_aer.backends import AerSimulator
@@ -325,7 +327,7 @@ pass_man_fj051 = generate_preset_pass_manager(3, backend_fj051)
 esti_gpu_fj051 = BackendEstimator(backend=backend_fj051_gpu, options={"shots":shots}, bound_pass_manager = pass_man_fj051)
 
 esti_dic = {"esti0": (None, estimator_exact),
-            "esti1": (None, estimator_backend_fake),
+            "esti1": (pass_manager1, estimator_backend_fake),
             "esti2": (pass_manager2, estimator_gpu2),
             "esti3": (pass_manager3, estimator_gpu3),
             "esti4": (pass_manager4, estimator_gpu4),

@@ -189,6 +189,7 @@ class TerminationChecker: ## Stop at Step N
         self.cb_value = [] 
         self.cb_stepsize = []
         self.cb_accepted = []
+        self.termi_message = "None needed"
 
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
