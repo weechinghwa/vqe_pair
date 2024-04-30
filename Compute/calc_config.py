@@ -24,7 +24,7 @@ print("Estimator         :", (args.estimator))
 print("TerminationChecker:", (args.termination_checker))
 ## Source File input ##
 input_dir = args.input_dir
-shots = args.shots
+shots = int(args.shots)
 optmz = args.optmz
 expmode = args.expmode
 pcname = args.pcname #or "Hlp" or Ypc"
