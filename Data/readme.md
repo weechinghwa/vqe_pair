@@ -14,10 +14,10 @@ All configuration is written in the data description file in respective data fol
 
 
 
-
-
-
-Obsolete: --V-- ####################################################################################################
+            |
+           _|_
+           \|/
+Obsolete:   V ####################################################################################################
 
 New data code: @230629
 1601_Be8
@@ -29,7 +29,7 @@ New data code: @230629
 
 |last index	|  Description							|
 | -		| -								|
-| 00		| Source file located in source file(similar to previous code	|
+| 00		| Source file located in source file(similar to previous code)  |
 | 10		| Pairing Hamiltonian(only 2body terms) 		(230629)|
 | 11		| + and - values, with adjusted sign (with spin state assignment)
 |		|								|
