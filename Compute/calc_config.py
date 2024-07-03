@@ -24,7 +24,7 @@ print("Estimator         :", (args.estimator))
 print("TerminationChecker:", (args.termination_checker))
 ## Source File input ##
 input_dir = args.input_dir
-shots = int(args.shots)
+shots = args.shots
 optmz = args.optmz
 expmode = args.expmode
 pcname = args.pcname #or "Hlp" or Ypc"
@@ -37,14 +37,6 @@ tc = "TerminationChecker" if args.termination_checker == None else args.terminat
 obs_onebody_csv = "../Data/"+input_dir+"/"+input_dir+"-1B_H_input.csv"
 obs_twobody_csv = "../Data/"+input_dir+"/"+input_dir+"-2B_H_input.csv"
 parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
-
-## False for N-P separated calculation
-# Note: to run a N_P separated calculation,
-# one shall fill up the alpha state with the 
-# pairs, and left the final one to be in beta
-# then set N_P_separate == True.
-N_P_separate = False
-preserve_spin = not N_P_separate 
 
 ## Computation config ## 
 if expmode == "yes":
@@ -72,10 +64,18 @@ num_spin_orbitals = int(parameter[1])
 num_particles = ast.literal_eval(parameter[2])
 num_spatial_orbitals = int(num_spin_orbitals/2)
 two_factor = float(parameter[3]) ## from 1611_Be8 and onward
-include_onebody = bool(parameter[4])
-include_twobody = bool(parameter[5])
-# print(num_orbitals,num_spin_orbitals,num_particles,num_spatial_orbitals) # to test if the data is correct (not important in production)
-
+include_onebody = ast.literal_eval(parameter[4])
+include_twobody = ast.literal_eval(parameter[5])
+## False for N-P separated calculation
+# Note: to run a N_P separated calculation,
+# one shall fill up the alpha state with the 
+# pairs, and left the final one to be in beta
+# then set N_P_separate == True.
+# N_P_separate = False
+# preserve_spin = not N_P_separate 
+preserve_spin = ast.literal_eval(parameter[6])
+print(num_orbitals,num_spin_orbitals,num_particles,num_spatial_orbitals,preserve_spin) # to test if the data is correct (not important in production)
+print(parameter)
 
 
 ## Setup custom excitation list ##
