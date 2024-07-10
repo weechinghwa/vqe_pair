@@ -72,10 +72,13 @@ include_twobody = ast.literal_eval(parameter[5])
 # pairs, and left the final one to be in beta
 # then set N_P_separate == True.
 # N_P_separate = False
-# preserve_spin = not N_P_separate 
-preserve_spin = ast.literal_eval(parameter[6])
-print(num_orbitals,num_spin_orbitals,num_particles,num_spatial_orbitals,preserve_spin) # to test if the data is correct (not important in production)
-print(parameter)
+# preserve_spin = not N_P_separate
+try: 
+    preserve_spin = ast.literal_eval(parameter[6])
+except:
+    preserve_spin = True
+# print(num_orbitals,num_spin_orbitals,num_particles,num_spatial_orbitals,preserve_spin) # to test if the data is correct (not important in production)
+# print(parameter)
 
 
 ## Setup custom excitation list ##
