@@ -3,7 +3,7 @@ import argparse
 argParser = argparse.ArgumentParser()
 argParser.add_argument("-i", "--input_dir", help="The input file's directory name")
 argParser.add_argument("-s", "--shots", help="Integer, number of shots of the circuit")
-argParser.add_argument("-o", "--optmz", help="Define Optimizer: COBYLA or SPSA or DIRECT_L_RAND")
+argParser.add_argument("-o", "--optmz", help="Define Optimizer: COBYLA or SPSA or DIRECT_L_RAND or ESCH")
 argParser.add_argument("-e", "--expmode", help="Boolean, yes for experiment/development no for actual Calculation")
 argParser.add_argument("-n", "--pcname", help="3-character alphabets, the name of the PC doing the calculation, currently working in the Hwalaptop(Hlp), HwaPC(HPC), Hui (Hui), and Yoon's Server, respective nodes name eg: (c21==cba)")
 argParser.add_argument("-esti", "--estimator", help="To define which estimator to use, either esti1 or esti2 or 3 or 4 5 6 7" )

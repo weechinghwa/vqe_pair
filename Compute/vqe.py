@@ -73,8 +73,11 @@ if optmz =="SPSA":
     initial_point = [1] + [0]*(len(var_form.excitation_list) - 1)
 
 if optmz == "COBYLA":
-    optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol,rhobeg = 0.1)
+    optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol, rhobeg = 0.1)
 
+if optmz == "ESCH":
+    optimizer = ESCH(max_evals = optimizer_maxiter)
+    
 # Define estimator
 from estimators import esti_dic
 if esti == None: 

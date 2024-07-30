@@ -184,9 +184,15 @@ time_elapsed = end_time - start_time
 time_elapsed_s = time_elapsed.total_seconds()
 time_elapsed_mins = divmod(time_elapsed_s, 60)[0]
 
+
+if optmz =="SPSA":
+    TC_info = f"{tc, optimizer.termination_checker.termi_message}"
+else:
+    TC_info = f"optmz {optmz} used: Termination Condition N/A"
+
 with open(pathfilename["full_result"], "a") as f:
     print("Computation done @", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
-    print(f"Termination condition triggered: {tc, optimizer.termination_checker.termi_message}", file=f)
+    print(f"Termination condition triggered: {TC_info}", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Computation Ended @",end_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Total time elapsed(mins): ",+time_elapsed_mins,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print("**************************************** E ****************************************", file=f)
@@ -195,7 +201,7 @@ with open(pathfilename["full_result"], "a") as f:
 
 with open(pathfilename["abstract_result"], "a") as f:
     print("Computation done @", current_time, "; Energy Eigenvalue: ",vqe_result.eigenvalue,file=f)
-    print(f"Termination condition triggered: {tc, optimizer.termination_checker.termi_message}", file=f)
+    print(f"Termination condition triggered: {TC_info}", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Computation Ended @",end_time,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", file=f)
     print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  Total time elapsed(mins): ",+time_elapsed_mins,"  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",file=f)
     print("**************************************** E ****************************************", file=f)
@@ -360,7 +366,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         end_time,"|",
         time_elapsed_mins,"|",
         " ","|",
-        f"{tc ,optimizer.termination_checker.termi_message} ","|",
+        TC_info,"|",
         f"Final_circuit Details: {fin_cir_details} ","|",
         input_dir,"|",
         two_factor,"|",
