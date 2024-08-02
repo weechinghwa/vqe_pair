@@ -9,6 +9,7 @@ Result/
 
 Compute/vqe_run_command.sh
 Compute/FakeBackends/fake_johor
+Compute/calc_verifier.py
 
 ## ignoring all pycache
 Compute\FakeBackends\fake_johor_FJ001\__pycache__

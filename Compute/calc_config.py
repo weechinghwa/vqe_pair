@@ -1,3 +1,5 @@
+import ast
+
 ## Argparser
 import argparse
 argParser = argparse.ArgumentParser()
@@ -8,6 +10,7 @@ argParser.add_argument("-e", "--expmode", help="Boolean, yes for experiment/deve
 argParser.add_argument("-n", "--pcname", help="3-character alphabets, the name of the PC doing the calculation, currently working in the Hwalaptop(Hlp), HwaPC(HPC), Hui (Hui), and Yoon's Server, respective nodes name eg: (c21==cba)")
 argParser.add_argument("-esti", "--estimator", help="To define which estimator to use, either esti1 or esti2 or 3 or 4 5 6 7" )
 argParser.add_argument("-tc", "--termination_checker", help="Define termination function for SPSA")
+argParser.add_argument("-lrp", "--learningrate_perturbation", help="Parameters for SPSA LR_P powerseries. Takes a python list.")
 # argParser.add_argument("-lrpt", "--learningrateperturbation", help="LRPT001 - Current version take in only np.array")
 
 ## if esti is predefined as None
@@ -22,6 +25,7 @@ print("Experiment Mode?  :", (args.expmode))
 print("Computer          :", (args.pcname))
 print("Estimator         :", (args.estimator))
 print("TerminationChecker:", (args.termination_checker))
+print("Param for lrp     :", (args.learningrate_perturbation))
 ## Source File input ##
 input_dir = args.input_dir
 shots = args.shots
@@ -29,7 +33,8 @@ optmz = args.optmz
 expmode = args.expmode
 pcname = args.pcname #or "Hlp" or Ypc"
 esti = args.estimator
-tc = "TerminationChecker" if args.termination_checker == None else args.termination_checker 
+tc = "TerminationChecker" if args.termination_checker == None else args.termination_checker
+param_powerser_lrp =  ast.literal_eval(args.learningrate_perturbation)
 
 # input_dir = "000_test0" #200_Be9
 
@@ -58,7 +63,6 @@ with open (parameter_py, 'rt') as myfile:    #filename
         line = line.rstrip('\n')
         parameter_txt.append(line)
 parameter = parameter_txt[1].split(",,,")
-import ast
 num_orbitals = ast.literal_eval(parameter[0])
 num_spin_orbitals = int(parameter[1])
 num_particles = ast.literal_eval(parameter[2])
