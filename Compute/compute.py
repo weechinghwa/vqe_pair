@@ -280,30 +280,8 @@ with open(pathfilename["full_result"], "a") as f:
 conver_csv = pd.DataFrame(list(zip(counts, values,param_list,stdeviation)), columns=["eval_count","eval_value","Parameters","stdeviation"])
 conver_csv.to_csv(pathfilename["callback"])
 
-
-## Plot them out
-from matplotlib import pyplot as plt
-import numpy as np
-
-plt.figure(figsize = (20,10))
-plt.rcParams.update({'font.size': 12})
-
-plt.plot(counts, values)
-## The grids
-ylocs, ylabels = plt.yticks()
-xlocs, xlabels = plt.xticks()
-xstep = round(xlocs[-2]/25)
-plt.xlim(0,xlocs[-1])
-# plt.yticks(np.arange(ylocs[0],ylocs[-1], step=round(max(ylocs)-min(ylocs))/10))
-plt.xticks(np.arange(xlocs[1],xlocs[-1], step=xstep))
-plt.grid(visible=True)
-
-plt.xlabel("Iterations/Eval_count")
-plt.ylabel("Energy")
-plt.legend()
-plt.title("VQEcallback-Optimization Steps for "+str(pathfilename["output_id"])+nucleus_name)
-
-plt.savefig(pathfilename["subresult_dir"]+"-VQE_opt_step.png")
+## Plot it
+plot_result(counts, values, pathfilename, nucleus_name)
 
 if optmz =="SPSA":
     nfev = optimizer.termination_checker.cb_nfev
