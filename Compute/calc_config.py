@@ -11,9 +11,13 @@ argParser.add_argument("-n", "--pcname", help="3-character alphabets, the name o
 argParser.add_argument("-esti", "--estimator", help="To define which estimator to use, either esti1 or esti2 or 3 or 4 5 6 7" )
 argParser.add_argument("-tc", "--termination_checker", help="Define termination function for SPSA")
 argParser.add_argument("-lrp", "--learningrate_perturbation", help="Parameters for SPSA LR_P powerseries. Takes a python list [ alpha, target_magnitude, A, gamma, c  ].")
-# argParser.add_argument("-lrpt", "--learningrateperturbation", help="LRPT001 - Current version take in only np.array")
 
-## if esti is predefined as None
+## Other parameters
+### initial_state in vqe.py (Choosing the starting point of the calculation)
+### optimizer_maxiter 
+### include_imaginary of UCC in vqe.py 
+
+## esti is predefined as None
 esti = None
 
 args = argParser.parse_args()
