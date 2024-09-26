@@ -26,7 +26,7 @@ initial_state = HartreeFock(
 
 ## Ansatz libraries ##
 from qiskit_nature.second_q.circuit.library.ansatzes import UCC
-# from ucc_trott import UCC as UCC_trott
+
 ## Ansatz
 reps=1
 var_form = UCC(
@@ -70,7 +70,9 @@ if optmz =="SPSA":
                }
     termination_checker = tc_dict[tc]
     optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=termination_checker, callback=SPSA_callback)
-    initial_point = [1] + [0]*(len(var_form.excitation_list) - 1)
+    # initial_point = [1] + [0]*(len(var_form.excitation_list) - 1)
+    # initial_point = [0,0,0]
+
 
 if optmz == "COBYLA":
     optimizer=COBYLA(maxiter=optimizer_maxiter, disp=True, tol = optimizer_tol, rhobeg = 0.1)

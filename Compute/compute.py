@@ -365,7 +365,7 @@ with open("Result/computed_result@Hpc.txt", "a") as f:
         start_time,"|",
         end_time,"|",
         time_elapsed_mins,"|",
-        " ","|",
+        f"{param_powerser_lrp}","|",
         TC_info,"|",
         f"Final_circuit Details: {fin_cir_details} ","|",
         input_dir,"|",
