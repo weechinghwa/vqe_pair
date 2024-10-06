@@ -1,4 +1,7 @@
 import ast
+from utils import GlobalDataManager
+
+data_manager = GlobalDataManager()
 
 ## Argparser
 import argparse
@@ -6,7 +9,6 @@ argParser = argparse.ArgumentParser()
 argParser.add_argument("-i", "--input_dir", help="The input file's directory name")
 argParser.add_argument("-s", "--shots", help="Integer, number of shots of the circuit")
 argParser.add_argument("-o", "--optmz", help="Define Optimizer: COBYLA or SPSA or DIRECT_L_RAND or ESCH")
-argParser.add_argument("-e", "--expmode", help="Boolean, yes for experiment/development no for actual Calculation")
 argParser.add_argument("-n", "--pcname", help="3-character alphabets, the name of the PC doing the calculation, currently working in the Hwalaptop(Hlp), HwaPC(HPC), Hui (Hui), and Yoon's Server, respective nodes name eg: (c21==cba)")
 argParser.add_argument("-esti", "--estimator", help="To define which estimator to use, either esti1 or esti2 or 3 or 4 5 6 7" )
 argParser.add_argument("-tc", "--termination_checker", help="Define termination function for SPSA")
@@ -22,21 +24,15 @@ esti = None
 
 args = argParser.parse_args()
 
-print("Input filename    :", (args.input_dir))
-print("Number of shots   :", (args.shots))
-print("Optimizer         :", (args.optmz))
-print("Experiment Mode?  :", (args.expmode))
-print("Computer          :", (args.pcname))
-print("Estimator         :", (args.estimator))
-print("TerminationChecker:", (args.termination_checker))
-print("Param for lrp     :", (args.learningrate_perturbation))
+for key, value in vars(args).items():
+    print(f"{key}: {value}")
+
 ## Source File input ##
-input_dir = args.input_dir
-shots = args.shots
-optmz = args.optmz
-expmode = args.expmode
+input_dir = args.input_dir; data_manager.add_data("input_dir", input_dir)
+shots = args.shots; data_manager.add_data("shots", shots)
+optmz = args.optmz; data_manager.add_data("optimizer", optmz)
 pcname = args.pcname #or "Hlp" or Ypc"
-esti = args.estimator
+esti = args.estimator; data_manager.add_data("estimator", esti)
 tc = "TerminationChecker" if args.termination_checker == None else args.termination_checker
 param_powerser_lrp =  ast.literal_eval(args.learningrate_perturbation)
 
@@ -48,17 +44,14 @@ obs_twobody_csv = "../Data/"+input_dir+"/"+input_dir+"-2B_H_input.csv"
 parameter_py = "../Data/"+input_dir+"/"+input_dir+"-parameter.txt"
 
 ## Computation config ## 
-if expmode == "yes":
-    pcname = "exp-" + pcname
-quan_algo = "VQE"    ## (string)(VQE or adaptVQE)
+quan_algo = "VQE"; data_manager.add_data("algorithm", quan_algo)## (string)(VQE or adaptVQE)
 
-optimizer_maxiter = 200
+optimizer_maxiter = 10
 optimizer_tol = 0.001
 
 ## Estimator
 # edit the vqe.py to change the setting of the estimator
 # Choosing either the exact, fakebackend or the aer simulator(with noise model)
-
 
 ## import computational data (observalbles and parameters)
 parameter_txt=[]
@@ -232,14 +225,6 @@ def custom_excite(num_spatial_orbitals: int,num_particles:tuple):
 
 vqe_excitations = pair_clusters # or replace with "d" if wish to use default vqe_excitations list
 
-
-
 ## Not used if adapt_veq is not used (quan_algo != "adaptVQE") ##
 grad_maxiter = 200
 grad_tol = 0.00001
-## Optimizer information
-## MAybe include configuration of cobyla in the future (classical optimizer)
-## REF https://www.geeksforgeeks.org/how-to-import-variables-from-another-file-in-python/
-
-
-

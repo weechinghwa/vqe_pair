@@ -9,6 +9,8 @@ from datetime import datetime
 from itertools import combinations
 from matplotlib import pyplot as plt
 import numpy as np
+import random
+import json
 
 ## Functions used
 def remove_line(energy_list:"list",line_pattern:'str')->"list":
@@ -219,7 +221,7 @@ class TerminationChecker: ## Stop at Step N
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -245,7 +247,7 @@ class TerminateThreeStep:
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -272,7 +274,7 @@ class TerminatePovSlope:
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -303,7 +305,7 @@ class TerminateThreeSMA:
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -338,7 +340,7 @@ class TerminateMinSlope:
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -368,7 +370,7 @@ class TerminateLnFit:
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -399,7 +401,7 @@ class TerminateLnFit10step:
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -433,7 +435,7 @@ class TerminateLnFit10stepRel:
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -478,7 +480,7 @@ class TerminateLnFit10stepRel_A:
         self.values.append(value)
         # for callback output
         self.cb_nfev.append(nfev)
-        self.cb_parameters.append(parameters)
+        self.cb_parameters.append(parameters.tolist())
         self.cb_value.append(value)
         self.cb_stepsize.append(stepsize)
         self.cb_accepted.append(accepted)
@@ -505,3 +507,81 @@ class TerminateLnFit10stepRel_A:
                 pass
 
         return False
+
+def random_floats(start, end, length):
+    floats_list = []
+    for _ in range(length):
+        floats_list.append(random.uniform(start, end))
+    return floats_list
+
+class GlobalDataManager:
+    """
+    A class to manage global data and save it to a JSON file.
+
+    Attributes:
+        global_data (dict): A dictionary to store global data.
+        filename (str): The name of the file where the data will be saved.
+    """
+
+    def __init__(self, filename='global_data.json'):
+        """
+        Initializes the GlobalDataManager with an optional filename.
+
+        Args:
+            filename (str, optional): The name of the file where the data will be saved.
+                                      Defaults to 'global_data.json'.
+        """
+        self.global_data = {}
+        self.filename = filename
+
+    def add_data(self, key, value):
+        """
+        Adds a key-value pair to the global data dictionary.
+        If the key already exists, it updates the value.
+        The global data is saved to a JSON file after each addition.
+
+        Args:
+            key (str): The key under which the data will be stored.
+                        The key should be a string to ensure proper storage in JSON format.
+            value (any): The value to associate with the given key. This can be of any
+                         data type (string, list, dictionary, etc.), provided it can be
+                         serialized into JSON format.
+
+        Side Effects:
+            - Updates the 'global_data' dictionary with the new key-value pair.
+            - Writes the contents of 'global_data' into a JSON file with the specified
+              filename after each addition.
+
+        Example:
+            >>> data_manager = GlobalDataManager()
+            >>> data_manager.add_data("sample_text", "Hello World")
+            >>> data_manager.add_data("sample_list", [1, 2, 3, 4])
+            >>> data_manager.add_data("sample_dict", {"name": "Alice", "age": 30})
+
+        Raises:
+            None
+        """
+        self.global_data[key] = value
+
+    def save_global_data(self):
+        """
+        Saves the contents of the global data dictionary to a JSON file.
+
+        Args:
+            None
+
+        Side Effects:
+            - Writes the contents of 'global_data' into a JSON file with the specified
+              filename.
+
+        Example:
+            >>> data_manager.save_global_data()
+
+        Raises:
+            FileNotFoundError: If there is an issue with file permissions or directory
+                               structure.
+            ValueError: If the 'global_data' contains types that cannot be serialized
+                        into JSON.
+        """
+        with open(self.filename, 'w', encoding='utf-8') as json_file:
+            json.dump(self.global_data, json_file, indent=4)

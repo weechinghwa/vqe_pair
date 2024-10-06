@@ -333,8 +333,30 @@ print("two, UCCDopt       : ", round(two_UCCDopt,6), )
 print("Fin Cir Details    : ", fin_cir_details)
 print("Optimal Params     : ", vqe_result.optimal_parameters)
 
+result_info = {
+    "Optimized Energy": round(H_UCCDopt,6),
+    "Energy_spsum": round(one_HF,6),
+    "Optimal_parameter": list(vqe_result.optimal_parameters.values()),
+    "Callback": {
+        "eval_count": counts, 
+        "eval_value": values,
+        "Parameters": param_list,
+        "stdeviation": stdeviation
+    },
+    "SPSA TC callback": {
+        "nfev": nfev,
+        "parameters": parameters,
+        "value": value,
+        "stepsize": stepsize,
+        "accepted": accepted
+    }
+}
+data_manager.add_data("results", result_info)
 
+print(data_manager.global_data)
 
+data_manager.filename = pathfilename["subresult_dir"]+".json"
+data_manager.save_global_data()
 # Record final essential result to a single csv file
 ## The following are the codes that ease the process of compiling the computed result
 with open("Result/computed_result@Hpc.txt", "a") as f:
