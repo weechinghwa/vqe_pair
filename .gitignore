@@ -44,3 +44,4 @@ Developing/occupation_numbers.ipynb
 Developing/unsorted/
 
 Compute/run_script/*
+Compute/bulk_subproc.py

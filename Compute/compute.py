@@ -295,6 +295,16 @@ if optmz =="SPSA":
     SPSA_callback = pd.DataFrame(list(zip(SPSA_callback_counts, SPSA_callback_param_list,SPSA_callback_values,SPSA_callback_stepsize,SPSA_callback_accept)), columns=["count", "param_list", "value", "stepsize", "accepted"])
     SPSA_callback.to_csv(pathfilename["subresult_dir"]+"_SPSA_callback.csv")
     SPSA_callback_counts = np.array(SPSA_callback_counts)
+
+    SPSA_TC_Callback = {
+        "nfev": nfev,
+        "parameters": parameters,
+        "value": value,
+        "stepsize": stepsize,
+        "accepted": accepted
+    }
+    data_manager.add_data("SPSA TC callback", SPSA_TC_callback)
+
     ## plot it out
     plt.clf()
     plt.figure(figsize = (20,10))
@@ -336,6 +346,7 @@ print("Optimal Params     : ", vqe_result.optimal_parameters)
 result_info = {
     "Optimized Energy": round(H_UCCDopt,6),
     "Energy_spsum": round(one_HF,6),
+    "E_corr": round(H_UCCDopt,6) - round(one_HF,6),
     "Optimal_parameter": list(vqe_result.optimal_parameters.values()),
     "Callback": {
         "eval_count": counts, 
@@ -343,17 +354,9 @@ result_info = {
         "Parameters": param_list,
         "stdeviation": stdeviation
     },
-    "SPSA TC callback": {
-        "nfev": nfev,
-        "parameters": parameters,
-        "value": value,
-        "stepsize": stepsize,
-        "accepted": accepted
-    }
 }
-data_manager.add_data("results", result_info)
 
-print(data_manager.global_data)
+data_manager.add_data("results", result_info)
 
 data_manager.filename = pathfilename["subresult_dir"]+".json"
 data_manager.save_global_data()
