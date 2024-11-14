@@ -11,6 +11,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import random
 import json
+from statistics import stdev, mean
 
 ## Functions used
 def remove_line(energy_list:"list",line_pattern:'str')->"list":
@@ -300,6 +301,7 @@ class TerminateThreeSMA:
         self.cb_value = [] 
         self.cb_stepsize = []
         self.cb_accepted = []
+        self.termi_message = "None needed"
  
     def __call__(self, nfev, parameters, value, stepsize, accepted) -> bool:
         self.values.append(value)
