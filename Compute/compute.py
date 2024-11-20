@@ -121,6 +121,14 @@ if optmz =="SPSA":
 
     optimizer.learning_rate = lr
     optimizer.perturbation = perturb
+    lrp = {
+        "alpha": alpha, 
+        "target_magnitude": target_magnitude, 
+        "A": A, 
+        "gamma": gamma, 
+        "c": c
+    }
+    data_manager.add_data("SPSA lrp", lrp)
 
 # Define Solver
 from qiskit_algorithms.minimum_eigensolvers import VQE, AdaptVQE
@@ -303,7 +311,7 @@ if optmz =="SPSA":
         "stepsize": stepsize,
         "accepted": accepted
     }
-    data_manager.add_data("SPSA TC callback", SPSA_TC_callback)
+    data_manager.add_data("SPSA TC callback", SPSA_TC_Callback)
 
     ## plot it out
     plt.clf()
@@ -347,6 +355,7 @@ result_info = {
     "Optimized Energy": round(H_UCCDopt,6),
     "Energy_spsum": round(one_HF,6),
     "E_corr": round(H_UCCDopt,6) - round(one_HF,6),
+    "E_corr_bar": stdev(values[-10:]) - round(one_HF,6),
     "Optimal_parameter": list(vqe_result.optimal_parameters.values()),
     "Callback": {
         "eval_count": counts, 

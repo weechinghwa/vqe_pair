@@ -74,8 +74,10 @@ if optmz =="SPSA":
                }
     termination_checker = tc_dict[tc]
     optimizer = SPSA(maxiter=optimizer_maxiter,termination_checker=termination_checker, callback=SPSA_callback)
-    # initial_point = [1] + [0]*(len(var_form.excitation_list) - 1)
-    # initial_point = random_floats(-np.pi, np.pi, len(var_form.excitation_list))
+    initial_point = [1] + [0]*(len(var_form.excitation_list) - 1)
+    # initial_point = [0]*(len(var_form.excitation_list) - 1) + random_floats(-np.pi/2, np.pi/2, 1)
+    # initial_point = [0.5] * len(var_form.excitation_list)
+    # initial_point = random_floats(-np.pi/2, np.pi/2, len(var_form.excitation_list))
 
     spsa_info = {
         "optimizer": optmz,
