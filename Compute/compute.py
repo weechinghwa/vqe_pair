@@ -352,10 +352,10 @@ print("Fin Cir Details    : ", fin_cir_details)
 print("Optimal Params     : ", vqe_result.optimal_parameters)
 
 result_info = {
-    "Optimized Energy": round(H_UCCDopt,6),
+    "Optimized Energy": round(value[-1],6), # TODO: Change to value
     "Energy_spsum": round(one_HF,6),
-    "E_corr": round(H_UCCDopt,6) - round(one_HF,6),
-    "E_corr_bar": stdev(values[-10:]) - round(one_HF,6),
+    "E_corr": round(value[-1],6) - round(one_HF,6),
+    "E_corr_bar": mean(value[-10:]) - round(one_HF,6),
     "Optimal_parameter": list(vqe_result.optimal_parameters.values()),
     "Callback": {
         "eval_count": counts, 
