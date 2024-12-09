@@ -329,11 +329,11 @@ esti_gpu_fj051 = BackendEstimator(backend=backend_fj051_gpu, options={"shots":sh
 esti_dic = {"esti0": (None, estimator_exact),
             "esti1": (pass_manager1, estimator_backend_fake),
             "esti2": (pass_manager2, estimator_gpu2),
-            "esti3": (pass_manager3, estimator_gpu3),
-            "esti4": (pass_manager4, estimator_gpu4),
+            "esti3": (pass_manager3, estimator_gpu3), # FakeKolkata
+            "esti4": (pass_manager4, estimator_gpu4), # FakeHanoi
             "esti4_cpu": (pass_manager4, estimator_cpu4),
-            "esti5": (pass_manager5, estimator_gpu5),
-            "esti6": (pass_manager6, estimator_gpu6),
+            "esti5": (pass_manager5, estimator_gpu5), # FakeSherbooke
+            "esti6": (pass_manager6, estimator_gpu6), # FakeGeneva
             "esti6_cpu": (pass_manager6, estimator_cpu6),
             "esti_fj001" : (pass_man_fj001, esti_gpu_fj001), #  5.00E+05	1.00E-09
             "esti_fj002" : (pass_man_fj002, esti_gpu_fj002), #  5.00E+05	1.00E-08
